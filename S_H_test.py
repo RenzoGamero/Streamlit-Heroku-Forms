@@ -7,6 +7,9 @@ st.write('Test Form Ipress')
 
 st.write('Pregunta 1')
 st.write('Pregunta 2')
+st.write('Pregunta 3')
+
+
 
 chart_data = pd.DataFrame(
      np.random.randn(20, 3),
