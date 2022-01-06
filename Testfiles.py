@@ -5,23 +5,15 @@ import pickle
 import os.path
 import io
 import shutil
-import streamlit as st
-from datetime import datetime
-import datetime as dt
 from mimetypes import MimeTypes
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from googleapiclient.http import MediaIoBaseDownload, MediaFileUpload
-import time
-import pygsheets
-
-
 class DriveAPI:
     global SCOPES
     SCOPES = ['https://www.googleapis.com/auth/drive']
-
-    # SCOPES = ['https://mail.google.com/']
+    #SCOPES = ['https://mail.google.com/']
     def __init__(self):
 
         # Variable self.creds will
@@ -61,7 +53,7 @@ class DriveAPI:
                 pickle.dump(self.creds, token)
 
         # Connect to the API service
-        self.service = build('drive', 'v3', credentials=self.creds, cache_discovery=False)
+        self.service = build('drive', 'v3', credentials=self.creds,cache_discovery=False)
 
         # request a list of first N files or
         # folders with name and id from the API.
@@ -73,7 +65,6 @@ class DriveAPI:
 
         ##print("Here's a list of files: \n")
         ##print(*items, sep="\n", end="\n\n")
-
     def FileDownload(self, file_id, file_name):
         request = self.service.files().get_media(fileId=file_id)
         fh = io.BytesIO()
@@ -101,7 +92,6 @@ class DriveAPI:
         #    # Return False if something went wrong
         #    print("Something went wrong.")
         #    return False
-
     def upload_new_local_file(self, filepath, folder_id):
         """
         Upload a new file to a Google Drive folder from local.
@@ -142,7 +132,6 @@ class DriveAPI:
         file = self.service.files().create(
             body=file_metadata, media_body=media, fields='id').execute()
         print('         File Created')
-
     def FileDownload2(self, file_id, file_name):
         # file_id = [File id from first call]
 
@@ -178,7 +167,6 @@ class DriveAPI:
         #    # Return False if something went wrong
         #    print("Something went wrong.")
         #    return False
-
     def FileDownload3(self, file_id, file_name):
         # file_id = [File id from first call]
         request = self.service.files().export_media(fileId=file_id,
@@ -211,9 +199,8 @@ class DriveAPI:
         #    # Return False if something went wrong
         #    print("Something went wrong.")
         #    return False
-
     def update_file(self, file_id, new_title, new_description, new_mime_type,
-                    new_filename, new_revision, file):
+                    new_filename, new_revision,file):
         """Update an existing file's metadata and content.
 
         Args:
@@ -229,7 +216,7 @@ class DriveAPI:
         """
         # try:
         # First retrieve the file from the API.
-        # file = self.service.files().get(fileId=file_id).execute()
+        #file = self.service.files().get(fileId=file_id).execute()
 
         name = new_filename.split('/')[-1]
 
@@ -237,9 +224,9 @@ class DriveAPI:
         mimetype = MimeTypes().guess_type(name)[0]
         new_mime_type = mimetype
         # File's new metadata.
-        # file['title'] = new_title
+        #file['title'] = new_title
         # file['description'] = new_description
-        # file['mimeType'] = new_mime_type
+        #file['mimeType'] = new_mime_type
 
         # File's new content.
         media_body = MediaFileUpload(new_filename, mimetype=new_mime_type, resumable=True)
@@ -248,14 +235,13 @@ class DriveAPI:
         updated_file = self.service.files().update(
             fileId=file_id,
             body=file,
-            # newRevision=new_revision,
+            #newRevision=new_revision,
             media_body=media_body
         ).execute()
         return updated_file
         # except errors.HttpError, error:
         # print('An error occurred: %s', error)
         # return None
-
     def FileUpload(self, filepath, file_id):
 
         # Extract the file name out of the file path
@@ -303,7 +289,6 @@ class DriveAPI:
         #    print("Can't Upload File.")
         # Raise UploadError if file is not uploaded.
         # raise UploadError("Can't Upload File.")
-
     def FileDelete(self, filepath, file_id):
 
         # Extract the file name out of the file path
@@ -351,7 +336,6 @@ class DriveAPI:
         #    print("Can't Upload File.")
         # Raise UploadError if file is not uploaded.
         # raise UploadError("Can't Upload File.")
-
     def print_files_in_folder2(self, folder_id):
         kwargs = {
             "q": "'{}' in parents".format(folder_id),
@@ -378,7 +362,6 @@ class DriveAPI:
                 fileid = response['files'][i]['id']
                 obj = DriveAPI()
                 obj.FileDelete(f_path, fileid)
-
     def print_files_in_folder3(self, folder_id):
         kwargs = {
             "q": "'{}' in parents".format(folder_id),
@@ -405,14 +388,13 @@ class DriveAPI:
                     fileid = response['files'][i]['id']
                     obj = DriveAPI()
                     obj.FileDelete(f_path, fileid)
-
-    def FolderSearch2(self, folder_id):
+    def FolderSearch2(self,folder_id):
         kwargs = {
             "q": "'{}' in parents".format(folder_id),
             # Specify what you want in the response as a best practice. This string
             # will only get the files' ids, names, and the ids of any folders that they are in
             "fields": "nextPageToken,incompleteSearch,files(id,parents,name,mimeType)",
-            # 'mimeType': 'application/vnd.google-apps.folder'
+            #'mimeType': 'application/vnd.google-apps.folder'
             # Add any other arguments to pass to list()
         }
         request = self.service.files().list(**kwargs)
@@ -421,13 +403,13 @@ class DriveAPI:
             # Do stuff with response['files']
             request = self.service.files().list_next(request, response)
 
-            # print('request= ', request)
-            # response = response.encode('utf-8', 'ignore').decode('utf-8')
-            # print('response1        ', response)
+            #print('request= ', request)
+            #response = response.encode('utf-8', 'ignore').decode('utf-8')
+            #print('response1        ', response)
 
-            # print('response1        ', type(response['files']))
-            # print('response1        ', response['files'])
-            df = pd.DataFrame(response['files'])
+            #print('response1        ', type(response['files']))
+            #print('response1        ', response['files'])
+            df=pd.DataFrame(response['files'])
 
             print(df.head())
 
@@ -436,24 +418,23 @@ class DriveAPI:
 
             # print('response3        ', response['files'][0])
             for i in range(len(response['files'])):
-                f = response['files'][i]
-                # f = f.decode('utf-8')
+                f=response['files'][i]
+                #f = f.decode('utf-8')
                 print('--> ', str(f))
         return df
+    def FolderCreator(self, name2,folder_id):
 
-    def FolderCreator(self, name2, folder_id):
-
-        # request = self.service.files().export_media(fileId=file_id,
+        #request = self.service.files().export_media(fileId=file_id,
         #     mimeType='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
 
         # Extract the file name out of the file path
-        # name = filepath.split('/')[-1]
+        #name = filepath.split('/')[-1]
 
         # Find the MimeType of the file
-        # mimetype = MimeTypes().guess_type(name)[0]
-        # print('mimetype= ', mimetype )
+        #mimetype = MimeTypes().guess_type(name)[0]
+        #print('mimetype= ', mimetype )
         # create file metadata
-        file_metadata = {'name': name2, 'parents': [folder_id], 'mimeType': 'application/vnd.google-apps.folder'}
+        file_metadata = {'name': name2,'parents': [folder_id],'mimeType': 'application/vnd.google-apps.folder'}
 
         # application/vnd.google-apps.folder
         """
@@ -467,18 +448,18 @@ class DriveAPI:
         'Folder ID: %s' % file.get('id')
         """
         try:
-            # media = MediaFileUpload(filepath, mimetype='application/vnd.google-apps.folder')
+            #media = MediaFileUpload(filepath, mimetype='application/vnd.google-apps.folder')
 
             # Create a new file in the Drive storage
             file = self.service.files().create(
                 body=file_metadata, fields='webViewLink, id').execute()
 
-            # print('file.path= ', file.path)
+            #print('file.path= ', file.path)
 
-            # print('File ID: %s' % file.get('id'))
-            # print(file.get('webViewLink'))
-            # new = DRIVE.files().create(body=data, fields='webViewLink, id').execute()
-            # return new.get('webViewLink')
+            #print('File ID: %s' % file.get('id'))
+            #print(file.get('webViewLink'))
+            #new = DRIVE.files().create(body=data, fields='webViewLink, id').execute()
+            #return new.get('webViewLink')
             print("carpeta creada")
 
             return file.get('webViewLink'), file.get('id')
@@ -489,7 +470,6 @@ class DriveAPI:
             print('Error al crear carpteta ')
             # Raise UploadError if file is not uploaded.
             # raise UploadError("Can't Upload File.")
-
     def FileUpload_(self, name2, filepath, folder_id):
         # Extract the file name out of the file path
         name = filepath.split('/')[-1]
@@ -523,324 +503,54 @@ class DriveAPI:
             # Raise UploadError if file is not uploaded.
             # raise UploadError("Can't Upload File.")
 
-def expanderrrbackup(x, q, op, tipo, qe):
-    print('=============================================================')
-    print('X= ', x)
-    print('q= ', q)
-    print('qe= ', qe)
-    if tipo == 'selectbox':
-        if qe == '':
-            option = st.selectbox(q, op)
-            st.write('Seleccionaste:', option)
-            df['resp'][x] = option
-        else:
-            if df[(df['q_'] == qe)]['resp'].values[0] == 'Si':
-                option = st.selectbox(q, op)
-                st.write('Seleccionaste:', option)
-                df['resp'][x] = option
-    if tipo == 'multiselect':
-        if qe == '':
-            options = st.multiselect(q, op)
-            st.write('Seleccionaste:', options)
-            df['resp'][x] = str(options)
-        else:
-            if df[(df['q_'] == qe)]['resp'].values[0] == 'Si':
-                options = st.multiselect(q, op)
-                st.write('Seleccionaste:', options)
-                df['resp'][x] = str(options)
-    if tipo == 'text_input':
-        if qe == '':
-            titles = st.text_input(q, key='text_input1'+ str(page))
-            st.write('Seleccionaste:', titles)
-            df['resp'][x] = titles
-        else:
-            if df[(df['q_'] == qe)]['resp'].values[0] == 'Si':
-                titles = st.text_input(q, key='text_input2'+ str(page))
-                st.write('Seleccionaste:', titles)
-                df['resp'][x] = titles
-    if tipo == 'radio':
-        if qe == '':
-            genre = st.radio(q, (op))
-            st.write('Seleccionaste:', genre)
-            df['resp'][x] = genre
-        else:
-            print('--->', df[(df['q'] == qe)]['resp'].values[0])
-            if df[(df['q_'] == qe)]['resp'].values[0] == 'Si':
-                genre = st.radio(q, (op))
-                st.write('Seleccionaste:', genre)
-                df['resp'][x] = genre
-    if tipo == 'date_input':
-        if qe == '':
-            Fecha = st.date_input(q,
-                                  min_value=dt.datetime.today() + dt.timedelta(days=-30),
-                                  max_value=dt.datetime.today() + dt.timedelta(days=14))
-            st.write('Fecha:', Fecha)
-            # tr = datetime.strptime(dt.datetime.today().strftime('%Y-%m-%d'), '%Y-%m-%d').date()
-            # tr = datetime.strptime(Fecha.strftime('%Y-%m-%d'), '%Y-%m-%d')
+import pygsheets
+c = pygsheets.authorize(service_file='client_secrets.json')
+s="Electricidad | Generador de Electricidad | Gas Natural | Gas Licuado"
 
-            df['resp'][x] = str(Fecha.strftime('%Y-%m-%d'))
+x = s.split("|")
+print(x)
+
+result = [x.strip() for x in s.split('|')]
+print(result)
+print(str(result))
+
+obj = DriveAPI()
+f_id = '18-AUWmWlBRzDPv0v3KSGqeeUiWLzJ6Bp-7yoYqv6o7U'  # Repo Nuevas preg ipress
+f_name = "temp_Matriz2.xlsx"
+obj.FileDownload2(f_id, f_name)
+workbook_url = "temp_Matriz2.xlsx"
+dfRepositorioE = pd.read_excel(workbook_url, sheet_name='Formato', engine='openpyxl', keep_default_na=False)
+
+dfRepositorioE['Opciones2']=''
+dfRepositorioE['Opciones3']=''
+for i in range(len(dfRepositorioE)):
+    s=dfRepositorioE['Opciones'][i]
+    result = [x.strip() for x in s.split('|')]
+    dfRepositorioE['Opciones2'][i]=result
+    dfRepositorioE['Opciones3'][i]=str(result)
 
 
-        else:
-            # print('--->', df[(df['q'] == qe)]['resp'].values[0])
-            if df[(df['q_'] == qe)]['resp'].values[0] == 'Si':
-                Fecha = st.date_input(q,
-                                      min_value=dt.datetime.today() + dt.timedelta(days=-30),
-                                      max_value=dt.datetime.today() + dt.timedelta(days=14))
-                st.write('Fecha:', Fecha)
-                df['resp'][x] = str(Fecha.strftime('%Y-%m-%d'))
-    if tipo == 'number_input':
-        print('tipo  number_input')
-        print(df)
-        if qe == '':
-            print('qe vacio ')
-            number = st.number_input(q, step=1)
-            st.write('Seleccionaste: ', number)
-            df['resp'][x] = number
-        else:
+print('Columns origen = ', list(dfRepositorioE.columns))
+print('Columns head = ', (dfRepositorioE.head))
+print('Columns tail = ', (dfRepositorioE.tail))
+print('Columns tail = ', (dfRepositorioE[['Opciones','Opciones2','Opciones3' ]]))
 
-            if df[(df['q_'] == qe)]['resp'].values[0] == 'Si':
-                number = st.number_input(q, step=1)
-                st.write('Seleccionaste: ', number)
-                df['resp'][x] = number
-    if tipo == 'number_input%':
-        if qe == '':
-            number = st.number_input(q, max_value=100)
-            st.write('Seleccionaste: ', number, ' %')
-            df['resp'][x] = number
-        else:
-            # print('--->', df[ (df['q'] == qe)]['resp'].values[0])
-            if df[(df['q_'] == qe)]['resp'].values[0] == 'Si':
-                number = st.number_input(q, max_value=100)
-                st.write('Seleccionaste: ', number, ' %')
-                df['resp'][x] = number
-def expanderrr(x, q, op, tipo, qe):
-    #print('=============================================================')
-    #print('X= ', x)
-    #print('q= ', q)
-    #print('qe= ', qe)
-    if tipo == 'selectbox':
-        if qe == '':
-            option = st.selectbox(q, op)
-            st.write('Seleccionaste:', option)
-            df['resp'][x] = option
-        else:
-            if df[(df['q_'] == qe)]['resp'].values[0] == 'Si':
-                option = st.selectbox(q, op)
-                st.write('Seleccionaste:', option)
-                df['resp'][x] = option
-    if tipo == 'multiselect':
-        if qe == '':
-            options = st.multiselect(q, op)
-            st.write('Seleccionaste:', options)
-            df['resp'][x] = str(options)
-        else:
-            if df[(df['q_'] == qe)]['resp'].values[0] == 'Si':
-                options = st.multiselect(q, op)
-                st.write('Seleccionaste:', options)
-                df['resp'][x] = str(options)
-    if tipo == 'text_input':
-        if qe == '':
-            titles = st.text_input(q, key='text_input1'+ str(page))
-            st.write('Seleccionaste:', titles)
-            df['resp'][x] = titles
-        else:
-            if df[(df['q_'] == qe)]['resp'].values[0] == 'Si':
-                titles = st.text_input(q, key='text_input2'+ str(page))
-                st.write('Seleccionaste:', titles)
-                df['resp'][x] = titles
-    if tipo == 'radio':
-        if qe == '':
-            genre = st.radio(q, (op))
-            st.write('Seleccionaste:', genre)
-            df['resp'][x] = genre
-        else:
-            #print('--->', df[(df['q'] == qe)]['resp'].values[0])
-            if df[(df['q_'] == qe)]['resp'].values[0] == 'Si':
-                genre = st.radio(q, (op))
-                st.write('Seleccionaste:', genre)
-                df['resp'][x] = genre
-    if tipo == 'date_input':
-        if qe == '':
-            Fecha = st.date_input(q,
-                                  min_value=dt.datetime.today() + dt.timedelta(days=-30),
-                                  max_value=dt.datetime.today() + dt.timedelta(days=14))
-            st.write('Fecha:', Fecha)
-            # tr = datetime.strptime(dt.datetime.today().strftime('%Y-%m-%d'), '%Y-%m-%d').date()
-            # tr = datetime.strptime(Fecha.strftime('%Y-%m-%d'), '%Y-%m-%d')
-
-            df['resp'][x] = str(Fecha.strftime('%Y-%m-%d'))
+"""
+import streamlit as st
+# Create a page dropdown
 
 
-        else:
-            # print('--->', df[(df['q'] == qe)]['resp'].values[0])
-            if df[(df['q_'] == qe)]['resp'].values[0] == 'Si':
-                Fecha = st.date_input(q,
-                                      min_value=dt.datetime.today() + dt.timedelta(days=-30),
-                                      max_value=dt.datetime.today() + dt.timedelta(days=14))
-                st.write('Fecha:', Fecha)
-                df['resp'][x] = str(Fecha.strftime('%Y-%m-%d'))
-    if tipo == 'number_input':
-        #print('tipo  number_input')
-        #print(df)
-        if qe == '':
-            #print('qe vacio ')
-            number = st.number_input(q, step=1)
-            st.write('Seleccionaste: ', number)
-            df['resp'][x] = number
-        else:
-
-            if df[(df['q_'] == qe)]['resp'].values[0] == 'Si':
-                number = st.number_input(q, step=1)
-                st.write('Seleccionaste: ', number)
-                df['resp'][x] = number
-    if tipo == 'number_input%':
-        if qe == '':
-            number = st.number_input(q, max_value=100)
-            st.write('Seleccionaste: ', number, ' %')
-            df['resp'][x] = number
-        else:
-            # print('--->', df[ (df['q'] == qe)]['resp'].values[0])
-            if df[(df['q_'] == qe)]['resp'].values[0] == 'Si':
-                number = st.number_input(q, max_value=100)
-                st.write('Seleccionaste: ', number, ' %')
-                df['resp'][x] = number
-
-
-gc = pygsheets.authorize(service_file='client_secrets.json')
-sh = gc.open_by_key('18-AUWmWlBRzDPv0v3KSGqeeUiWLzJ6Bp-7yoYqv6o7U')
-result = str(list(sh.worksheets())).split("'")[1::2]
-print('result= ', result)
-result = [x for x in result if x.startswith('Formato')]
-print('result Filtrado= ', result)
-
-
-
-page = st.sidebar.selectbox("Formularios: ", result)
-
-#page = st.selectbox("Choose your page", result)
-#x=1
-print('page= ', page)
-st.title(page[8:])
-for i in result:
-    #st.write('---n= ', page)
-    #x=x+1
-    print('i= ', i)
-    if(i==page):
-        #option = st.selectbox('P1', ['1', '2', '3'])
-        print('-----------------------------------------------------------------')
-        obj = DriveAPI()
-        f_id = '18-AUWmWlBRzDPv0v3KSGqeeUiWLzJ6Bp-7yoYqv6o7U'  # Repo Nuevas preg ipress
-        f_name = "temp_Matriz2.xlsx"
-        obj.FileDownload2(f_id, f_name)
-        workbook_url = "temp_Matriz2.xlsx"
-        TabFormularioActual = 'Formato_IpressTest'
-        TabFormularioActual = page
-        dfRepositorioE = pd.read_excel(workbook_url, sheet_name=TabFormularioActual, engine='openpyxl',
-                                       keep_default_na=False)
-
-        dfRepositorioE['Opciones2'] = ''
-        for i in range(len(dfRepositorioE)):
-            s = dfRepositorioE['Opciones'][i]
-            result = [x.strip() for x in s.split('|')]
-            dfRepositorioE['Opciones2'][i] = (result)
-
-        # print('Columns origen = ', list(dfRepositorioE.columns))
-        # print('Columns head = ', (dfRepositorioE.head))
-        # print('Columns tail = ', (dfRepositorioE.tail))
-        # print('Columns tail = ', (dfRepositorioE[['Opciones','Opciones2' ]]))
-
-        # st.title("Test Form Ipress")
-
-        dfRepositorioE['Preguntas'] = dfRepositorioE['Orden'].astype(str) + '.-' + dfRepositorioE['Preguntas']
-
-        # ['Indicadores', 'Sec', 'Orden', 'Dependencia', 'Preguntas', 'Tipo', 'Opciones', 'Opciones2']
-        df = pd.DataFrame([])
-        df['sc'] = dfRepositorioE['Sec']
-        df['q'] = dfRepositorioE['Preguntas']
-        df['q_'] = dfRepositorioE['Orden']
-
-        df['op'] = dfRepositorioE['Opciones2']
-        df['tipo'] = dfRepositorioE['Tipo']
-        df['qe'] = dfRepositorioE['Dependencia']
-        df['Vars'] = dfRepositorioE['Vars']
-        df['resp'] = np.nan
-        # df = df.head(20)
-        # print(df.head(20))
-
-        # df[(df['flag'] == 0)]
-        x = 0
-        for j in ((df['sc'].unique())):
-            with st.expander(j):
-                for i in range(len(df[(df['sc'] == j)])):
-                    dft = df[(df['sc'] == j)]
-                    dft = dft.reset_index()
-                    # print('i= ', i)
-                    # print('---> ', df[(df['sc'] == j)]['q'])
-                    # expanderrr(q[i], op[i])
-                    expanderrr(x, dft['q'][i], dft['op'][i], dft['tipo'][i], dft['qe'][i])
-                    x = x + 1
-
-        # print(df.head(100))
-        f = st.button('Terminar')
-
-        if f:
-            with st.spinner('Esperando respuesta del servidor...'):
-                time.sleep(5)
-            print('-----------------------------------------i')
-
-            try:
-                # st.write('Why hello there')
-                gc = pygsheets.authorize(service_file='client_secrets.json')
-                print('-----------------------------------------f1')
-                print('Inicio del proceso de guardado ')
-                print('verificar pestaña ')
-                # TabFormularioActual
-
-                # gc = pygsheets.authorize(service_file='client_secrets.json')
-                sh = gc.open_by_key('1Qyw9PDK6aIBF2PozPA_uQmfJI6FtQZrrAOpf5ujxdlg')
-                result = str(list(sh.worksheets())).split("'")[1::2]
-                print('result= ', result)
-                result = [x for x in result if x.startswith('Formato')]
-                print('result Filtrado= ', result)
-
-                if any(TabFormularioActual in word for word in result):
-                    print('Si existe la pestaña ')
-                else:
-                    print('No existe la pestaña ')
-
-                    sh.add_worksheet(TabFormularioActual)  # Please set the new sheet name.
-                    print('1')
-                    listcabecera = df['Vars'].tolist()
-                    lenlistcabecera = len(listcabecera)
-                    listcabecera.append('var' + str(lenlistcabecera))
-                    print('2')
-                    worksheet1 = sh.worksheet('title', TabFormularioActual)
-                    print('3')
-                    worksheet1.append_table(values=listcabecera)
-                    print('4')
-
-                # sh = gc.open('Repositorio-Streamlit-Heroku')  # Open GoogleSheet
-                # sh = gc.open_by_key('1Qyw9PDK6aIBF2PozPA_uQmfJI6FtQZrrAOpf5ujxdlg')
-                worksheet1 = sh.worksheet('title', TabFormularioActual)  # choose worksheet to work with
-                print('-----------------------------------------f2')
-
-                print(df['resp'].tolist())
-                tr = dt.datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-                d = df['resp'].tolist()
-                d.append(tr)
-                print(d)
-
-                if d[0] == '':
-                    print('Vacio')
-                    st.warning('Requiere llenado de id de Monitor')
-                else:
-                    print('lleno')
-                    worksheet1.append_table(values=d)
-                    sheetData = worksheet1.get_all_records
-                    st.success('Hecho!')
-                    st.balloons()
-
-            except:
-
-                st.error('Error!... volver a intentar')
+page = st.selectbox("Choose your page", ["Page 1", "Page 2", "Page 3"])
+if page == "Page 1":
+    # Display details of page 1
+    st.write('---1')
+    st.line_chart({"data": [1, 5, 2, 6, 2, 1]})
+elif page == "Page 2":
+    # Display details of page 2
+    st.write('---2')
+    st.line_chart({"data": [1, 5, 2, 6, 2, 1]})
+elif page == "Page 3":
+    # Display details of page 3
+    st.write('---3')
+    st.line_chart({"data": [1, 5, 2, 6, 2, 1]})
+"""

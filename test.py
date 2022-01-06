@@ -523,6 +523,7 @@ class DriveAPI:
             # Raise UploadError if file is not uploaded.
             # raise UploadError("Can't Upload File.")
 
+
 def expanderrrbackup(x, q, op, tipo, qe):
     print('=============================================================')
     print('X= ', x)
@@ -706,7 +707,6 @@ def expanderrr(x, q, op, tipo, qe):
                 st.write('Seleccionaste: ', number, ' %')
                 df['resp'][x] = number
 
-
 gc = pygsheets.authorize(service_file='client_secrets.json')
 sh = gc.open_by_key('18-AUWmWlBRzDPv0v3KSGqeeUiWLzJ6Bp-7yoYqv6o7U')
 result = str(list(sh.worksheets())).split("'")[1::2]
@@ -716,131 +716,135 @@ print('result Filtrado= ', result)
 
 
 
-page = st.sidebar.selectbox("Formularios: ", result)
+page = st.sidebar.selectbox("SideBar de prueba ", result)
 
 #page = st.selectbox("Choose your page", result)
 #x=1
-print('page= ', page)
 st.title(page[8:])
-for i in result:
+for i in page:
     #st.write('---n= ', page)
     #x=x+1
-    print('i= ', i)
-    if(i==page):
-        #option = st.selectbox('P1', ['1', '2', '3'])
-        print('-----------------------------------------------------------------')
-        obj = DriveAPI()
-        f_id = '18-AUWmWlBRzDPv0v3KSGqeeUiWLzJ6Bp-7yoYqv6o7U'  # Repo Nuevas preg ipress
-        f_name = "temp_Matriz2.xlsx"
-        obj.FileDownload2(f_id, f_name)
-        workbook_url = "temp_Matriz2.xlsx"
-        TabFormularioActual = 'Formato_IpressTest'
-        TabFormularioActual = page
-        dfRepositorioE = pd.read_excel(workbook_url, sheet_name=TabFormularioActual, engine='openpyxl',
-                                       keep_default_na=False)
 
-        dfRepositorioE['Opciones2'] = ''
-        for i in range(len(dfRepositorioE)):
-            s = dfRepositorioE['Opciones'][i]
-            result = [x.strip() for x in s.split('|')]
-            dfRepositorioE['Opciones2'][i] = (result)
+    print('-----------------------------------------------------------------')
+    obj = DriveAPI()
+    f_id = '18-AUWmWlBRzDPv0v3KSGqeeUiWLzJ6Bp-7yoYqv6o7U'  # Repo Nuevas preg ipress
+    f_name = "temp_Matriz2.xlsx"
+    obj.FileDownload2(f_id, f_name)
+    workbook_url = "temp_Matriz2.xlsx"
+    TabFormularioActual = 'Formato_IpressTest'
+    TabFormularioActual = page
+    dfRepositorioE = pd.read_excel(workbook_url, sheet_name=TabFormularioActual, engine='openpyxl',
+                                   keep_default_na=False)
 
-        # print('Columns origen = ', list(dfRepositorioE.columns))
-        # print('Columns head = ', (dfRepositorioE.head))
-        # print('Columns tail = ', (dfRepositorioE.tail))
-        # print('Columns tail = ', (dfRepositorioE[['Opciones','Opciones2' ]]))
+    dfRepositorioE['Opciones2'] = ''
+    for i in range(len(dfRepositorioE)):
+        s = dfRepositorioE['Opciones'][i]
+        result = [x.strip() for x in s.split('|')]
+        dfRepositorioE['Opciones2'][i] = (result)
 
-        # st.title("Test Form Ipress")
+    #print('Columns origen = ', list(dfRepositorioE.columns))
+    # print('Columns head = ', (dfRepositorioE.head))
+    # print('Columns tail = ', (dfRepositorioE.tail))
+    # print('Columns tail = ', (dfRepositorioE[['Opciones','Opciones2' ]]))
 
-        dfRepositorioE['Preguntas'] = dfRepositorioE['Orden'].astype(str) + '.-' + dfRepositorioE['Preguntas']
+    #st.title("Test Form Ipress")
 
-        # ['Indicadores', 'Sec', 'Orden', 'Dependencia', 'Preguntas', 'Tipo', 'Opciones', 'Opciones2']
-        df = pd.DataFrame([])
-        df['sc'] = dfRepositorioE['Sec']
-        df['q'] = dfRepositorioE['Preguntas']
-        df['q_'] = dfRepositorioE['Orden']
 
-        df['op'] = dfRepositorioE['Opciones2']
-        df['tipo'] = dfRepositorioE['Tipo']
-        df['qe'] = dfRepositorioE['Dependencia']
-        df['Vars'] = dfRepositorioE['Vars']
-        df['resp'] = np.nan
-        # df = df.head(20)
-        # print(df.head(20))
 
-        # df[(df['flag'] == 0)]
-        x = 0
-        for j in ((df['sc'].unique())):
-            with st.expander(j):
-                for i in range(len(df[(df['sc'] == j)])):
-                    dft = df[(df['sc'] == j)]
-                    dft = dft.reset_index()
-                    # print('i= ', i)
-                    # print('---> ', df[(df['sc'] == j)]['q'])
-                    # expanderrr(q[i], op[i])
-                    expanderrr(x, dft['q'][i], dft['op'][i], dft['tipo'][i], dft['qe'][i])
-                    x = x + 1
+    dfRepositorioE['Preguntas'] = dfRepositorioE['Orden'].astype(str) + '.-' + dfRepositorioE['Preguntas']
 
-        # print(df.head(100))
-        f = st.button('Terminar')
+    # ['Indicadores', 'Sec', 'Orden', 'Dependencia', 'Preguntas', 'Tipo', 'Opciones', 'Opciones2']
+    df = pd.DataFrame([])
+    df['sc'] = dfRepositorioE['Sec']
+    df['q'] = dfRepositorioE['Preguntas']
+    df['q_'] = dfRepositorioE['Orden']
 
-        if f:
-            with st.spinner('Esperando respuesta del servidor...'):
-                time.sleep(5)
-            print('-----------------------------------------i')
+    df['op'] = dfRepositorioE['Opciones2']
+    df['tipo'] = dfRepositorioE['Tipo']
+    df['qe'] = dfRepositorioE['Dependencia']
+    df['Vars'] = dfRepositorioE['Vars']
+    df['resp'] = np.nan
+    # df = df.head(20)
+    #print(df.head(20))
 
-            try:
-                # st.write('Why hello there')
-                gc = pygsheets.authorize(service_file='client_secrets.json')
-                print('-----------------------------------------f1')
-                print('Inicio del proceso de guardado ')
-                print('verificar pestaña ')
-                # TabFormularioActual
 
-                # gc = pygsheets.authorize(service_file='client_secrets.json')
-                sh = gc.open_by_key('1Qyw9PDK6aIBF2PozPA_uQmfJI6FtQZrrAOpf5ujxdlg')
-                result = str(list(sh.worksheets())).split("'")[1::2]
-                print('result= ', result)
-                result = [x for x in result if x.startswith('Formato')]
-                print('result Filtrado= ', result)
 
-                if any(TabFormularioActual in word for word in result):
-                    print('Si existe la pestaña ')
-                else:
-                    print('No existe la pestaña ')
 
-                    sh.add_worksheet(TabFormularioActual)  # Please set the new sheet name.
-                    print('1')
-                    listcabecera = df['Vars'].tolist()
-                    lenlistcabecera = len(listcabecera)
-                    listcabecera.append('var' + str(lenlistcabecera))
-                    print('2')
-                    worksheet1 = sh.worksheet('title', TabFormularioActual)
-                    print('3')
-                    worksheet1.append_table(values=listcabecera)
-                    print('4')
 
-                # sh = gc.open('Repositorio-Streamlit-Heroku')  # Open GoogleSheet
-                # sh = gc.open_by_key('1Qyw9PDK6aIBF2PozPA_uQmfJI6FtQZrrAOpf5ujxdlg')
-                worksheet1 = sh.worksheet('title', TabFormularioActual)  # choose worksheet to work with
-                print('-----------------------------------------f2')
 
-                print(df['resp'].tolist())
-                tr = dt.datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-                d = df['resp'].tolist()
-                d.append(tr)
-                print(d)
+    # df[(df['flag'] == 0)]
+    x = 0
+    for j in ((df['sc'].unique())):
+        with st.expander(j):
+            for i in range(len(df[(df['sc'] == j)])):
+                dft = df[(df['sc'] == j)]
+                dft = dft.reset_index()
+                # print('i= ', i)
+                # print('---> ', df[(df['sc'] == j)]['q'])
+                # expanderrr(q[i], op[i])
+                expanderrr(x, dft['q'][i], dft['op'][i], dft['tipo'][i], dft['qe'][i])
+                x = x + 1
 
-                if d[0] == '':
-                    print('Vacio')
-                    st.warning('Requiere llenado de id de Monitor')
-                else:
-                    print('lleno')
-                    worksheet1.append_table(values=d)
-                    sheetData = worksheet1.get_all_records
-                    st.success('Hecho!')
-                    st.balloons()
+    #print(df.head(100))
+    f = st.button('Terminar')
 
-            except:
+    if f:
+        with st.spinner('Esperando respuesta del servidor...'):
+            time.sleep(5)
+        print('-----------------------------------------i')
 
-                st.error('Error!... volver a intentar')
+        try:
+            # st.write('Why hello there')
+            gc = pygsheets.authorize(service_file='client_secrets.json')
+            print('-----------------------------------------f1')
+            print('Inicio del proceso de guardado ')
+            print('verificar pestaña ')
+            # TabFormularioActual
+
+            # gc = pygsheets.authorize(service_file='client_secrets.json')
+            sh = gc.open_by_key('1Qyw9PDK6aIBF2PozPA_uQmfJI6FtQZrrAOpf5ujxdlg')
+            result = str(list(sh.worksheets())).split("'")[1::2]
+            print('result= ', result)
+            result = [x for x in result if x.startswith('Formato')]
+            print('result Filtrado= ', result)
+
+            if any(TabFormularioActual in word for word in result):
+                print('Si existe la pestaña ')
+            else:
+                print('No existe la pestaña ')
+
+                sh.add_worksheet(TabFormularioActual)  # Please set the new sheet name.
+                print('1')
+                listcabecera = df['Vars'].tolist()
+                lenlistcabecera = len(listcabecera)
+                listcabecera.append('var' + str(lenlistcabecera))
+                print('2')
+                worksheet1 = sh.worksheet('title', TabFormularioActual)
+                print('3')
+                worksheet1.append_table(values=listcabecera)
+                print('4')
+
+            # sh = gc.open('Repositorio-Streamlit-Heroku')  # Open GoogleSheet
+            # sh = gc.open_by_key('1Qyw9PDK6aIBF2PozPA_uQmfJI6FtQZrrAOpf5ujxdlg')
+            worksheet1 = sh.worksheet('title', TabFormularioActual)  # choose worksheet to work with
+            print('-----------------------------------------f2')
+
+            print(df['resp'].tolist())
+            tr = dt.datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+            d = df['resp'].tolist()
+            d.append(tr)
+            print(d)
+
+            if d[0] == '':
+                print('Vacio')
+                st.warning('Requiere llenado de id de Monitor')
+            else:
+                print('lleno')
+                worksheet1.append_table(values=d)
+                sheetData = worksheet1.get_all_records
+                st.success('Hecho!')
+                st.balloons()
+
+        except:
+
+            st.error('Error!... volver a intentar')
