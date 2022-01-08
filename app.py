@@ -614,7 +614,7 @@ def expanderrrbackup(x, q, op, tipo, qe):
                 number = st.number_input(q, max_value=100)
                 st.write('Seleccionaste: ', number, ' %')
                 df['resp'][x] = number
-def expanderrr(x, q, op, tipo, qe):
+def expanderrr(x, q, op, tipo, qe, nivel,vista):
     #print('=============================================================')
     #print('X= ', x)
     #print('q= ', q)
@@ -707,12 +707,156 @@ def expanderrr(x, q, op, tipo, qe):
                 df['resp'][x] = number
 
 
+    if tipo == 'text_input_Multiple':
+        if qe == '':
+            st.write(q)
+            a=[]
+            for i in range(len(op) ):
+                title1 = st.text_input(op[i], key=str(i))
+                a.append(title1)
+            st.write('Seleccionaste:', a)
+            df['resp'][x] = a
+        else:
+            if df[(df['q_'] == qe)]['resp'].values[0] == 'Si':
+                #title1 = st.text_input(q , key='1')
+                st.write(q)
+                a = []
+                for i in range(len(op)):
+                    title1 = st.text_input(op[i], key=str(i))
+                    a.append(title1)
+                st.write('Seleccionaste:', a)
+                df['resp'][x] = a
+    if tipo == 'number_input_Multiple':
+        if qe == '':
+            st.write(q)
+            a = []
+            for i in range(len(op)):
+                #number = st.number_input(q, <<<step=1<<<)
+                title1 = st.number_input(op[i],step=1, key=(str(i)+str(x))  )
+                a.append(title1)
+            st.write('Seleccionaste:', a)
+            df['resp'][x] = str(a)
+        else:
+            if df[(df['q_'] == qe)]['resp'].values[0] == 'Si':
+                # title1 = st.text_input(q , key='1')
+                st.write(q)
+                a = []
+                for i in range(len(op)):
+                    title1 = st.number_input(op[i],step=1, key=(str(i)+str(x)))
+                    a.append(title1)
+                st.write('Seleccionaste:', a)
+                df['resp'][x] = str(a)
+
+    if tipo == 'Ipress_Metadata' :
+        if vista!='No':
+            print('Ipress_Metadata-================')
+            print('op= ',op )
+            dflocal=DFMetadata
+            #print(dflocal.head())
+            t=st.session_state
+            print('st.session_state= ', t)
+            result = [x for x in t if x.startswith('Metadata_')]
+            #result= result.remove('Tipo')
+            print('result1= ', result)
+            #result = [x for x in result if x is not ['Metadata_Código Único',
+            #                                         'Metadata_Nombre del establecimiento']]
+            #l2=['Metadata_Código Único','Metadata_Nombre del establecimiento','Metadata_Departamento']
+            #resultr = [x for x in result if x not in l2]
+            #result.remove('Metadata_Código Único') if '' in s else None
+            #result.remove('Metadata_Nombre del establecimiento') if '' in s else None
+            #result.remove('Metadata_Departamento') if '' in s else None
+            #result=resultr
+            #print('result r= ', resultr)
+
+            #nivel=[1,2,3,4]
+
+            print('===========================filtros=======================================')
+
+            print('dflocal cols', df.columns)
+            print('actual   = ', op[0])
+            print(df['nivel'].unique())
+            dfq=df[(df['tipo'] == tipo)]
+            print(dfq['nivel'].unique())
+
+            print('Afectado = ', dfq[(dfq['nivel'].astype(int) < int(nivel))]['op'].tolist())
+            lk=dfq[(dfq['nivel'].astype(int) < int(nivel))]['op'].tolist()
+
+            for ir in lk:
+                print('---->', ir)
+                if op[0] != 'Departamento':
+                    dflocal = dflocal[(dflocal[ir[0]] == st.session_state['Metadata_'+ir[0]])]
+
+            print('===========================filtros=======================================')
+
+            print('result== ', result)
+            print(dflocal[['Código Único','Nombre del establecimiento',
+                          'Departamento','Provincia', 'Distrito']])
+            print('===========================uniques=======================================')
+            print('dflocal Departamento ', dflocal['Departamento'].unique())
+            print('dflocal Provincia    ', dflocal['Provincia'].unique())
+            print('dflocal Distrito     ', dflocal['Distrito'].unique())
+
+            print('===========================uniques=======================================')
+
+
+            if qe == '':
+                optionMetadata = st.selectbox(q, dflocal[op[0]].unique().tolist(), key=('Metadata_'+op[0]))
+                st.write('Seleccionaste:', optionMetadata)
+                df['resp'][x] = str(optionMetadata)
+                print('optionMetadata= ', optionMetadata)
+
+                #print('optionMetadata=', st.session_state[op])
+            else:
+                if df[(df['q_'] == qe)]['resp'].values[0] == 'Si':
+                    optionMetadata = st.selectbox(q, dflocal[op[0]].unique().tolist(), key=('Metadata_'+op[0]))
+                    st.write('Seleccionaste:', optionMetadata)
+                    df['resp'][x] = str(optionMetadata)
+                    print('optionMetadata= ', optionMetadata)
+        else:
+            print('colum', df.columns )
+            dff = df
+            print('-------------------------------------')
+            dff1 = df[(df['tipo'] == tipo) &(df['Vista'] == 'No')]
+            print('Max1= ', dff1['nivel'].max())
+            print(dff1)
+            print(dff1['op'].values[0][0])
+            print('-------------------------------------')
+            dff2 = df[(df['tipo'] == tipo) &(df['Vista'] != 'No')]
+            print('Max2= ', dff2['nivel'].max())
+            print(dff2)
+            print(dff2[(dff2['nivel'] == dff1['nivel'].max())])
+            tt=dff2[(dff2['nivel'] == dff1['nivel'].max())]
+            print(tt)
+            print('--1', tt['op'].values[0][0])
+            print('--2', tt['resp'].values[0])
+            print(DFMetadata[(DFMetadata[tt['op'].values[0][0]] == tt['resp'].values[0])][tt['op'].values[0][0]].values[0])
+            print('-------------------------------------3')
+
+
+
+            df['resp'][x] = DFMetadata[(DFMetadata[tt['op'].values[0][0]] == tt['resp'].values[0])][tt['op'].values[0][0]].values[0]
+
+
 gc = pygsheets.authorize(service_file='client_secrets.json')
 sh = gc.open_by_key('18-AUWmWlBRzDPv0v3KSGqeeUiWLzJ6Bp-7yoYqv6o7U')
 result = str(list(sh.worksheets())).split("'")[1::2]
 print('result= ', result)
 result = [x for x in result if x.startswith('Formato')]
 print('result Filtrado= ', result)
+
+
+@st.cache
+def CargaMetadata():
+    gc = pygsheets.authorize(service_file='client_secrets.json')
+    sh = gc.open_by_key('1oWQxiiaXNmvLQ2JjsG9UMBDyD7yGkXJvsHYcvK4z_fY')
+    worksheet1 = sh.worksheet('title','BD')
+
+    sheetData = worksheet1.get_all_records()
+    print('Desde Metadata!!!')
+    DFMetadata=pd.DataFrame(sheetData)
+    print(DFMetadata.head())
+    return DFMetadata
+DFMetadata= CargaMetadata()
 
 
 
@@ -759,11 +903,13 @@ for i in result:
         df['sc'] = dfRepositorioE['Sec']
         df['q'] = dfRepositorioE['Preguntas']
         df['q_'] = dfRepositorioE['Orden']
-
+        df['nivel'] = dfRepositorioE['Filtrado']
         df['op'] = dfRepositorioE['Opciones2']
         df['tipo'] = dfRepositorioE['Tipo']
         df['qe'] = dfRepositorioE['Dependencia']
         df['Vars'] = dfRepositorioE['Vars']
+        df['Vista'] = dfRepositorioE['Vista']
+
         df['resp'] = np.nan
         # df = df.head(20)
         # print(df.head(20))
@@ -778,9 +924,9 @@ for i in result:
                     # print('i= ', i)
                     # print('---> ', df[(df['sc'] == j)]['q'])
                     # expanderrr(q[i], op[i])
-                    expanderrr(x, dft['q'][i], dft['op'][i], dft['tipo'][i], dft['qe'][i])
+                    expanderrr(x, dft['q'][i], dft['op'][i], dft['tipo'][i], dft['qe'][i], dft['nivel'][i],
+                               dft['Vista'][i])
                     x = x + 1
-
         # print(df.head(100))
         f = st.button('Terminar')
 
