@@ -900,251 +900,260 @@ for i in result:
 
         # ['Indicadores', 'Sec', 'Orden', 'Dependencia', 'Preguntas', 'Tipo', 'Opciones', 'Opciones2']
         df = pd.DataFrame([])
-        df['sc'] = dfRepositorioE['Sec']
-        df['q'] = dfRepositorioE['Preguntas']
-        df['q_'] = dfRepositorioE['Orden']
+        df['sc']    = dfRepositorioE['Sec']
+        df['q']     = dfRepositorioE['Preguntas']
+        df['q_']    = dfRepositorioE['Orden']
         df['nivel'] = dfRepositorioE['Filtrado']
-        df['op'] = dfRepositorioE['Opciones2']
-        df['tipo'] = dfRepositorioE['Tipo']
-        df['qe'] = dfRepositorioE['Dependencia']
-        df['Vars'] = dfRepositorioE['Vars']
+        df['op']    = dfRepositorioE['Opciones2']
+        df['tipo']  = dfRepositorioE['Tipo']
+        df['qe']    =  dfRepositorioE['Dependencia']
+        df['Vars']  = dfRepositorioE['Vars']
         df['Vista'] = dfRepositorioE['Vista']
-
         df['resp'] = np.nan
+
+        duplicateRowsDF = df[df.Vars.duplicated()]
+        print('=' * 100)
+        print('duplicateRowsDF= ', duplicateRowsDF)
+        print('len ', len(duplicateRowsDF))
+        print('=' * 100)
+
         # df = df.head(20)
         # print(df.head(20))
-
         # df[(df['flag'] == 0)]
-        x = 0
-        for j in ((df['sc'].unique())):
-            with st.expander(j):
-                for i in range(len(df[(df['sc'] == j)])):
-                    dft = df[(df['sc'] == j)]
-                    dft = dft.reset_index()
-                    # print('i= ', i)
-                    # print('---> ', df[(df['sc'] == j)]['q'])
-                    # expanderrr(q[i], op[i])
-                    expanderrr(x, dft['q'][i], dft['op'][i], dft['tipo'][i], dft['qe'][i], dft['nivel'][i],
-                               dft['Vista'][i])
-                    x = x + 1
-        # print(df.head(100))
-        f = st.button('Terminar')
+        if(len(duplicateRowsDF)==0):
+            st.write('Variables Duplicadas')
+        else:
+            
+            x = 0
+            for j in ((df['sc'].unique())):
+                with st.expander(j):
+                    for i in range(len(df[(df['sc'] == j)])):
+                        dft = df[(df['sc'] == j)]
+                        dft = dft.reset_index()
+                        # print('i= ', i)
+                        # print('---> ', df[(df['sc'] == j)]['q'])
+                        # expanderrr(q[i], op[i])
+                        expanderrr(x, dft['q'][i], dft['op'][i], dft['tipo'][i], dft['qe'][i], dft['nivel'][i],
+                                   dft['Vista'][i])
+                        x = x + 1
+            # print(df.head(100))
+            f = st.button('Terminar')
 
-        if f:
-            with st.spinner('Esperando respuesta del servidor...'):
-                time.sleep(5)
-            print('-----------------------------------------i')
+            if f:
+                with st.spinner('Esperando respuesta del servidor...'):
+                    time.sleep(5)
+                print('-----------------------------------------i')
 
-            try:
-                # st.write('Why hello there')
-                gc = pygsheets.authorize(service_file='client_secrets.json')
-                print('-----------------------------------------f1')
-                print('Inicio del proceso de guardado ')
-                print('verificar pestaña ')
-                # TabFormularioActual
+                try:
+                    # st.write('Why hello there')
+                    gc = pygsheets.authorize(service_file='client_secrets.json')
+                    print('-----------------------------------------f1')
+                    print('Inicio del proceso de guardado ')
+                    print('verificar pestaña ')
+                    # TabFormularioActual
 
-                # gc = pygsheets.authorize(service_file='client_secrets.json')
-                sh = gc.open_by_key('1Qyw9PDK6aIBF2PozPA_uQmfJI6FtQZrrAOpf5ujxdlg')
-                result = str(list(sh.worksheets())).split("'")[1::2]
-                print('result= ', result)
-                result = [x for x in result if x.startswith('Formato')]
-                print('result Filtrado= ', result)
+                    # gc = pygsheets.authorize(service_file='client_secrets.json')
+                    sh = gc.open_by_key('1Qyw9PDK6aIBF2PozPA_uQmfJI6FtQZrrAOpf5ujxdlg')
+                    result = str(list(sh.worksheets())).split("'")[1::2]
+                    print('result= ', result)
+                    result = [x for x in result if x.startswith('Formato')]
+                    print('result Filtrado= ', result)
 
-                if any(TabFormularioActual in word for word in result):
-                    print('Si existe la pestaña i')
-                    #####################################################################################
-                    print('*' * 150)
-                    print('detalles carga anterior  i')
-                    worksheet1 = sh.worksheet('title', TabFormularioActual)
-                    sheetDataCheck = worksheet1.get_all_records()
-                    print('Desde sheetDataCheck')
-                    DFCheck = pd.DataFrame(sheetDataCheck)
-                    # print(DFCheck.head())
-                    print('LIstado de variables guardadas: ', list(DFCheck.columns))
-                    x = len(list(DFCheck.columns))
-                    HeaderExcelCargado = [string.ascii_uppercase[i] if i < 26 else string.ascii_uppercase[i // 26 - 1] +
-                                                                                   string.ascii_uppercase[i % 26] for i
-                                          in range(x)]
-                    print('HeaderExcelCargado: ', HeaderExcelCargado)
+                    if any(TabFormularioActual in word for word in result):
+                        print('Si existe la pestaña i')
+                        #####################################################################################
+                        print('*' * 150)
+                        print('detalles carga anterior  i')
+                        worksheet1 = sh.worksheet('title', TabFormularioActual)
+                        sheetDataCheck = worksheet1.get_all_records()
+                        print('Desde sheetDataCheck')
+                        DFCheck = pd.DataFrame(sheetDataCheck)
+                        # print(DFCheck.head())
+                        print('LIstado de variables guardadas: ', list(DFCheck.columns))
+                        x = len(list(DFCheck.columns))
+                        HeaderExcelCargado = [string.ascii_uppercase[i] if i < 26 else string.ascii_uppercase[i // 26 - 1] +
+                                                                                       string.ascii_uppercase[i % 26] for i
+                                              in range(x)]
+                        print('HeaderExcelCargado: ', HeaderExcelCargado)
 
-                    print('detalles carga anterior  f')
+                        print('detalles carga anterior  f')
 
-                    print('*' * 150)
-                    #####################################################################################
-                    print('=' * 180)
-                    print('detalles carga actual i')
-                    # print(df['resp'].tolist())
-                    tr = dt.datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-                    d = df['resp'].tolist()
-                    d.append(tr)
-                    print('Rsultados actuales', d)
+                        print('*' * 150)
+                        #####################################################################################
+                        print('=' * 180)
+                        print('detalles carga actual i')
+                        # print(df['resp'].tolist())
+                        tr = dt.datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+                        d = df['resp'].tolist()
+                        d.append(tr)
+                        print('Rsultados actuales', d)
 
-                    x = len(d)
-                    HeaderExcelNuevo = [string.ascii_uppercase[i] if i < 26 else string.ascii_uppercase[i // 26 - 1] +
-                                                                                 string.ascii_uppercase[
-                                                                                     i % 26] for i in range(x)]
-                    print('qw= ', HeaderExcelNuevo)
+                        x = len(d)
+                        HeaderExcelNuevo = [string.ascii_uppercase[i] if i < 26 else string.ascii_uppercase[i // 26 - 1] +
+                                                                                     string.ascii_uppercase[
+                                                                                         i % 26] for i in range(x)]
+                        print('qw= ', HeaderExcelNuevo)
 
-                    print('detalles carga actual f')
-                    print('=' * 180)
-                    #####################################################################################
+                        print('detalles carga actual f')
+                        print('=' * 180)
+                        #####################################################################################
 
-                    HeaderDiferencia = list(set(HeaderExcelNuevo) - set(HeaderExcelCargado))
-                    print('HeaderDiferencia= ', HeaderDiferencia)
-                    # res = [1 if ele in search_list else 0 for ele in test_list]
-                    mask = np.in1d(HeaderExcelNuevo, HeaderDiferencia)
-                    # print('mask= ', mask)
-                    # print('list mask= ', list(mask))
+                        HeaderDiferencia = list(set(HeaderExcelNuevo) - set(HeaderExcelCargado))
+                        print('HeaderDiferencia= ', HeaderDiferencia)
+                        # res = [1 if ele in search_list else 0 for ele in test_list]
+                        mask = np.in1d(HeaderExcelNuevo, HeaderDiferencia)
+                        # print('mask= ', mask)
+                        # print('list mask= ', list(mask))
 
-                    print('n list dmask =', len(mask))
-                    print('n list d     =', len(d))
-                    dvars = DFCheck.columns.tolist()
-                    print('list dvars= ', (dvars))
+                        print('n list dmask =', len(mask))
+                        print('n list d     =', len(d))
+                        dvars = DFCheck.columns.tolist()
+                        print('list dvars= ', (dvars))
 
-                    print('n list dvars     =', len(dvars))
+                        print('n list dvars     =', len(dvars))
 
-                    dd = np.array(d)
-                    print('d mask values = ', dd[(mask)])
-                    # print('dvars.tolist()= ', dvars.tolist())
-                    # dvars = np.array(dvars)
-                    # print('dvars mask values = ', dvars[(mask)])
+                        dd = np.array(d)
+                        print('d mask values = ', dd[(mask)])
+                        # print('dvars.tolist()= ', dvars.tolist())
+                        # dvars = np.array(dvars)
+                        # print('dvars mask values = ', dvars[(mask)])
 
-                    print(list(df.columns))
-                    dvars = df['Vars'].tolist()
-                    print('dvars = ', dvars)
-                    print('n list dvars =', len(dvars))
-                    dvars = dvars.append('Fecha')
+                        print(list(df.columns))
+                        dvars = df['Vars'].tolist()
+                        print('dvars = ', dvars)
+                        print('n list dvars =', len(dvars))
+                        dvars = dvars.append('Fecha')
 
-                    Diff = list(set(df['Vars'].tolist()) - set(DFCheck.columns.tolist()))
-                    print('Diff= ', Diff)
-                    print(df[['resp', 'Vars']].tail())
+                        Diff = list(set(df['Vars'].tolist()) - set(DFCheck.columns.tolist()))
+                        print('Diff= ', Diff)
+                        print(df[['resp', 'Vars']].tail())
 
-                    # print( df[(df['Vars'] == ['var95', 'var94'])])
-                    print(df.Vars.isin(['var95', 'var94']))
-                    print(df[df.Vars.isin(['var95', 'var94'])]['resp'].tolist())
-                    List1 = HeaderDiferencia
-                    string = "1"
-                    output = ["{}{}".format(i, string) for i in List1]
+                        # print( df[(df['Vars'] == ['var95', 'var94'])])
+                        print(df.Vars.isin(['var95', 'var94']))
+                        print(df[df.Vars.isin(['var95', 'var94'])]['resp'].tolist())
+                        List1 = HeaderDiferencia
+                        string = "1"
+                        output = ["{}{}".format(i, string) for i in List1]
 
-                    print('output   = ', output)
-                    print('Diff     = ', Diff)
+                        print('output   = ', output)
+                        print('Diff     = ', Diff)
 
-                    print('len(output)= ', len(output))
-                    x = []
-                    if len(output) > 1:
-                        print('>1')
-                        x = (str(output[0]) + ':' + str(output[-1]))
-                    if len(output) == 0:
-                        print('==0')
+                        print('len(output)= ', len(output))
                         x = []
-                    if len(output) == 1:
-                        print('=1')
-                        x = str(output[0])
-                    print('x=', x)
-                    if len(output) > 0:
-                        # for i in range(len(output)):
-                        #    print(output[i],' - ',Diff[i] )
-                        #    worksheet1.update_value(str(output[i]), str(Diff[i]))
-                        # print((str(output[0])+':'+str(output[-1])))
+                        if len(output) > 1:
+                            print('>1')
+                            x = (str(output[0]) + ':' + str(output[-1]))
+                        if len(output) == 0:
+                            print('==0')
+                            x = []
+                        if len(output) == 1:
+                            print('=1')
+                            x = str(output[0])
+                        print('x=', x)
+                        if len(output) > 0:
+                            # for i in range(len(output)):
+                            #    print(output[i],' - ',Diff[i] )
+                            #    worksheet1.update_value(str(output[i]), str(Diff[i]))
+                            # print((str(output[0])+':'+str(output[-1])))
+                            print('a')
+                            worksheet1.update_values(x, [Diff], extend=True)
+                            print('b')
+
+                        print('Obtener listado luego de update ')
+                        worksheet1 = sh.worksheet('title', TabFormularioActual)
+                        sheetDataCheck = worksheet1.get_all_records()
+                        DFCheck = pd.DataFrame(sheetDataCheck)
+                        print('LIstado de variables guardadas: ', list(DFCheck.columns))
+                        print('Listado para nsertar ', df['Vars'].tolist())
+
+                        dfinsert = df[['Vars', 'resp']]
                         print('a')
-                        worksheet1.update_values(x, [Diff], extend=True)
+                        tr = dt.datetime.today().strftime('%Y-%m-%d %H:%M:%S')
                         print('b')
+                        dfinsert = dfinsert.append({'Vars': 'Fecha', 'resp': tr}, ignore_index=True)
+                        print('dfinsert1= ', dfinsert)
+                        dfinsert = dfinsert.set_index('Vars')
+                        print('dfinsert1.1= ', dfinsert)
 
-                    print('Obtener listado luego de update ')
-                    worksheet1 = sh.worksheet('title', TabFormularioActual)
-                    sheetDataCheck = worksheet1.get_all_records()
-                    DFCheck = pd.DataFrame(sheetDataCheck)
-                    print('LIstado de variables guardadas: ', list(DFCheck.columns))
-                    print('Listado para nsertar ', df['Vars'].tolist())
+                        dfinsert = dfinsert.transpose()
+                        print('dfinsert1.2= ', dfinsert)
+                        print('list(DFCheck.columns)=', list(dfinsert.columns))
 
-                    dfinsert = df[['Vars', 'resp']]
-                    print('a')
-                    tr = dt.datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-                    print('b')
-                    dfinsert = dfinsert.append({'Vars': 'Fecha', 'resp': tr}, ignore_index=True)
-                    print('dfinsert1= ', dfinsert)
-                    dfinsert = dfinsert.set_index('Vars')
-                    print('dfinsert1.1= ', dfinsert)
+                        print('Diferencia ____________________')
+                        Difer = list(set(list(DFCheck.columns)) - set(list(dfinsert.columns)))
+                        print('Difer1= ', Difer)
 
-                    dfinsert = dfinsert.transpose()
-                    print('dfinsert1.2= ', dfinsert)
-                    print('list(DFCheck.columns)=', list(dfinsert.columns))
+                        print('DFCheck= ', DFCheck)
+                        print('dfinsert= ', dfinsert)
 
-                    print('Diferencia ____________________')
-                    Difer = list(set(list(DFCheck.columns)) - set(list(dfinsert.columns)))
-                    print('Difer1= ', Difer)
+                        for i in range(len(Difer)):
+                            print(i, '   -  ', Difer[i])
+                            # DFCheck = DFCheck.append({'Vars': Difer[i]}, ignore_index=True)
+                            # dfinsert = dfinsert.append({Difer[i]:'' }, ignore_index=True)
+                            dfinsert[Difer[i]] = ''
 
-                    print('DFCheck= ', DFCheck)
-                    print('dfinsert= ', dfinsert)
+                        print('Diferencia ____________________')
+                        print(list(DFCheck.columns))
 
-                    for i in range(len(Difer)):
-                        print(i, '   -  ', Difer[i])
-                        # DFCheck = DFCheck.append({'Vars': Difer[i]}, ignore_index=True)
-                        # dfinsert = dfinsert.append({Difer[i]:'' }, ignore_index=True)
-                        dfinsert[Difer[i]] = ''
+                        dfinsert = dfinsert[list(DFCheck.columns)]
+                        print('dfinsert2= ', dfinsert)
+                        # d= dfinsert.tolist()
+                        dfinsert = dfinsert.transpose()
+                        d = dfinsert.resp.tolist()
+                        print('d=', d)
+                        print('Si existe la pestaña f')
 
-                    print('Diferencia ____________________')
-                    print(list(DFCheck.columns))
+                        if d[0] == '':
+                            print('Vacio')
+                            st.warning('Requiere llenado de id de Monitor')
+                        else:
+                            print('lleno')
+                            worksheet1.append_table(values=d)
+                            sheetData = worksheet1.get_all_records
+                            st.success('Hecho!')
+                            st.balloons()
 
-                    dfinsert = dfinsert[list(DFCheck.columns)]
-                    print('dfinsert2= ', dfinsert)
-                    # d= dfinsert.tolist()
-                    dfinsert = dfinsert.transpose()
-                    d = dfinsert.resp.tolist()
-                    print('d=', d)
-                    print('Si existe la pestaña f')
+                        #####################################################################################
 
-                    if d[0] == '':
-                        print('Vacio')
-                        st.warning('Requiere llenado de id de Monitor')
+
+
+
+
                     else:
-                        print('lleno')
-                        worksheet1.append_table(values=d)
-                        sheetData = worksheet1.get_all_records
-                        st.success('Hecho!')
-                        st.balloons()
+                        print('No existe la pestaña ')
 
-                    #####################################################################################
+                        sh.add_worksheet(TabFormularioActual)  # Please set the new sheet name.
+                        print('1')
+                        listcabecera = df['Vars'].tolist()
+                        lenlistcabecera = len(listcabecera)
+                        listcabecera.append('Fecha')
+                        print('2')
+                        worksheet1 = sh.worksheet('title', TabFormularioActual)
+                        print('3')
+                        worksheet1.append_table(values=listcabecera)
+                        print('4')
 
+                        worksheet1 = sh.worksheet('title', TabFormularioActual)  # choose worksheet to work with
+                        # print(df['resp'].tolist())
+                        tr = dt.datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+                        d = df['resp'].tolist()
+                        d.append(tr)
+                        print(d)
 
-
-
-
-                else:
-                    print('No existe la pestaña ')
-
-                    sh.add_worksheet(TabFormularioActual)  # Please set the new sheet name.
-                    print('1')
-                    listcabecera = df['Vars'].tolist()
-                    lenlistcabecera = len(listcabecera)
-                    listcabecera.append('Fecha')
-                    print('2')
-                    worksheet1 = sh.worksheet('title', TabFormularioActual)
-                    print('3')
-                    worksheet1.append_table(values=listcabecera)
-                    print('4')
-
-                    worksheet1 = sh.worksheet('title', TabFormularioActual)  # choose worksheet to work with
-                    # print(df['resp'].tolist())
-                    tr = dt.datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-                    d = df['resp'].tolist()
-                    d.append(tr)
-                    print(d)
-
-                    if d[0] == '':
-                        print('Vacio')
-                        st.warning('Requiere llenado de id de Monitor')
-                    else:
-                        print('lleno')
-                        worksheet1.append_table(values=d)
-                        sheetData = worksheet1.get_all_records
-                        st.success('Hecho!')
-                        st.balloons()
+                        if d[0] == '':
+                            print('Vacio')
+                            st.warning('Requiere llenado de id de Monitor')
+                        else:
+                            print('lleno')
+                            worksheet1.append_table(values=d)
+                            sheetData = worksheet1.get_all_records
+                            st.success('Hecho!')
+                            st.balloons()
 
 
-            except Exception as e:
+                except Exception as e:
 
-                print(e)
+                    print(e)
 
-                st.error('Error!... volver a intentar')
+                    st.error('Error!... volver a intentar')
 

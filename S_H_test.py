@@ -587,6 +587,13 @@ df['Vars'] = dfRepositorioE['Vars']
 df['Vista'] = dfRepositorioE['Vista']
 
 df['resp'] = np.nan
+
+duplicateRowsDF = df[df.Vars.duplicated()]
+print('='*100)
+print('duplicateRowsDF= ', duplicateRowsDF)
+print('len ',len(duplicateRowsDF))
+print('='*100)
+
 #df = df.head(20)
 print(df.head(20))
 @st.cache
