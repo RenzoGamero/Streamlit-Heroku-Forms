@@ -950,8 +950,6 @@ for i in result:
                 result = [x for x in result if x.startswith('Formato')]
                 print('result Filtrado= ', result)
 
-
-                ####################################################################
                 if any(TabFormularioActual in word for word in result):
                     print('Si existe la pestaña i')
                     #####################################################################################
@@ -1108,6 +1106,10 @@ for i in result:
 
                     #####################################################################################
 
+
+
+
+
                 else:
                     print('No existe la pestaña ')
 
@@ -1139,47 +1141,10 @@ for i in result:
                         st.success('Hecho!')
                         st.balloons()
 
-                ###################################################################
 
-                """
-                if any(TabFormularioActual in word for word in result):
-                    print('Si existe la pestaña ')
-                else:
-                    print('No existe la pestaña ')
+            except Exception as e:
 
-                    sh.add_worksheet(TabFormularioActual)  # Please set the new sheet name.
-                    print('1')
-                    listcabecera = df['Vars'].tolist()
-                    lenlistcabecera = len(listcabecera)
-                    listcabecera.append('var' + str(lenlistcabecera))
-                    print('2')
-                    worksheet1 = sh.worksheet('title', TabFormularioActual)
-                    print('3')
-                    worksheet1.append_table(values=listcabecera)
-                    print('4')
-
-                # sh = gc.open('Repositorio-Streamlit-Heroku')  # Open GoogleSheet
-                # sh = gc.open_by_key('1Qyw9PDK6aIBF2PozPA_uQmfJI6FtQZrrAOpf5ujxdlg')
-                worksheet1 = sh.worksheet('title', TabFormularioActual)  # choose worksheet to work with
-                print('-----------------------------------------f2')
-
-                print(df['resp'].tolist())
-                tr = dt.datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-                d = df['resp'].tolist()
-                d.append(tr)
-                print(d)
-
-                if d[0] == '':
-                    print('Vacio')
-                    st.warning('Requiere llenado de id de Monitor')
-                else:
-                    print('lleno')
-                    worksheet1.append_table(values=d)
-                    sheetData = worksheet1.get_all_records
-                    st.success('Hecho!')
-                    st.balloons()
-                """
-
-            except:
+                print(e)
 
                 st.error('Error!... volver a intentar')
+
