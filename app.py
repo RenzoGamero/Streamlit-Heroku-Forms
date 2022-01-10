@@ -920,10 +920,10 @@ for i in result:
         # df = df.head(20)
         # print(df.head(20))
         # df[(df['flag'] == 0)]
-        if(len(duplicateRowsDF)==0):
+        if(len(duplicateRowsDF)>0):
             st.write('Variables Duplicadas')
         else:
-            
+
             x = 0
             for j in ((df['sc'].unique())):
                 with st.expander(j):
