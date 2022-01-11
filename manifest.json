@@ -1,9 +1,22 @@
 {
-  "name": "Mejor Gasto Forms",
-  "short_name": "MGF",
-  "theme_color": "#2196f3",
-  "background_color": "#2196f3",
-  "display": "browser",
+  "background_color": "#ffffff",
+  "description": "",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "streamlittest001.herokuapp",
+  "orientation": "any",
   "scope": "/",
-  "start_url": "/https://streamlittest001.herokuapp.com/"
+  "short_name": "streamlittest001.herokuapp",
+  "start_url": "/",
+  "theme_color": "#ffffff",
+  "categories": [],
+  "screenshots": [],
+  "icons": [
+    {
+      "src": "https://streamlittest001.herokuapp.com/favicon.png",
+      "type": "image/png",
+      "sizes": "32x32"
+    }
+  ],
+  "shortcuts": []
 }
