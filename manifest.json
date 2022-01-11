@@ -1,0 +1,9 @@
+{
+  "name": "Mejor Gasto Forms",
+  "short_name": "MGF",
+  "theme_color": "#2196f3",
+  "background_color": "#2196f3",
+  "display": "browser",
+  "scope": "/",
+  "start_url": "/https://streamlittest001.herokuapp.com/"
+}
