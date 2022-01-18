@@ -614,7 +614,7 @@ def expanderrrbackup(x, q, op, tipo, qe):
                 number = st.number_input(q, max_value=100)
                 st.write('Seleccionaste: ', number, ' %')
                 df['resp'][x] = number
-def expanderrr(x, q, op, tipo, qe, nivel,vista):
+def expanderrr(x, q, op, tipo, qe, nivel,vista, DependenciaSiNo):
     #print('=============================================================')
     #print('X= ', x)
     #print('q= ', q)
@@ -625,7 +625,7 @@ def expanderrr(x, q, op, tipo, qe, nivel,vista):
             st.write('Seleccionaste:', option)
             df['resp'][x] = option
         else:
-            if df[(df['q_'] == qe)]['resp'].values[0] == 'Si':
+            if df[(df['q_'] == qe)]['resp'].values[0] == str(DependenciaSiNo):
                 option = st.selectbox(q, op)
                 st.write('Seleccionaste:', option)
                 df['resp'][x] = option
@@ -635,7 +635,7 @@ def expanderrr(x, q, op, tipo, qe, nivel,vista):
             st.write('Seleccionaste:', options)
             df['resp'][x] = str(options)
         else:
-            if df[(df['q_'] == qe)]['resp'].values[0] == 'Si':
+            if df[(df['q_'] == qe)]['resp'].values[0] == str(DependenciaSiNo):
                 options = st.multiselect(q, op)
                 st.write('Seleccionaste:', options)
                 df['resp'][x] = str(options)
@@ -645,7 +645,7 @@ def expanderrr(x, q, op, tipo, qe, nivel,vista):
             st.write('Seleccionaste:', titles)
             df['resp'][x] = titles
         else:
-            if df[(df['q_'] == qe)]['resp'].values[0] == 'Si':
+            if df[(df['q_'] == qe)]['resp'].values[0] == str(DependenciaSiNo):
                 titles = st.text_input(q, key='text_input2'+ str(page))
                 st.write('Seleccionaste:', titles)
                 df['resp'][x] = titles
@@ -656,7 +656,7 @@ def expanderrr(x, q, op, tipo, qe, nivel,vista):
             df['resp'][x] = genre
         else:
             #print('--->', df[(df['q'] == qe)]['resp'].values[0])
-            if df[(df['q_'] == qe)]['resp'].values[0] == 'Si':
+            if df[(df['q_'] == qe)]['resp'].values[0] == str(DependenciaSiNo):
                 genre = st.radio(q, (op))
                 st.write('Seleccionaste:', genre)
                 df['resp'][x] = genre
@@ -674,7 +674,7 @@ def expanderrr(x, q, op, tipo, qe, nivel,vista):
 
         else:
             # print('--->', df[(df['q'] == qe)]['resp'].values[0])
-            if df[(df['q_'] == qe)]['resp'].values[0] == 'Si':
+            if df[(df['q_'] == qe)]['resp'].values[0] == str(DependenciaSiNo):
                 Fecha = st.date_input(q,
                                       min_value=dt.datetime.today() + dt.timedelta(days=-30),
                                       max_value=dt.datetime.today() + dt.timedelta(days=14))
@@ -690,7 +690,7 @@ def expanderrr(x, q, op, tipo, qe, nivel,vista):
             df['resp'][x] = number
         else:
 
-            if df[(df['q_'] == qe)]['resp'].values[0] == 'Si':
+            if df[(df['q_'] == qe)]['resp'].values[0] == str(DependenciaSiNo):
                 number = st.number_input(q, step=1)
                 st.write('Seleccionaste: ', number)
                 df['resp'][x] = number
@@ -701,7 +701,7 @@ def expanderrr(x, q, op, tipo, qe, nivel,vista):
             df['resp'][x] = number
         else:
             # print('--->', df[ (df['q'] == qe)]['resp'].values[0])
-            if df[(df['q_'] == qe)]['resp'].values[0] == 'Si':
+            if df[(df['q_'] == qe)]['resp'].values[0] == str(DependenciaSiNo):
                 number = st.number_input(q, max_value=100)
                 st.write('Seleccionaste: ', number, ' %')
                 df['resp'][x] = number
@@ -717,7 +717,7 @@ def expanderrr(x, q, op, tipo, qe, nivel,vista):
             st.write('Seleccionaste:', a)
             df['resp'][x] = a
         else:
-            if df[(df['q_'] == qe)]['resp'].values[0] == 'Si':
+            if df[(df['q_'] == qe)]['resp'].values[0] == str(DependenciaSiNo):
                 #title1 = st.text_input(q , key='1')
                 st.write(q)
                 a = []
@@ -737,7 +737,7 @@ def expanderrr(x, q, op, tipo, qe, nivel,vista):
             st.write('Seleccionaste:', a)
             df['resp'][x] = str(a)
         else:
-            if df[(df['q_'] == qe)]['resp'].values[0] == 'Si':
+            if df[(df['q_'] == qe)]['resp'].values[0] == str(DependenciaSiNo):
                 # title1 = st.text_input(q , key='1')
                 st.write(q)
                 a = []
@@ -909,6 +909,8 @@ for i in result:
         df['qe']    =  dfRepositorioE['Dependencia']
         df['Vars']  = dfRepositorioE['Vars']
         df['Vista'] = dfRepositorioE['Vista']
+        df['DependenciaSiNo'] = dfRepositorioE['DependenciaSiNo']
+
         df['resp'] = np.nan
 
         duplicateRowsDF = df[df.Vars.duplicated()]
@@ -934,7 +936,7 @@ for i in result:
                         # print('---> ', df[(df['sc'] == j)]['q'])
                         # expanderrr(q[i], op[i])
                         expanderrr(x, dft['q'][i], dft['op'][i], dft['tipo'][i], dft['qe'][i], dft['nivel'][i],
-                                   dft['Vista'][i])
+                                   dft['Vista'][i], dft['DependenciaSiNo'][i]  )
                         x = x + 1
             # print(df.head(100))
             f = st.button('Terminar')

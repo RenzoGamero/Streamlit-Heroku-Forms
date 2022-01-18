@@ -586,6 +586,9 @@ df['qe'] = dfRepositorioE['Dependencia']
 df['Vars'] = dfRepositorioE['Vars']
 df['Vista'] = dfRepositorioE['Vista']
 
+df['DependenciaSiNo'] = dfRepositorioE['DependenciaSiNo']
+
+
 df['resp'] = np.nan
 
 duplicateRowsDF = df[df.Vars.duplicated()]
@@ -609,7 +612,7 @@ def CargaMetadata():
     return DFMetadata
 DFMetadata= CargaMetadata()
 
-def expanderrr(x, q, op, tipo, qe, nivel,vista):
+def expanderrr(x, q, op, tipo, qe, nivel,vista, DependenciaSiNo):
     print('=============================================================')
     print('X= ', x)
     print('q= ', q)
@@ -620,7 +623,7 @@ def expanderrr(x, q, op, tipo, qe, nivel,vista):
             st.write('Seleccionaste:', option)
             df['resp'][x] = option
         else:
-            if df[(df['q_'] == qe)]['resp'].values[0] == 'Si':
+            if df[(df['q_'] == qe)]['resp'].values[0] == str(DependenciaSiNo):
                 option = st.selectbox(q, op)
                 st.write('Seleccionaste:', option)
                 df['resp'][x] = option
@@ -843,7 +846,7 @@ for j in ((df['sc'].unique())):
             # print('i= ', i)
             # print('---> ', df[(df['sc'] == j)]['q'])
             # expanderrr(q[i], op[i])
-            expanderrr(x, dft['q'][i], dft['op'][i], dft['tipo'][i], dft['qe'][i], dft['nivel'][i], dft['Vista'][i])
+            expanderrr(x, dft['q'][i], dft['op'][i], dft['tipo'][i], dft['qe'][i], dft['nivel'][i], dft['Vista'][i], dft['DependenciaSiNo'][i]   )
             x = x + 1
 
 print(df.head(100))
