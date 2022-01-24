@@ -684,13 +684,13 @@ def expanderrr(x, q, op, tipo, qe, nivel,vista, DependenciaSiNo, Validar):
 
         if qe == '':
             #print('qe vacio ')
-            number = st.number_input(q, step=1)
+            number = st.number_input(q, step=1, min_value=0)
             st.write('Seleccionaste: ', number)
             df['resp'][x] = number
         else:
 
             if df[(df['q_'] == qe)]['resp'].values[0] == str(DependenciaSiNo):
-                number = st.number_input(q, step=1)
+                number = st.number_input(q, step=1 , min_value=0)
                 st.write('Seleccionaste: ', number)
                 df['resp'][x] = number
 
