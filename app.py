@@ -726,7 +726,7 @@ def expanderrr(x, q, op, tipo, qe, nivel,vista, DependenciaSiNo, Validar):
             if ops[StringOperator](df[(df['q_'] == int(x))]['resp'].values[0], df[(df['q_'] == int(PreguntaObj))]['resp'].values[0]):
                 print('ok')
             else:
-                st.error('Error de Validacion. La pregunta ' + str(x)+ ' debe ser '+str(StringOperator) + ' que '+str(PreguntaObj)   )
+                st.error('Error de Validacion. La pregunta ' + str(x)+ ' debe ser '+str(StringOperator) + ' que la pregunta '+str(PreguntaObj)   )
 
         #print(ops["+"](1, 1))  # prints 2
         #st.write('result3: ', ops["+"](1, 1))
@@ -1310,6 +1310,6 @@ for i in result:
 
                     st.error('Error!... volver a intentar')
 
-    if( i!=VentanaResultados):
+    if(i==page and i==VentanaResultados):
         st.write('Desde resultados ')
 
