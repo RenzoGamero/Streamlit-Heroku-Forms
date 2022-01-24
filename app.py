@@ -838,6 +838,97 @@ def expanderrr(x, q, op, tipo, qe, nivel,vista, DependenciaSiNo):
 
 
             df['resp'][x] = DFMetadata[(DFMetadata[tt['op'].values[0][0]] == tt['resp'].values[0])][tt['op'].values[0][0]].values[0]
+    if tipo == 'Comisarias_Metadata' :
+        DFMetadata = CargaMetadata('Ipress_Metadata')
+        if vista!='No':
+            print('Ipress_Metadata-================')
+            print('op= ', op )
+
+            #DFMetadata=CargaMetadata('Ipress_Metadata')
+            dflocal = DFMetadata
+            #print(dflocal.head())
+            t=st.session_state
+            print('st.session_state= ', t)
+            result = [x for x in t if x.startswith('Metadata_')]
+            #result= result.remove('Tipo')
+            print('result1= ', result)
+            #result = [x for x in result if x is not ['Metadata_Código Único',
+            #                                         'Metadata_Nombre del establecimiento']]
+            #l2=['Metadata_Código Único','Metadata_Nombre del establecimiento','Metadata_Departamento']
+            #resultr = [x for x in result if x not in l2]
+            #result.remove('Metadata_Código Único') if '' in s else None
+            #result.remove('Metadata_Nombre del establecimiento') if '' in s else None
+            #result.remove('Metadata_Departamento') if '' in s else None
+            #result=resultr
+            #print('result r= ', resultr)
+
+            #nivel=[1,2,3,4]
+
+            print('===========================filtros=======================================')
+
+            print('dflocal cols', df.columns)
+            print('actual   = ', op[0])
+            print(df['nivel'].unique())
+            dfq=df[(df['tipo'] == tipo)]
+            print(dfq['nivel'].unique())
+
+            print('Afectado = ', dfq[(dfq['nivel'].astype(int) < int(nivel))]['op'].tolist())
+            lk=dfq[(dfq['nivel'].astype(int) < int(nivel))]['op'].tolist()
+
+            for ir in lk:
+                print('---->', ir)
+                if op[0] != 'Departamento':
+                    dflocal = dflocal[(dflocal[ir[0]] == st.session_state['Metadata_'+ir[0]])]
+
+            print('===========================filtros=======================================')
+
+            print('result== ', result)
+            print(dflocal[['Código Único','Nombre del establecimiento',
+                          'Departamento','Provincia', 'Distrito']])
+            print('===========================uniques=======================================')
+            print('dflocal Departamento ', dflocal['Departamento'].unique())
+            print('dflocal Provincia    ', dflocal['Provincia'].unique())
+            print('dflocal Distrito     ', dflocal['Distrito'].unique())
+
+            print('===========================uniques=======================================')
+
+
+            if qe == '':
+                optionMetadata = st.selectbox(q, dflocal[op[0]].unique().tolist(), key=('Metadata_'+op[0]))
+                st.write('Seleccionaste:', optionMetadata)
+                df['resp'][x] = str(optionMetadata)
+                print('optionMetadata= ', optionMetadata)
+
+                #print('optionMetadata=', st.session_state[op])
+            else:
+                if df[(df['q_'] == qe)]['resp'].values[0] == 'Si':
+                    optionMetadata = st.selectbox(q, dflocal[op[0]].unique().tolist(), key=('Metadata_'+op[0]))
+                    st.write('Seleccionaste:', optionMetadata)
+                    df['resp'][x] = str(optionMetadata)
+                    print('optionMetadata= ', optionMetadata)
+        else:
+            print('colum', df.columns )
+            dff = df
+            print('-------------------------------------')
+            dff1 = df[(df['tipo'] == tipo) &(df['Vista'] == 'No')]
+            print('Max1= ', dff1['nivel'].max())
+            print(dff1)
+            print(dff1['op'].values[0][0])
+            print('-------------------------------------')
+            dff2 = df[(df['tipo'] == tipo) &(df['Vista'] != 'No')]
+            print('Max2= ', dff2['nivel'].max())
+            print(dff2)
+            print(dff2[(dff2['nivel'] == dff1['nivel'].max())])
+            tt=dff2[(dff2['nivel'] == dff1['nivel'].max())]
+            print(tt)
+            print('--1', tt['op'].values[0][0])
+            print('--2', tt['resp'].values[0])
+            print(DFMetadata[(DFMetadata[tt['op'].values[0][0]] == tt['resp'].values[0])][tt['op'].values[0][0]].values[0])
+            print('-------------------------------------3')
+
+
+
+            df['resp'][x] = DFMetadata[(DFMetadata[tt['op'].values[0][0]] == tt['resp'].values[0])][tt['op'].values[0][0]].values[0]
 
 
 gc = pygsheets.authorize(service_file='client_secrets.json')
@@ -853,6 +944,16 @@ def CargaMetadata(n):
     if (n=='Ipress_Metadata'):
         gc = pygsheets.authorize(service_file='client_secrets.json')
         sh = gc.open_by_key('1oWQxiiaXNmvLQ2JjsG9UMBDyD7yGkXJvsHYcvK4z_fY')
+        worksheet1 = sh.worksheet('title','BD')
+
+        sheetData = worksheet1.get_all_records()
+        print('Desde Metadata!!!')
+        DFMetadata=pd.DataFrame(sheetData)
+        print(DFMetadata.head())
+        return DFMetadata
+    if (n=='Comisarias_Metadata'):
+        gc = pygsheets.authorize(service_file='client_secrets.json')
+        sh = gc.open_by_key('14-XbzALB3xZY06htbEOaoZnvC-rLWDs_AuqGoH79Y70')
         worksheet1 = sh.worksheet('title','BD')
 
         sheetData = worksheet1.get_all_records()
