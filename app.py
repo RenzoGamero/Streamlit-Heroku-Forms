@@ -16,7 +16,7 @@ from googleapiclient.http import MediaIoBaseDownload, MediaFileUpload
 import time
 import pygsheets
 import string
-
+import operator
 class DriveAPI:
     global SCOPES
     SCOPES = ['https://www.googleapis.com/auth/drive']
@@ -683,13 +683,27 @@ def expanderrr(x, q, op, tipo, qe, nivel,vista, DependenciaSiNo, Validar):
     if tipo == 'number_input':
         temp_string= Validar
         s = Validar
-        numbers = [int(temp) for temp in temp_string.split() if temp.isdigit()]
+
         result = ''.join([i for i in s if not i.isdigit()])
         result2 = ''.join([i for i in s if  i.isdigit()])
         st.write('temp_string: ', temp_string)
-        st.write('numbers: ', numbers)
+
         st.write('result: ', result)
         st.write('result2: ', result2)
+
+        import operator
+        ops = {"+": operator.add,
+               "-": operator.sub,
+               "<": operator.lt,
+               "<=": operator.le,
+               "==": operator.eq,
+               "!=": operator.ne,
+               ">": operator.gt,
+               ">=": operator.ge
+               }  # etc.
+
+        print(ops["+"](1, 1))  # prints 2
+        st.write('result3: ', ops["+"](1, 1))
 
         #print('tipo  number_input')
         #print(df)
