@@ -681,33 +681,34 @@ def expanderrr(x, q, op, tipo, qe, nivel,vista, DependenciaSiNo, Validar):
                 st.write('Fecha:', Fecha)
                 df['resp'][x] = str(Fecha.strftime('%Y-%m-%d'))
     if tipo == 'number_input':
-        temp_string= Validar
-        s = Validar
+        if Validar!='':
+            temp_string= Validar
+            s = Validar
 
-        StringOperator = ''.join([i for i in s if not i.isdigit()])
-        PreguntaObj = ''.join([i for i in s if  i.isdigit()])
-        st.write('temp_string: ', temp_string)
+            StringOperator = ''.join([i for i in s if not i.isdigit()])
+            PreguntaObj = ''.join([i for i in s if  i.isdigit()])
+            st.write('temp_string: ', temp_string)
 
-        st.write('StringOperator: ', StringOperator)
-        st.write('PreguntaObj: ', PreguntaObj)
+            st.write('StringOperator: ', StringOperator)
+            st.write('PreguntaObj: ', PreguntaObj)
 
-        import operator
-        ops = {"+": operator.add,
-               "-": operator.sub,
-               "<": operator.lt,
-               "<=": operator.le,
-               "==": operator.eq,
-               "!=": operator.ne,
-               ">": operator.gt,
-               ">=": operator.ge
-               }  # etc.
+            import operator
+            ops = {"+": operator.add,
+                   "-": operator.sub,
+                   "<": operator.lt,
+                   "<=": operator.le,
+                   "==": operator.eq,
+                   "!=": operator.ne,
+                   ">": operator.gt,
+                   ">=": operator.ge
+                   }  # etc.
 
 
-        st.write('PreguntaObj PreguntaObj   : ', df[(df['q_'] == PreguntaObj)]['resp'].values[0])
-        st.write('PreguntaObj qe            : ', df[(df['q_'] == qe)]['resp'].values[0])
+            st.write('PreguntaObj PreguntaObj   : ', df[(df['q_'] == PreguntaObj)]['resp'].values[0])
+            st.write('PreguntaObj qe            : ', df[(df['q_'] == qe)]['resp'].values[0])
 
-        
-        st.write('result3: ', ops[StringOperator](df[(df['q_'] == PreguntaObj)]['resp'].values[0], df[(df['q_'] == qe)]['resp'].values[0]))
+
+            st.write('result3: ', ops[StringOperator](df[(df['q_'] == PreguntaObj)]['resp'].values[0], df[(df['q_'] == qe)]['resp'].values[0]))
 
         #print(ops["+"](1, 1))  # prints 2
         #st.write('result3: ', ops["+"](1, 1))
