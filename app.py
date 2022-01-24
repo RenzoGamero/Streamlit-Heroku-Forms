@@ -704,11 +704,11 @@ def expanderrr(x, q, op, tipo, qe, nivel,vista, DependenciaSiNo, Validar):
                    }  # etc.
 
 
-            st.write('PreguntaObj PreguntaObj   : ', df[(df['q_'] == PreguntaObj)]['resp'].values[0])
+            st.write('PreguntaObj PreguntaObj   : ', df[(df['q_'] == int(PreguntaObj))]['resp'].values[0])
             st.write('PreguntaObj qe            : ', df[(df['q_'] == qe)]['resp'].values[0])
 
 
-            st.write('result3: ', ops[StringOperator](df[(df['q_'] == PreguntaObj)]['resp'].values[0], df[(df['q_'] == qe)]['resp'].values[0]))
+            st.write('result3: ', ops[StringOperator](df[(df['q_'] == int(PreguntaObj)]['resp'].values[0], df[(df['q_'] == qe)]['resp'].values[0]))
 
         #print(ops["+"](1, 1))  # prints 2
         #st.write('result3: ', ops["+"](1, 1))
