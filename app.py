@@ -1014,7 +1014,12 @@ page = st.sidebar.selectbox("Formularios: ", result)
 #x=1
 print('page= ', page)
 
-st.title(page[8:])
+if page==VentanaResultados:
+    title_=VentanaResultados
+    st.title(title_)
+else:
+    title_ = page[8:]
+    st.title(title_)
 for i in result:
     #st.write('---n= ', page)
     #x=x+1
