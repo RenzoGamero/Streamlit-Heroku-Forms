@@ -701,9 +701,9 @@ def expanderrr(x, q, op, tipo, qe, nivel,vista, DependenciaSiNo, Validar):
             StringOperator = ''.join([i for i in s if not i.isdigit()])
             PreguntaObj = ''.join([i for i in s if  i.isdigit()])
 
-            st.write('temp_string: ', temp_string)
-            st.write('StringOperator: ', StringOperator)
-            st.write('PreguntaObj: ', PreguntaObj)
+            #st.write('temp_string: ', temp_string)
+            #st.write('StringOperator: ', StringOperator)
+            #st.write('PreguntaObj: ', PreguntaObj)
 
             import operator
             ops = {"+": operator.add,
@@ -717,16 +717,16 @@ def expanderrr(x, q, op, tipo, qe, nivel,vista, DependenciaSiNo, Validar):
                    }  # etc.
 
 
-            st.write('PreguntaObj PreguntaObj   : ', df[(df['q_'] == int(PreguntaObj))]['resp'].values[0])
-            st.write(' x=',x,' q=', q,' op=', op,' qe=', qe)
+            #st.write('PreguntaObj PreguntaObj   : ', df[(df['q_'] == int(PreguntaObj))]['resp'].values[0])
+            #st.write(' x=',x,' q=', q,' op=', op,' qe=', qe)
 
-            st.write('PreguntaObj x            : ', df[(df['q_'] == int(x))]['resp'].values[0])
-            st.write('Operador r3: ',StringOperator ,' ---- ',  ops[StringOperator](df[(df['q_'] == int(PreguntaObj))]['resp'].values[0], df[(df['q_'] == int(x))]['resp'].values[0]))
+            #st.write('PreguntaObj x            : ', df[(df['q_'] == int(x))]['resp'].values[0])
+            #st.write('Operador r3: ',StringOperator ,' ---- ',  ops[StringOperator](df[(df['q_'] == int(PreguntaObj))]['resp'].values[0], df[(df['q_'] == int(x))]['resp'].values[0]))
 
-            if ops[StringOperator](df[(df['q_'] == int(PreguntaObj))]['resp'].values[0], df[(df['q_'] == int(x))]['resp'].values[0]):
+            if ops[StringOperator](df[(df['q_'] == int(x))]['resp'].values[0], df[(df['q_'] == int(PreguntaObj))]['resp'].values[0]):
                 print('ok')
             else:
-                st.error('Error de Validacion. La pregunta ' + str(PreguntaObj)+ ' debe ser '+str(StringOperator) + ' que '+str(x)   )
+                st.error('Error de Validacion. La pregunta ' + str(x)+ ' debe ser '+str(StringOperator) + ' que '+str(PreguntaObj)   )
 
         #print(ops["+"](1, 1))  # prints 2
         #st.write('result3: ', ops["+"](1, 1))
