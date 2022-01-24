@@ -702,6 +702,7 @@ def expanderrr(x, q, op, tipo, qe, nivel,vista, DependenciaSiNo, Validar):
                ">=": operator.ge
                }  # etc.
 
+
         st.write('PreguntaObj PreguntaObj   : ', df[(df['q_'] == PreguntaObj)]['resp'].values[0])
         st.write('PreguntaObj qe            : ', df[(df['q_'] == qe)]['resp'].values[0])
 
