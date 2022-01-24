@@ -614,7 +614,7 @@ def expanderrrbackup(x, q, op, tipo, qe):
                 number = st.number_input(q, max_value=100)
                 st.write('Seleccionaste: ', number, ' %')
                 df['resp'][x] = number
-def expanderrr(x, q, op, tipo, qe, nivel,vista, DependenciaSiNo):
+def expanderrr(x, q, op, tipo, qe, nivel,vista, DependenciaSiNo, Validar):
     #print('=============================================================')
     #print('X= ', x)
     #print('q= ', q)
@@ -681,6 +681,15 @@ def expanderrr(x, q, op, tipo, qe, nivel,vista, DependenciaSiNo):
                 st.write('Fecha:', Fecha)
                 df['resp'][x] = str(Fecha.strftime('%Y-%m-%d'))
     if tipo == 'number_input':
+        temp_string= Validar
+        s = Validar
+        numbers = [int(temp) for temp in temp_string.split() if temp.isdigit()]
+        result = ''.join([i for i in s if not i.isdigit()])
+
+        st.write('temp_string: ', temp_string)
+        st.write('numbers: ', numbers)
+        st.write('result: ', result)
+
         #print('tipo  number_input')
         #print(df)
         if qe == '':
@@ -1017,6 +1026,7 @@ for i in result:
         df['Vars']  = dfRepositorioE['Vars']
         df['Vista'] = dfRepositorioE['Vista']
         df['DependenciaSiNo'] = dfRepositorioE['DependenciaSiNo']
+        df['Validar'] = dfRepositorioE['Validar']
 
         df['resp'] = np.nan
 
@@ -1043,7 +1053,7 @@ for i in result:
                         # print('---> ', df[(df['sc'] == j)]['q'])
                         # expanderrr(q[i], op[i])
                         expanderrr(x, dft['q'][i], dft['op'][i], dft['tipo'][i], dft['qe'][i], dft['nivel'][i],
-                                   dft['Vista'][i], dft['DependenciaSiNo'][i]  )
+                                   dft['Vista'][i], dft['DependenciaSiNo'][i], dft['Validar'][i]  )
                         x = x + 1
             # print(df.head(100))
             f = st.button('Terminar')
