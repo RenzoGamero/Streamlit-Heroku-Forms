@@ -977,6 +977,8 @@ print('result= ', result)
 result = [x for x in result if x.startswith('Formato')]
 print('result Filtrado= ', result)
 
+VentanaResultados='Resultados'
+result.append(VentanaResultados)
 
 @st.cache
 def CargaMetadata(n):
@@ -1016,7 +1018,7 @@ for i in result:
     #st.write('---n= ', page)
     #x=x+1
     print('i= ', i)
-    if(i==page):
+    if(i==page and i!=VentanaResultados):
         #option = st.selectbox('P1', ['1', '2', '3'])
         print('-----------------------------------------------------------------')
         obj = DriveAPI()
@@ -1307,4 +1309,7 @@ for i in result:
                     print(e)
 
                     st.error('Error!... volver a intentar')
+
+    if( i!=VentanaResultados):
+        st.write('Desde resultados ')
 
