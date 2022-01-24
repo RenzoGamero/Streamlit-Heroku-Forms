@@ -751,7 +751,8 @@ def expanderrr(x, q, op, tipo, qe, nivel,vista, DependenciaSiNo):
         if vista!='No':
             print('Ipress_Metadata-================')
             print('op= ',op )
-            dflocal=DFMetadata
+            #dflocal=DFMetadata
+            dflocal=CargaMetadata('Ipress_Metadata')
             #print(dflocal.head())
             t=st.session_state
             print('st.session_state= ', t)
@@ -846,21 +847,24 @@ print('result Filtrado= ', result)
 
 
 @st.cache
-def CargaMetadata():
-    gc = pygsheets.authorize(service_file='client_secrets.json')
-    sh = gc.open_by_key('1oWQxiiaXNmvLQ2JjsG9UMBDyD7yGkXJvsHYcvK4z_fY')
-    worksheet1 = sh.worksheet('title','BD')
+def CargaMetadata(n):
+    if (n=='Ipress_Metadata'):
+        gc = pygsheets.authorize(service_file='client_secrets.json')
+        sh = gc.open_by_key('1oWQxiiaXNmvLQ2JjsG9UMBDyD7yGkXJvsHYcvK4z_fY')
+        worksheet1 = sh.worksheet('title','BD')
 
-    sheetData = worksheet1.get_all_records()
-    print('Desde Metadata!!!')
-    DFMetadata=pd.DataFrame(sheetData)
-    print(DFMetadata.head())
-    return DFMetadata
-DFMetadata= CargaMetadata()
+        sheetData = worksheet1.get_all_records()
+        print('Desde Metadata!!!')
+        DFMetadata=pd.DataFrame(sheetData)
+        print(DFMetadata.head())
+        return DFMetadata
+#DFMetadata= CargaMetadata()
 
 
 
 page = st.sidebar.selectbox("Formularios: ", result)
+
+
 
 #page = st.selectbox("Choose your page", result)
 #x=1
@@ -946,6 +950,8 @@ for i in result:
                     time.sleep(5)
                 print('-----------------------------------------i')
                 df[['resp']] = df[['resp']].fillna('')
+
+
                 try:
                     # st.write('Why hello there')
                     gc = pygsheets.authorize(service_file='client_secrets.json')

@@ -551,6 +551,11 @@ add_selectbox01 = st.sidebar.selectbox(
     ("op 1", "op 2")
 )
 
+
+with open('S_H_test.py', 'rb') as f:
+   st.sidebar.download_button('Download Zip', f, file_name='S_H_test.py')  # Defaults to 'application/octet-stream'
+
+
 sc = ['Seccion 1', 'Seccion 2', 'Seccion 2',
       'Seccion 3', 'Seccion 3', 'Seccion 3']
 q = ['P1', 'P2', 'P3', 'P4', 'P5', 'P6']
