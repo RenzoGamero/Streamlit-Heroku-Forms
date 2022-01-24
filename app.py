@@ -839,9 +839,9 @@ def expanderrr(x, q, op, tipo, qe, nivel,vista, DependenciaSiNo):
 
             df['resp'][x] = DFMetadata[(DFMetadata[tt['op'].values[0][0]] == tt['resp'].values[0])][tt['op'].values[0][0]].values[0]
     if tipo == 'Comisarias_Metadata' :
-        DFMetadata = CargaMetadata('Ipress_Metadata')
+        DFMetadata = CargaMetadata('Comisarias_Metadata')
         if vista!='No':
-            print('Ipress_Metadata-================')
+            print('Comisarias_Metadata-================')
             print('op= ', op )
 
             #DFMetadata=CargaMetadata('Ipress_Metadata')
