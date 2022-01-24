@@ -685,10 +685,11 @@ def expanderrr(x, q, op, tipo, qe, nivel,vista, DependenciaSiNo, Validar):
         s = Validar
         numbers = [int(temp) for temp in temp_string.split() if temp.isdigit()]
         result = ''.join([i for i in s if not i.isdigit()])
-
+        result2 = ''.join([i for i in s if  i.isdigit()])
         st.write('temp_string: ', temp_string)
         st.write('numbers: ', numbers)
         st.write('result: ', result)
+        st.write('result2: ', result2)
 
         #print('tipo  number_input')
         #print(df)
