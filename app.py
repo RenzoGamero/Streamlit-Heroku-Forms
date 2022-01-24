@@ -681,6 +681,19 @@ def expanderrr(x, q, op, tipo, qe, nivel,vista, DependenciaSiNo, Validar):
                 st.write('Fecha:', Fecha)
                 df['resp'][x] = str(Fecha.strftime('%Y-%m-%d'))
     if tipo == 'number_input':
+
+        if qe == '':
+            #print('qe vacio ')
+            number = st.number_input(q, step=1)
+            st.write('Seleccionaste: ', number)
+            df['resp'][x] = number
+        else:
+
+            if df[(df['q_'] == qe)]['resp'].values[0] == str(DependenciaSiNo):
+                number = st.number_input(q, step=1)
+                st.write('Seleccionaste: ', number)
+                df['resp'][x] = number
+
         if Validar!='':
             temp_string= Validar
             s = Validar
@@ -705,7 +718,7 @@ def expanderrr(x, q, op, tipo, qe, nivel,vista, DependenciaSiNo, Validar):
 
 
             st.write('PreguntaObj PreguntaObj   : ', df[(df['q_'] == int(PreguntaObj))]['resp'].values[0])
-            #st.write(' x=',x,' q=', q,' op=', op,' qe=', qe)
+            st.write(' x=',x,' q=', q,' op=', op,' qe=', qe)
 
             st.write('PreguntaObj x            : ', df[(df['q_'] == int(x))]['resp'].values[0])
             #st.write('result3: ', ops[StringOperator](df[(df['q_'] == int(PreguntaObj))]['resp'].values[0], df[(df['q_'] == qe)]['resp'].values[0]))
@@ -715,17 +728,6 @@ def expanderrr(x, q, op, tipo, qe, nivel,vista, DependenciaSiNo, Validar):
 
         #print('tipo  number_input')
         #print(df)
-        if qe == '':
-            #print('qe vacio ')
-            number = st.number_input(q, step=1)
-            st.write('Seleccionaste: ', number)
-            df['resp'][x] = number
-        else:
-
-            if df[(df['q_'] == qe)]['resp'].values[0] == str(DependenciaSiNo):
-                number = st.number_input(q, step=1)
-                st.write('Seleccionaste: ', number)
-                df['resp'][x] = number
     if tipo == 'number_input%':
         if qe == '':
             number = st.number_input(q, max_value=100)
