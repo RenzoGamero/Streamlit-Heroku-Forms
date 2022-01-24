@@ -860,7 +860,7 @@ def CargaMetadata(n):
         print(DFMetadata.head())
         return DFMetadata
 #DFMetadata= CargaMetadata()
-
+DFMetadata=pd.DataFrame([])
 
 
 page = st.sidebar.selectbox("Formularios: ", result)
