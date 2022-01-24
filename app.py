@@ -750,9 +750,10 @@ def expanderrr(x, q, op, tipo, qe, nivel,vista, DependenciaSiNo):
     if tipo == 'Ipress_Metadata' :
         if vista!='No':
             print('Ipress_Metadata-================')
-            print('op= ',op )
-            #dflocal=DFMetadata
-            dflocal=CargaMetadata('Ipress_Metadata')
+            print('op= ', op )
+
+            DFMetadata=CargaMetadata('Ipress_Metadata')
+            dflocal = DFMetadata
             #print(dflocal.head())
             t=st.session_state
             print('st.session_state= ', t)
