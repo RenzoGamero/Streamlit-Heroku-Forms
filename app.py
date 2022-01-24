@@ -1013,6 +1013,7 @@ page = st.sidebar.selectbox("Formularios: ", result)
 #page = st.selectbox("Choose your page", result)
 #x=1
 print('page= ', page)
+
 st.title(page[8:])
 for i in result:
     #st.write('---n= ', page)
@@ -1311,5 +1312,6 @@ for i in result:
                     st.error('Error!... volver a intentar')
 
     if(i==page and i==VentanaResultados):
+        st.title(VentanaResultados)
         st.write('Desde resultados ')
 
