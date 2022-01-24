@@ -726,7 +726,7 @@ def expanderrr(x, q, op, tipo, qe, nivel,vista, DependenciaSiNo, Validar):
             if ops[StringOperator](df[(df['q_'] == int(PreguntaObj))]['resp'].values[0], df[(df['q_'] == int(x))]['resp'].values[0]):
                 print('ok')
             else:
-                st.error('Error de Validacion. La pregunta ', PreguntaObj, ' debe ser ',StringOperator , ' que ',x   )
+                st.error('Error de Validacion. La pregunta ' + str(PreguntaObj)+ ' debe ser '+str(StringOperator) + ' que '+str(x)   )
 
         #print(ops["+"](1, 1))  # prints 2
         #st.write('result3: ', ops["+"](1, 1))
