@@ -684,12 +684,12 @@ def expanderrr(x, q, op, tipo, qe, nivel,vista, DependenciaSiNo, Validar):
         temp_string= Validar
         s = Validar
 
-        result = ''.join([i for i in s if not i.isdigit()])
-        result2 = ''.join([i for i in s if  i.isdigit()])
+        StringOperator = ''.join([i for i in s if not i.isdigit()])
+        PreguntaObj = ''.join([i for i in s if  i.isdigit()])
         st.write('temp_string: ', temp_string)
 
-        st.write('result: ', result)
-        st.write('result2: ', result2)
+        st.write('StringOperator: ', StringOperator)
+        st.write('PreguntaObj: ', PreguntaObj)
 
         import operator
         ops = {"+": operator.add,
@@ -701,6 +701,9 @@ def expanderrr(x, q, op, tipo, qe, nivel,vista, DependenciaSiNo, Validar):
                ">": operator.gt,
                ">=": operator.ge
                }  # etc.
+
+        st.write('PreguntaObj PreguntaObj   : ', df[(df['q_'] == PreguntaObj)]['resp'].values[0])
+        st.write('PreguntaObj qe            : ', df[(df['q_'] == qe)]['resp'].values[0])
 
         print(ops["+"](1, 1))  # prints 2
         st.write('result3: ', ops["+"](1, 1))
