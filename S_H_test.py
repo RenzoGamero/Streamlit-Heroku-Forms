@@ -863,6 +863,8 @@ if f:
         print('-----------------------------------------f1')
         print('Inicio del proceso de guardado ')
         print('verificar pestaña ')
+
+        df[['resp']]=df[['resp']].fillna('')
         #TabFormularioActual
 
         #gc = pygsheets.authorize(service_file='client_secrets.json')
@@ -870,14 +872,23 @@ if f:
         result = str(list(sh.worksheets())).split("'")[1::2]
         print('result= ', result)
         result = [x for x in result if x.startswith('Formato')]
-        print('result Filtrado= ', result)
+        print('result Filtrado=', result,'')
 
         if any(TabFormularioActual in word for word in result):
             print('Si existe la pestaña i')
             #####################################################################################
             print('*'*150)
             print('detalles carga anterior  i')
+            print('TabFormularioActual= ', TabFormularioActual)
+            #try:
+            #    worksheet1 = sh.worksheet('title', TabFormularioActual)
+            #    print('a')
+            #    sheetDataCheck = worksheet1.get_all_records()
+            #except Exception as e:
+            #    print('Error  ', e)
+
             worksheet1 = sh.worksheet('title', TabFormularioActual)
+            print('a')
             sheetDataCheck = worksheet1.get_all_records()
             print('Desde sheetDataCheck')
             DFCheck = pd.DataFrame(sheetDataCheck)

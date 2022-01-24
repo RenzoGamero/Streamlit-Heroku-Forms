@@ -945,7 +945,7 @@ for i in result:
                 with st.spinner('Esperando respuesta del servidor...'):
                     time.sleep(5)
                 print('-----------------------------------------i')
-
+                df[['resp']] = df[['resp']].fillna('')
                 try:
                     # st.write('Why hello there')
                     gc = pygsheets.authorize(service_file='client_secrets.json')
