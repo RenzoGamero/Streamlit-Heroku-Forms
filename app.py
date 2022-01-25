@@ -1334,7 +1334,7 @@ for i in result:
         worksheet1 = sh.worksheet('title', option)
         sheetDataCheck = worksheet1.get_all_records()
         sheetDataCheck = pd.DataFrame(sheetDataCheck)
-        
+
         st.write('Resultados Raw Data')
         DfRaw=sheetDataCheck.tail()
         st.dataframe(data=DfRaw, width=None, height=None)
@@ -1352,7 +1352,7 @@ for i in result:
         #tr = datetime.strptime(Fecha.strftime('%Y-%m-%d'), '%Y-%m-%d')
         tr = datetime.strptime(dt.datetime.today().strftime('%Y-%m-%d'), '%Y-%m-%d')
         with col1:
-            f_nameg='MejorGasto_RawData_'+str(tr)+'.xlsx'
+            f_nameg='MejorGasto_RawData_'+str(tr[:10])+'.xlsx'
             sheet_name='MejorGasto_'
             writer = pd.ExcelWriter(f_nameg, engine='xlsxwriter')
             DfRaw.to_excel(writer, sheet_name=sheet_name, index=False)
@@ -1362,7 +1362,7 @@ for i in result:
                 st.download_button('Download Raw Data', f,file_name=f_nameg)  # Defaults to 'application/octet-stream'
 
         with col2:
-            f_nameg = 'MejorGasto_Mod_'+str(tr)+'.xlsx'
+            f_nameg = 'MejorGasto_Mod_'+str(tr[:10])+'.xlsx'
             sheet_name = 'MejorGasto_'
             writer = pd.ExcelWriter(f_nameg, engine='xlsxwriter')
             DfMod.to_excel(writer, sheet_name=sheet_name, index=False)
@@ -1372,7 +1372,7 @@ for i in result:
                 st.download_button('Download Mod', f,file_name=f_nameg)  # Defaults to 'application/octet-stream'
 
         with col3:
-            f_nameg = 'MejorGasto_Indicadores_'+str(tr)+'.xlsx'
+            f_nameg = 'MejorGasto_Indicadores_'+str(tr[:10])+'.xlsx'
             sheet_name = 'Indicadores'
             writer = pd.ExcelWriter(f_nameg, engine='xlsxwriter')
             DfInd.to_excel(writer, sheet_name=sheet_name, index=False)
