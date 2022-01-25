@@ -1345,6 +1345,10 @@ for i in result:
 
         st.write('Resultados Indicadores')
         DfInd = sheetDataCheck.tail()
+        formula = "var5/var6"
+        ind='Indi1'
+        DfInd[ind]=DfInd.eval(formula)
+
         st.dataframe(data=DfInd, width=None, height=None)
 
         col1,col2,col3=st.columns(3)
