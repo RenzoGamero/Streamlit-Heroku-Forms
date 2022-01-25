@@ -1334,4 +1334,27 @@ for i in result:
         worksheet1 = sh.worksheet('title', option)
         sheetDataCheck = worksheet1.get_all_records()
 
+        st.write('Desde resultados  Raw Data')
         st.dataframe(data=sheetDataCheck, width=None, height=None)
+
+        st.write('Desde resultados  Mod ')
+        st.dataframe(data=sheetDataCheck, width=None, height=None)
+
+        st.write('Desde resultados  Indicadores')
+        st.dataframe(data=sheetDataCheck, width=None, height=None)
+
+        col1,col2,col3=st.columns(3)
+
+        with col1:
+            # st.button('1')
+            Añadir_Responsable = st.button("Añadir Responsable1")
+        with col2:
+            # st.button('1')
+            Añadir_Responsable = st.button("Añadir Responsable2")
+        with col3:
+            # st.button('1')
+            Añadir_Responsable = st.button("Añadir Responsable3")
+        #with open('S_H_test.py', 'rb') as f:
+        #    st.download_button('Download Zip', f,
+        #                               file_name='S_H_test.py')  # Defaults to 'application/octet-stream'
+
