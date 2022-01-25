@@ -6,3 +6,4 @@ protobuf==3.19.1
 pygsheets==2.0.5
 streamlit==1.2.0
 openpyxl
+xlsxwriter
