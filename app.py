@@ -1329,27 +1329,37 @@ for i in result:
         st.write('result=  ',result)
 
         option = st.selectbox('Pestaña a procesar: ', result)
+        worksheet1 = sh.worksheet('title', option)
+        sheetDataCheck = worksheet1.get_all_records()
+        sheetDataCheck = pd.DataFrame(sheetDataCheck)
+        # #################################################################
+        st.write('Resultados Raw Data')
+        DfRaw=sheetDataCheck.tail()
+        st.dataframe(data=DfRaw, width=None, height=None)
+        # #################################################################
+        st.write('Resultados Mod')
+        DfMod = sheetDataCheck.tail()
+        st.dataframe(data=DfMod, width=None, height=None)
+        # #################################################################
+        st.write('Resultados Indicadores')
+        DfInd = sheetDataCheck.tail()
 
-
+        gc = pygsheets.authorize(service_file='client_secrets.json')
+        sh = gc.open_by_key('18-AUWmWlBRzDPv0v3KSGqeeUiWLzJ6Bp-7yoYqv6o7U')
         worksheet1 = sh.worksheet('title', option)
         sheetDataCheck = worksheet1.get_all_records()
         sheetDataCheck = pd.DataFrame(sheetDataCheck)
 
-        st.write('Resultados Raw Data')
-        DfRaw=sheetDataCheck.tail()
-        st.dataframe(data=DfRaw, width=None, height=None)
 
-        st.write('Resultados Mod')
-        DfMod = sheetDataCheck.tail()
-        st.dataframe(data=DfMod, width=None, height=None)
+        dff1 = sheetDataCheck[(sheetDataCheck['Sector'] == sheetDataCheck) & (sheetDataCheck['Vista'] == 'No')]
 
-        st.write('Resultados Indicadores')
-        DfInd = sheetDataCheck.tail()
-        formula = "var5/var6"
-        ind='Indi1'
-        DfInd[ind]=DfInd.eval(formula)
+        #formula = "var5/var6"
+        #ind='Indi1'
+        #DfInd[ind]=DfInd.eval(formula)
+        DfInd[dff1['Nombre_Indicador'].values] = DfInd.eval(dff1['Formula'].values)
 
         st.dataframe(data=DfInd, width=None, height=None)
+        # #################################################################
 
         col1,col2,col3=st.columns(3)
 
