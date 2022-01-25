@@ -1351,8 +1351,9 @@ for i in result:
         sheetDataCheck = pd.DataFrame(sheetDataCheck)
 
         st.dataframe(data=sheetDataCheck, width=None, height=None)
+        st.write('VentanaResultados  = ',VentanaResultados)
 
-        dff1 = sheetDataCheck[(sheetDataCheck['Sector'] == VentanaResultados) ]
+        dff1 = sheetDataCheck[(sheetDataCheck['Sector'] == str(VentanaResultados)) ]
         st.dataframe(data=dff1, width=None, height=None)
 
         #formula = "var5/var6"
