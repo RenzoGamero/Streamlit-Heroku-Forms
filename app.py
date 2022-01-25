@@ -1354,7 +1354,7 @@ for i in result:
             f_nameg='MejorGasto_RawData_'+str(tr)+'.xlsx'
             sheet_name='MejorGasto_'
             writer = pd.ExcelWriter(f_nameg, engine='xlsxwriter')
-            df.to_excel(writer, sheet_name=sheet_name, index=False)
+            DfRaw.to_excel(writer, sheet_name=sheet_name, index=False)
             writer.save()
 
             with open(f_nameg, 'rb') as f:
@@ -1364,7 +1364,7 @@ for i in result:
             f_nameg = 'MejorGasto_Mod_'+str(tr)+'.xlsx'
             sheet_name = 'MejorGasto_'
             writer = pd.ExcelWriter(f_nameg, engine='xlsxwriter')
-            df.to_excel(writer, sheet_name=sheet_name, index=False)
+            DfMod.to_excel(writer, sheet_name=sheet_name, index=False)
             writer.save()
 
             with open(f_nameg, 'rb') as f:
@@ -1374,7 +1374,7 @@ for i in result:
             f_nameg = 'MejorGasto_Indicadores_'+str(tr)+'.xlsx'
             sheet_name = 'Indicadores'
             writer = pd.ExcelWriter(f_nameg, engine='xlsxwriter')
-            df.to_excel(writer, sheet_name=sheet_name, index=False)
+            DfInd.to_excel(writer, sheet_name=sheet_name, index=False)
             writer.save()
 
             with open(f_nameg, 'rb') as f:
