@@ -1350,7 +1350,7 @@ for i in result:
         sheetDataCheck = worksheet1.get_all_records()
         sheetDataCheck = pd.DataFrame(sheetDataCheck)
 
-        st.dataframe(data=sheetDataCheck, width=None, height=None)
+        #st.dataframe(data=sheetDataCheck, width=None, height=None)
         #st.write('option  = ',VentanaResultados)
 
         dff1 = sheetDataCheck[(sheetDataCheck['Sector'] == str(option)) ]
