@@ -1317,6 +1317,22 @@ for i in result:
                     st.error('Error!... volver a intentar')
 
     if(i==page and i==VentanaResultados):
-        st.title(VentanaResultados)
+        #st.title(VentanaResultados)
         st.write('Desde resultados ')
 
+        gc = pygsheets.authorize(service_file='client_secrets.json')
+        sh = gc.open_by_key('1Qyw9PDK6aIBF2PozPA_uQmfJI6FtQZrrAOpf5ujxdlg')
+        result = str(list(sh.worksheets())).split("'")[1::2]
+        print('result= ', result)
+        result = [x for x in result if x.startswith('Formato')]
+        print('result Filtrado= ', result)
+        st.write('result=  ',result)
+        """
+        if any(TabFormularioActual in word for word in result):
+            print('Si existe la pestaña i')
+            #####################################################################################
+            print('*' * 150)
+            print('detalles carga anterior  i')
+            worksheet1 = sh.worksheet('title', TabFormularioActual)
+            sheetDataCheck = worksheet1.get_all_records()
+        """
