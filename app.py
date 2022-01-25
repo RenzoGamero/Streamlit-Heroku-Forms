@@ -1334,34 +1334,51 @@ for i in result:
         worksheet1 = sh.worksheet('title', option)
         sheetDataCheck = worksheet1.get_all_records()
 
-        st.write('Desde resultados  Raw Data')
+        st.write('Resultados Raw Data')
+        DfRaw=sheetDataCheck.tail()
         st.dataframe(data=sheetDataCheck.tail(), width=None, height=None)
 
-        st.write('Desde resultados  Mod ')
-        st.dataframe(data=sheetDataCheck.tail(), width=None, height=None)
+        st.write('Resultados Mod')
+        DfMod = sheetDataCheck.tail()
+        st.dataframe(data=DfMod, width=None, height=None)
 
-        st.write('Desde resultados  Indicadores')
-        st.dataframe(data=sheetDataCheck.tail(), width=None, height=None)
+        st.write('Resultados Indicadores')
+        DfInd = sheetDataCheck.tail()
+        st.dataframe(data=DfInd, width=None, height=None)
 
         col1,col2,col3=st.columns(3)
 
+        #tr = datetime.strptime(Fecha.strftime('%Y-%m-%d'), '%Y-%m-%d')
+        tr = datetime.strptime(dt.datetime.today().strftime('%Y-%m-%d'), '%Y-%m-%d')
         with col1:
-            # st.button('1')
-            #Añadir_Responsable = st.button("Añadir Responsable1")
-            with open('S_H_test.py', 'rb') as f:
-                st.download_button('Download Zip', f,file_name='S_H_test.py')  # Defaults to 'application/octet-stream'
+            f_nameg='MejorGasto_RawData_'+str(tr)+'.xlsx'
+            sheet_name='MejorGasto_'
+            writer = pd.ExcelWriter(f_nameg, engine='xlsxwriter')
+            df.to_excel(writer, sheet_name=sheet_name, index=False)
+            writer.save()
+
+            with open(f_nameg, 'rb') as f:
+                st.download_button('Download Raw Data', f,file_name=f_nameg)  # Defaults to 'application/octet-stream'
 
         with col2:
-            # st.button('1')
-            #Añadir_Responsable = st.button("Añadir Responsable2")
-            with open('S_H_test.py', 'rb') as f:
-                st.download_button('Download Zip', f,file_name='S_H_test.py')  # Defaults to 'application/octet-stream'
+            f_nameg = 'MejorGasto_Mod_'+str(tr)+'.xlsx'
+            sheet_name = 'MejorGasto_'
+            writer = pd.ExcelWriter(f_nameg, engine='xlsxwriter')
+            df.to_excel(writer, sheet_name=sheet_name, index=False)
+            writer.save()
+
+            with open(f_nameg, 'rb') as f:
+                st.download_button('Download Mod', f,file_name=f_nameg)  # Defaults to 'application/octet-stream'
 
         with col3:
-            # st.button('1')
-            #Añadir_Responsable = st.button("Añadir Responsable3")
-            with open('S_H_test.py', 'rb') as f:
-                st.download_button('Download Zip', f,file_name='S_H_test.py')  # Defaults to 'application/octet-stream'
+            f_nameg = 'MejorGasto_Indicadores_'+str(tr)+'.xlsx'
+            sheet_name = 'Indicadores'
+            writer = pd.ExcelWriter(f_nameg, engine='xlsxwriter')
+            df.to_excel(writer, sheet_name=sheet_name, index=False)
+            writer.save()
+
+            with open(f_nameg, 'rb') as f:
+                st.download_button('Download Ind', f,file_name=f_nameg)  # Defaults to 'application/octet-stream'
 
         #with open('S_H_test.py', 'rb') as f:
         #    st.download_button('Download Zip', f,file_name='S_H_test.py')  # Defaults to 'application/octet-stream'
