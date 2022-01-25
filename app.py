@@ -1362,7 +1362,7 @@ for i in result:
         st.write('Nombre_Indicador  = ',dff1['Nombre_Indicador'].values)
         st.write('Formula           = ', dff1['Formula'].values)
 
-        DfInd[dff1['Nombre_Indicador'].values] = DfInd.eval(dff1['Formula'].values)
+        DfInd[dff1['Nombre_Indicador'].values[0]] = DfInd.eval(dff1['Formula'].values[0])
 
         st.dataframe(data=DfInd, width=None, height=None)
         # #################################################################
