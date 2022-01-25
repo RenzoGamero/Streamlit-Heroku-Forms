@@ -1356,6 +1356,9 @@ for i in result:
         #formula = "var5/var6"
         #ind='Indi1'
         #DfInd[ind]=DfInd.eval(formula)
+        st.write('Nombre_Indicador  = ',dff1['Nombre_Indicador'].values)
+        st.write('Formula           = ', dff1['Formula'].values)
+
         DfInd[dff1['Nombre_Indicador'].values] = DfInd.eval(dff1['Formula'].values)
 
         st.dataframe(data=DfInd, width=None, height=None)
