@@ -1346,12 +1346,12 @@ for i in result:
 
         gc = pygsheets.authorize(service_file='client_secrets.json')
         sh = gc.open_by_key('18-AUWmWlBRzDPv0v3KSGqeeUiWLzJ6Bp-7yoYqv6o7U')
-        worksheet1 = sh.worksheet('title', option)
+        worksheet1 = sh.worksheet('title', 'Indicadores')
         sheetDataCheck = worksheet1.get_all_records()
         sheetDataCheck = pd.DataFrame(sheetDataCheck)
 
 
-        dff1 = sheetDataCheck[(sheetDataCheck['Sector'] == sheetDataCheck) & (sheetDataCheck['Vista'] == 'No')]
+        dff1 = sheetDataCheck[(sheetDataCheck['Sector'] == VentanaResultados) ]
 
         #formula = "var5/var6"
         #ind='Indi1'
