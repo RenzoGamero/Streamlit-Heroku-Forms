@@ -1333,7 +1333,8 @@ for i in result:
 
         worksheet1 = sh.worksheet('title', option)
         sheetDataCheck = worksheet1.get_all_records()
-
+        sheetDataCheck = pd.DataFrame(sheetDataCheck)
+        
         st.write('Resultados Raw Data')
         DfRaw=sheetDataCheck.tail()
         st.dataframe(data=DfRaw, width=None, height=None)
