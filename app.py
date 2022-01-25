@@ -1341,6 +1341,7 @@ for i in result:
         DfMod = sheetDataCheck.tail()
         st.dataframe(data=DfMod, width=None, height=None)
         # #################################################################
+
         st.write('Resultados Indicadores')
         DfInd = sheetDataCheck.tail()
 
@@ -1362,9 +1363,10 @@ for i in result:
 
         #st.write('Nombre_Indicador  = ',dff1['Nombre_Indicador'].values)
         #st.write('Formula           = ', dff1['Formula'].values)
-
-        DfInd[dff1['Nombre_Indicador'].values[0]] = DfInd.eval(dff1['Formula'].values[0])
-
+        try:
+            DfInd[dff1['Nombre_Indicador'].values[0]] = DfInd.eval(dff1['Formula'].values[0])
+        except:
+            print('Error')
         cols = DfInd.columns.tolist()
         cols = [cols[-1]] + cols[:-1]  # or whatever change you need
         DfInd=DfInd.reindex(columns=cols)
