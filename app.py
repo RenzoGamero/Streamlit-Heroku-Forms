@@ -1335,15 +1335,15 @@ for i in result:
         sheetDataCheck = worksheet1.get_all_records()
 
         st.write('Resultados Raw Data')
-        DfRaw=sheetDataCheck.tail()
+        DfRaw=sheetDataCheck.tail(3)
         st.dataframe(data=DfRaw, width=None, height=None)
 
         st.write('Resultados Mod')
-        DfMod = sheetDataCheck.tail()
+        DfMod = sheetDataCheck.tail(3)
         st.dataframe(data=DfMod, width=None, height=None)
 
         st.write('Resultados Indicadores')
-        DfInd = sheetDataCheck.tail()
+        DfInd = sheetDataCheck.tail(3)
         st.dataframe(data=DfInd, width=None, height=None)
 
         col1,col2,col3=st.columns(3)
