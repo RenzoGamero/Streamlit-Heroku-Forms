@@ -1351,18 +1351,23 @@ for i in result:
         sheetDataCheck = pd.DataFrame(sheetDataCheck)
 
         st.dataframe(data=sheetDataCheck, width=None, height=None)
-        st.write('option  = ',VentanaResultados)
+        #st.write('option  = ',VentanaResultados)
 
         dff1 = sheetDataCheck[(sheetDataCheck['Sector'] == str(option)) ]
-        st.dataframe(data=dff1, width=None, height=None)
+        #st.dataframe(data=dff1, width=None, height=None)
 
         #formula = "var5/var6"
         #ind='Indi1'
         #DfInd[ind]=DfInd.eval(formula)
-        st.write('Nombre_Indicador  = ',dff1['Nombre_Indicador'].values)
-        st.write('Formula           = ', dff1['Formula'].values)
+
+        #st.write('Nombre_Indicador  = ',dff1['Nombre_Indicador'].values)
+        #st.write('Formula           = ', dff1['Formula'].values)
 
         DfInd[dff1['Nombre_Indicador'].values[0]] = DfInd.eval(dff1['Formula'].values[0])
+
+        cols = DfInd.columns.tolist()
+        cols = [cols[-1]] + cols[:-1]  # or whatever change you need
+        DfInd=DfInd.reindex(columns=cols)
 
         st.dataframe(data=DfInd, width=None, height=None)
         # #################################################################
