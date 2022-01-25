@@ -1336,7 +1336,7 @@ for i in result:
 
         st.write('Resultados Raw Data')
         DfRaw=sheetDataCheck.tail()
-        st.dataframe(data=sheetDataCheck.tail(), width=None, height=None)
+        st.dataframe(data=DfRaw, width=None, height=None)
 
         st.write('Resultados Mod')
         DfMod = sheetDataCheck.tail()
