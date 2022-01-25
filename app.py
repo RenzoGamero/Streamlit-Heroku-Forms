@@ -1327,12 +1327,11 @@ for i in result:
         result = [x for x in result if x.startswith('Formato')]
         print('result Filtrado= ', result)
         st.write('result=  ',result)
-        """
-        if any(TabFormularioActual in word for word in result):
-            print('Si existe la pestaña i')
-            #####################################################################################
-            print('*' * 150)
-            print('detalles carga anterior  i')
-            worksheet1 = sh.worksheet('title', TabFormularioActual)
-            sheetDataCheck = worksheet1.get_all_records()
-        """
+
+        option = st.selectbox('Pestaña a procesar: ', result)
+
+
+        worksheet1 = sh.worksheet('title', option)
+        sheetDataCheck = worksheet1.get_all_records()
+
+        st.dataframe(data=sheetDataCheck, width=None, height=None)
