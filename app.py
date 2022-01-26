@@ -1414,7 +1414,7 @@ for i in result:
 
 
         st.dataframe(data=DfMod, width=None, height=None)
-        DfMod = DfMod[DfMod.Duplicado != 0]
+        DfMod = DfMod[DfMod.Duplicado == False]
         st.write('Sin duplicados ')
         st.dataframe(data=DfMod, width=None, height=None)
 
