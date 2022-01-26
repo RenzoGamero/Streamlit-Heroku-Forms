@@ -1437,9 +1437,9 @@ for i in result:
         # st.write('Nombre_Indicador  = ',dff1['Nombre_Indicador'].values)
         # st.write('Formula           = ', dff1['Formula'].values)
         try:
-            for i in range(len(dff1)):
+            #for i in range(len(dff1)):
 
-                DfInd[dff1['Nombre_Indicador'][i].values[0]] = DfInd.eval(dff1['Formula'][i].values[0])
+                DfInd[dff1['Nombre_Indicador'].values[0]] = DfInd.eval(dff1['Formula'].values[0])
 
         except:
             print('Error')
