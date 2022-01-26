@@ -1374,7 +1374,12 @@ for i in result:
         st.dataframe(data=DfRaw, width=None, height=None)
         # #################################################################
         st.write('Resultados Mod')
-        DfMod = sheetDataCheck.tail()
+        DfMod = sheetDataCheck
+        listCol=list(DfMod.columns)
+        listCol=listCol.remove('Fecha')
+        DfMod['D1']=DfMod[listCol].duplicated()
+        DfMod['D2']=DfMod[listCol].duplicated(keep='last')
+
         st.dataframe(data=DfMod, width=None, height=None)
         # #################################################################
 
@@ -1424,10 +1429,10 @@ for i in result:
 
         #sheetDataCheck=dft2
         dff1 = sheetDataCheck[(sheetDataCheck['Sector'] == str(option))]
-        st.write('dff1= ', dff1)
+        #st.write('dff1= ', dff1)
 
-        st.write('Nombre_Indicador 1= ', dff1['Nombre_Indicador'][0])
-        st.write('Nombre_Indicador 2= ', dff1['Nombre_Indicador'][1])
+        #st.write('Nombre_Indicador 1= ', dff1['Nombre_Indicador'][0])
+        #st.write('Nombre_Indicador 2= ', dff1['Nombre_Indicador'][1])
         # st.dataframe(data=dff1, width=None, height=None)
 
         # formula = "var5/var6"
@@ -1436,11 +1441,10 @@ for i in result:
 
         # st.write('Nombre_Indicador  = ',dff1['Nombre_Indicador'].values)
         # st.write('Formula           = ', dff1['Formula'].values)
-        ListDfIndCols=list(DfInd.columns)
-        ListInd=[]
+        ListDfIndCols = list(DfInd.columns)
+        ListInd = []
         try:
             for i in range(len(dff1)):
-
                 #DfInd[dff1['Nombre_Indicador'].values[0]] = DfInd.eval(dff1['Formula'].values[0])
                 DfInd[dff1['Nombre_Indicador'][i]] = DfInd.eval(dff1['Formula'][i])
                 ListInd.append(dff1['Nombre_Indicador'][i])
@@ -1453,7 +1457,7 @@ for i in result:
 
         st.dataframe(data=DfInd, width=None, height=None)
 
-        st.write('luego de Melt ')
+        st.write('Melt ')
         DfInd['ID']=DfInd.index
 
         DfInd = DfInd.melt(id_vars=ListDfIndCols, value_vars=ListInd, var_name='Indicador')
