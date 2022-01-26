@@ -1377,7 +1377,8 @@ for i in result:
         DfMod = sheetDataCheck
         listCol = list(DfMod.columns)
         st.write('l istCol= ', listCol)
-        listCol = listCol.remove("Fecha")
+        #listCol = listCol.remove("Fecha")
+        listCol=[s for s in listCol if s != 'Fecha']
         st.write('listCol= ', listCol)
         DfMod['D1'] = DfMod[listCol].duplicated()
         DfMod['D2'] = DfMod[listCol].duplicated(keep='last')
