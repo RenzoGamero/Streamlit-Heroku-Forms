@@ -1369,10 +1369,12 @@ for i in result:
         sheetDataCheck = worksheet1.get_all_records()
         sheetDataCheck = pd.DataFrame(sheetDataCheck)
         # #################################################################
+        st.write('-' * 80)
         st.write('Resultados Raw Data')
         DfRaw = sheetDataCheck.tail()
         st.dataframe(data=DfRaw, width=None, height=None)
         # #################################################################
+        st.write('-' * 80)
         st.write('Resultados Mod')
         DfMod = sheetDataCheck
 
@@ -1418,11 +1420,12 @@ for i in result:
         st.write('Sin duplicados ')
         st.dataframe(data=DfMod, width=None, height=None)
 
-        st.write('-'*80)
         # #################################################################
+        st.write('-'*80)
 
         st.write('Resultados Indicadores')
         DfInd = sheetDataCheck.tail()
+        DfInd = DfMod
 
         gc = pygsheets.authorize(service_file='client_secrets.json')
         sh = gc.open_by_key('18-AUWmWlBRzDPv0v3KSGqeeUiWLzJ6Bp-7yoYqv6o7U')
@@ -1434,34 +1437,34 @@ for i in result:
 
         # ------
 
-        workbook_url = 'Semana.xlsx'
-        TabFormularioActual = 'Semana'
-        dfsemana = pd.read_excel(workbook_url, sheet_name=TabFormularioActual, engine='openpyxl',
-                                       keep_default_na=False)
+        #workbook_url = 'Semana.xlsx'
+        #TabFormularioActual = 'Semana'
+        #dfsemana = pd.read_excel(workbook_url, sheet_name=TabFormularioActual, engine='openpyxl',
+        #                               keep_default_na=False)
 
-        dftsemana = date_expander(dfsemana, 'I_Sem', 'F_Sem', 'd', 'r', True)
-        print(dftsemana)
+        #dftsemana = date_expander(dfsemana, 'I_Sem', 'F_Sem', 'd', 'r', True)
+        #print(dftsemana)
 
-        dftsemana['r'] = dftsemana['r'].astype("string")
-        dftsemana['r'] = pd.Series(dftsemana['r'], dtype="string")
-        dftsemana['r'] = dftsemana['r'].str[:10]
-        dftsemana['r2'] = dftsemana['r'].str.replace(r'\D', '')
-        dftsemana['r2'] = dftsemana.r2.apply(int)
+        #dftsemana['r'] = dftsemana['r'].astype("string")
+        #dftsemana['r'] = pd.Series(dftsemana['r'], dtype="string")
+        #dftsemana['r'] = dftsemana['r'].str[:10]
+        #dftsemana['r2'] = dftsemana['r'].str.replace(r'\D', '')
+        #dftsemana['r2'] = dftsemana.r2.apply(int)
 
-        dft1 = DfInd
-        dft1['Fecha'] = dft1['Fecha'].astype("string")
-        dft1['Fecha'] = pd.Series(dft1['Fecha'], dtype="string")
-        dft1['Fecha_Full'] = dft1['Fecha']
-        dft1['Fecha'] = dft1['Fecha'].str[:10]
-        dft1['Fecha'] = dft1['Fecha'].str.replace(r'\D', '')
-        dft1['Fecha'] = dft1.Fecha.apply(int)
+        #dft1 = DfInd
+        #dft1['Fecha'] = dft1['Fecha'].astype("string")
+        #dft1['Fecha'] = pd.Series(dft1['Fecha'], dtype="string")
+        #dft1['Fecha_Full'] = dft1['Fecha']
+        #dft1['Fecha'] = dft1['Fecha'].str[:10]
+        #dft1['Fecha'] = dft1['Fecha'].str.replace(r'\D', '')
+        #dft1['Fecha'] = dft1.Fecha.apply(int)
 
 
 
-        dft2 = pd.merge(dftsemana, dft1, left_on='r2', right_on='Fecha', how='right')
+        #dft2 = pd.merge(dftsemana, dft1, left_on='r2', right_on='Fecha', how='right')
 
-        print(dft2[['semana_f', 'Fecha']])
-        DfInd=dft2
+        #print(dft2[['semana_f', 'Fecha']])
+        #DfInd=dft2
         # ------
 
 
@@ -1502,6 +1505,7 @@ for i in result:
         st.dataframe(data=DfInd, width=None, height=None)
 
         # #################################################################
+        st.write('-'*80)
 
         col1, col2, col3 = st.columns(3)
 
