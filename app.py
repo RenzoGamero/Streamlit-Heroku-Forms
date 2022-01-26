@@ -1424,7 +1424,7 @@ for i in result:
 
         #sheetDataCheck=dft2
         dff1 = sheetDataCheck[(sheetDataCheck['Sector'] == str(option))]
-
+        st.write('dff1= ', dff1)
         # st.dataframe(data=dff1, width=None, height=None)
 
         # formula = "var5/var6"
