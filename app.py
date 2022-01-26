@@ -1387,7 +1387,7 @@ for i in result:
         sheetDataCheck = worksheet1.get_all_records()
         sheetDataCheck = pd.DataFrame(sheetDataCheck)
 
-        st.write('sheetDataCheck.columns= ', sheetDataCheck.columns)
+        #st.write('sheetDataCheck.columns= ', sheetDataCheck.columns)
 
         # ------
 
@@ -1405,7 +1405,7 @@ for i in result:
         dft['r2'] = dft['r'].str.replace(r'\D', '')
         dft['r2'] = dft.r2.apply(int)
 
-        dft1=sheetDataCheck
+        dft1=DfInd
         dft1['Fecha'] = dft1['Fecha'].astype("string")
         dft1['Fecha'] = pd.Series(dft1['Fecha'], dtype="string")
         dft1['Fecha_Full'] = dft1['Fecha']
