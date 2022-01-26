@@ -1425,6 +1425,9 @@ for i in result:
         #sheetDataCheck=dft2
         dff1 = sheetDataCheck[(sheetDataCheck['Sector'] == str(option))]
         st.write('dff1= ', dff1)
+
+        st.write('Nombre_Indicador 1= ', dff1['Nombre_Indicador'][0].values[0])
+        st.write('Nombre_Indicador 2= ', dff1['Nombre_Indicador'][1].values[0])
         # st.dataframe(data=dff1, width=None, height=None)
 
         # formula = "var5/var6"
