@@ -1405,26 +1405,14 @@ for i in result:
         dftsemana['r2'] = dftsemana['r'].str.replace(r'\D', '')
         dftsemana['r2'] = dftsemana.r2.apply(int)
 
-        dft1=DfInd
+        dft1 = DfInd
         dft1['Fecha'] = dft1['Fecha'].astype("string")
         dft1['Fecha'] = pd.Series(dft1['Fecha'], dtype="string")
         dft1['Fecha_Full'] = dft1['Fecha']
         dft1['Fecha'] = dft1['Fecha'].str[:10]
         dft1['Fecha'] = dft1['Fecha'].str.replace(r'\D', '')
         dft1['Fecha'] = dft1.Fecha.apply(int)
-        """
-        print('*' * 40)
-        print(dft.head(2))
-        print(dft.tail(2))
-        print('*' * 40)
 
-        print(dft1.head(2))
-        print(dft1.tail(2))
-        print('*' * 40)
-
-        print(dft.dtypes)
-        print(dft1.dtypes)
-        """
 
 
         dft2 = pd.merge(dftsemana, dft1, left_on='r2', right_on='Fecha', how='right')
@@ -1446,7 +1434,10 @@ for i in result:
         # st.write('Nombre_Indicador  = ',dff1['Nombre_Indicador'].values)
         # st.write('Formula           = ', dff1['Formula'].values)
         try:
-            DfInd[dff1['Nombre_Indicador'].values[0]] = DfInd.eval(dff1['Formula'].values[0])
+            for i in range(len(dff1)):
+
+                DfInd[dff1['Nombre_Indicador'][i].values[0]] = DfInd.eval(dff1['Formula'][i].values[0])
+
         except:
             print('Error')
 
