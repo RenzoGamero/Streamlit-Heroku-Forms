@@ -1407,13 +1407,17 @@ for i in result:
         #listCol = listCol.remove("Fecha")
         listCol=[s for s in listCol if s != 'Fecha']
         st.write('listCol= ', listCol)
-        DfMod['D1'] = DfMod[listCol].duplicated()
-        DfMod['D2'] = DfMod[listCol].duplicated(keep='last')
+        #DfMod['D1'] = DfMod[listCol].duplicated()
+        DfMod['Duplicado'] = DfMod[listCol].duplicated(keep='last')
 
 
 
 
         st.dataframe(data=DfMod, width=None, height=None)
+        DfMod = DfMod[DfMod.Duplicado != 0]
+        st.write('Sin duplicados ')
+        st.dataframe(data=DfMod, width=None, height=None)
+
         # #################################################################
 
         st.write('Resultados Indicadores')
