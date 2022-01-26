@@ -1436,6 +1436,7 @@ for i in result:
 
         # st.write('Nombre_Indicador  = ',dff1['Nombre_Indicador'].values)
         # st.write('Formula           = ', dff1['Formula'].values)
+        ListDfIndCols=list(DfInd.columns)
         ListInd=[]
         try:
             for i in range(len(dff1)):
@@ -1454,7 +1455,8 @@ for i in result:
 
         st.write('luego de Melt ')
         DfInd['ID']=DfInd.index
-        DfInd = DfInd.melt(id_vars='ID', value_vars=ListInd, var_name='Indicador')
+
+        DfInd = DfInd.melt(id_vars=ListDfIndCols, value_vars=ListInd, var_name='Indicador')
         st.dataframe(data=DfInd, width=None, height=None)
 
         # #################################################################
