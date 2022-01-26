@@ -1418,6 +1418,7 @@ for i in result:
         st.write('Sin duplicados ')
         st.dataframe(data=DfMod, width=None, height=None)
 
+        st.write('-'*80)
         # #################################################################
 
         st.write('Resultados Indicadores')
