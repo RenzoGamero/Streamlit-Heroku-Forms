@@ -1387,6 +1387,7 @@ for i in result:
         sheetDataCheck = worksheet1.get_all_records()
         sheetDataCheck = pd.DataFrame(sheetDataCheck)
 
+        st.write('sheetDataCheck.columns= ', sheetDataCheck.columns)
 
         # ------
 
