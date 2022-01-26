@@ -1375,10 +1375,12 @@ for i in result:
         # #################################################################
         st.write('Resultados Mod')
         DfMod = sheetDataCheck
-        listCol=list(DfMod.columns)
-        listCol=listCol.remove('Fecha')
-        DfMod['D1']=DfMod[listCol].duplicated()
-        DfMod['D2']=DfMod[listCol].duplicated(keep='last')
+        listCol = list(DfMod.columns)
+        listCol = listCol.remove('Fecha')
+        print()
+        st.write('listCol= ', listCol)
+        DfMod['D1'] = DfMod[listCol].duplicated()
+        DfMod['D2'] = DfMod[listCol].duplicated(keep='last')
 
         st.dataframe(data=DfMod, width=None, height=None)
         # #################################################################
