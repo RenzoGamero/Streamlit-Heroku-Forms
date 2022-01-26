@@ -1393,17 +1393,17 @@ for i in result:
 
         workbook_url = 'Semana.xlsx'
         TabFormularioActual = 'Semana'
-        df = pd.read_excel(workbook_url, sheet_name=TabFormularioActual, engine='openpyxl',
+        dfsemana = pd.read_excel(workbook_url, sheet_name=TabFormularioActual, engine='openpyxl',
                                        keep_default_na=False)
 
-        dft = date_expander(df, 'I_Sem', 'F_Sem', 'd', 'r', True)
-        print(dft)
+        dftsemana = date_expander(dfsemana, 'I_Sem', 'F_Sem', 'd', 'r', True)
+        print(dftsemana)
 
-        dft['r'] = dft['r'].astype("string")
-        dft['r'] = pd.Series(dft['r'], dtype="string")
-        dft['r'] = dft['r'].str[:10]
-        dft['r2'] = dft['r'].str.replace(r'\D', '')
-        dft['r2'] = dft.r2.apply(int)
+        dftsemana['r'] = dftsemana['r'].astype("string")
+        dftsemana['r'] = pd.Series(dftsemana['r'], dtype="string")
+        dftsemana['r'] = dftsemana['r'].str[:10]
+        dftsemana['r2'] = dftsemana['r'].str.replace(r'\D', '')
+        dftsemana['r2'] = dftsemana.r2.apply(int)
 
         dft1=DfInd
         dft1['Fecha'] = dft1['Fecha'].astype("string")
@@ -1427,14 +1427,12 @@ for i in result:
         """
 
 
-        dft2 = pd.merge(dft, dft1, left_on='r2', right_on='Fecha', how='right')
+        dft2 = pd.merge(dftsemana, dft1, left_on='r2', right_on='Fecha', how='right')
 
         print(dft2[['semana_f', 'Fecha']])
-
+        DfInd=dft2
         # ------
 
-        # st.dataframe(data=sheetDataCheck, width=None, height=None)
-        # st.write('option  = ',VentanaResultados)
 
         #sheetDataCheck=dft2
         dff1 = sheetDataCheck[(sheetDataCheck['Sector'] == str(option))]
