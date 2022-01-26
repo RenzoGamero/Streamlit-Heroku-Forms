@@ -1436,11 +1436,13 @@ for i in result:
 
         # st.write('Nombre_Indicador  = ',dff1['Nombre_Indicador'].values)
         # st.write('Formula           = ', dff1['Formula'].values)
+        ListInd=[]
         try:
             for i in range(len(dff1)):
 
                 #DfInd[dff1['Nombre_Indicador'].values[0]] = DfInd.eval(dff1['Formula'].values[0])
                 DfInd[dff1['Nombre_Indicador'][i]] = DfInd.eval(dff1['Formula'][i])
+                ListInd.append(dff1['Nombre_Indicador'][i])
         except:
             print('Error')
 
@@ -1449,6 +1451,12 @@ for i in result:
         DfInd = DfInd.reindex(columns=cols)
 
         st.dataframe(data=DfInd, width=None, height=None)
+
+        st.write('luego de Melt ')
+        DfInd['ID']=DfInd.index
+        DfInd = DfInd.melt(id_vars='ID', value_vars=ListInd, var_name='Indicador')
+        st.dataframe(data=DfInd, width=None, height=None)
+
         # #################################################################
 
         col1, col2, col3 = st.columns(3)
