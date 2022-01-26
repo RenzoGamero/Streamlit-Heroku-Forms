@@ -1375,6 +1375,33 @@ for i in result:
         # #################################################################
         st.write('Resultados Mod')
         DfMod = sheetDataCheck
+
+        def addSem(DfInd, strFecha):
+            workbook_url = 'Semana.xlsx'
+            TabFormularioActual = 'Semana'
+            dfsemana = pd.read_excel(workbook_url, sheet_name=TabFormularioActual, engine='openpyxl',
+                                     keep_default_na=False)
+            dftsemana = date_expander(dfsemana, 'I_Sem', 'F_Sem', 'd', 'r', True)
+
+            dftsemana['r'] = dftsemana['r'].astype("string")
+            dftsemana['r'] = pd.Series(dftsemana['r'], dtype="string")
+            dftsemana['r'] = dftsemana['r'].str[:10]
+            dftsemana['r2'] = dftsemana['r'].str.replace(r'\D', '')
+            dftsemana['r2'] = dftsemana.r2.apply(int)
+
+            dft1 = DfInd
+            dft1[strFecha] = dft1[strFecha].astype("string")
+            dft1[strFecha] = pd.Series(dft1[strFecha], dtype="string")
+            #dft1['Fecha_Full'] = dft1['Fecha']
+            dft1[strFecha] = dft1[strFecha].str[:10]
+            dft1[strFecha] = dft1[strFecha].str.replace(r'\D', '')
+            dft1[strFecha] = dft1.Fecha.apply(int)
+
+            dft2 = pd.merge(dftsemana, dft1, left_on='r2', right_on='Fecha', how='right')
+            return dft2
+
+
+        DfMod=addSem(DfMod,'Fecha')
         listCol = list(DfMod.columns)
         st.write('l istCol= ', listCol)
         #listCol = listCol.remove("Fecha")
@@ -1382,6 +1409,9 @@ for i in result:
         st.write('listCol= ', listCol)
         DfMod['D1'] = DfMod[listCol].duplicated()
         DfMod['D2'] = DfMod[listCol].duplicated(keep='last')
+
+
+
 
         st.dataframe(data=DfMod, width=None, height=None)
         # #################################################################
