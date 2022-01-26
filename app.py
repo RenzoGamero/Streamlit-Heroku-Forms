@@ -1436,7 +1436,7 @@ for i in result:
         # st.dataframe(data=sheetDataCheck, width=None, height=None)
         # st.write('option  = ',VentanaResultados)
 
-        sheetDataCheck=dft2
+        #sheetDataCheck=dft2
         dff1 = sheetDataCheck[(sheetDataCheck['Sector'] == str(option))]
 
         # st.dataframe(data=dff1, width=None, height=None)
