@@ -1376,6 +1376,8 @@ for i in result:
         st.write('Resultados Mod')
         DfMod = sheetDataCheck
         listCol = list(DfMod.columns)
+        st.write('l istCol= ', listCol)
+
         listCol = listCol.remove('Fecha')
         print()
         st.write('listCol= ', listCol)
