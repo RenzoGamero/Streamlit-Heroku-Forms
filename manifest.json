@@ -1,10 +1,18 @@
 {
   "background_color": "#ffffff",
+  "dir": "ltr",
   "display": "standalone",
-  "name": "amlittest001.herokuapp",
+  "name": "streamlittest001.herokuapp",
   "orientation": "any",
   "scope": "/",
-  "short_name": "amlittest001.herokuapp",
+  "short_name": "streamlittest001.herokuapp",
   "start_url": "/",
-  "theme_color": "#ffffff"
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "images/32x32.png",
+      "type": "image/png",
+      "sizes": "32x32"
+    }
+  ]
 }
