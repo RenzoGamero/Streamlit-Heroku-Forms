@@ -1,22 +1,10 @@
 {
   "background_color": "#ffffff",
-  "description": "",
-  "dir": "ltr",
   "display": "standalone",
-  "name": "streamlittest001.herokuapp",
+  "name": "amlittest001.herokuapp",
   "orientation": "any",
   "scope": "/",
-  "short_name": "streamlittest001.herokuapp",
+  "short_name": "amlittest001.herokuapp",
   "start_url": "/",
-  "theme_color": "#ffffff",
-  "categories": [],
-  "screenshots": [],
-  "icons": [
-    {
-      "src": "https://streamlittest001.herokuapp.com/favicon.png",
-      "type": "image/png",
-      "sizes": "32x32"
-    }
-  ],
-  "shortcuts": []
+  "theme_color": "#ffffff"
 }
