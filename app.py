@@ -1362,7 +1362,7 @@ for i in result:
         print('result= ', result)
         result = [x for x in result if x.startswith('Formato')]
         print('result Filtrado= ', result)
-        st.write('result=  ', result)
+        #st.write('result=  ', result)
 
         option = st.selectbox('Pestaña a procesar: ', result)
         worksheet1 = sh.worksheet('title', option)
@@ -1405,10 +1405,10 @@ for i in result:
 
         DfMod=addSem(DfMod,'Fecha')
         listCol = list(DfMod.columns)
-        st.write('l istCol= ', listCol)
+        #st.write('l istCol= ', listCol)
         #listCol = listCol.remove("Fecha")
         listCol=[s for s in listCol if s != 'Fecha']
-        st.write('listCol= ', listCol)
+        #st.write('listCol= ', listCol)
         #DfMod['D1'] = DfMod[listCol].duplicated()
         DfMod['Duplicado'] = DfMod[listCol].duplicated(keep='last')
 
