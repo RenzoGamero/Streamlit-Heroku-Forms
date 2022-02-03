@@ -1019,6 +1019,8 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
         #string_data = stringio.read()
         #st.write(string_data)
 
+
+
         # Can be used wherever a "file-like" object is accepted:
         #if uploaded_file is not None:
         #dataframe = pd.read_csv(uploaded_file)
