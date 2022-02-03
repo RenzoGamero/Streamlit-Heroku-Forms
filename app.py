@@ -493,6 +493,7 @@ class DriveAPI:
             # raise UploadError("Can't Upload File.")
 
     def FileUpload_(self, name2, filepath, folder_id):
+        print('Inicio de FileUpload_ ------------------------------------------')
         # Extract the file name out of the file path
         name = filepath.split('/')[-1]
 
@@ -516,12 +517,15 @@ class DriveAPI:
             # new = DRIVE.files().create(body=data, fields='webViewLink, id').execute()
             # return new.get('webViewLink')
             print("File Uploaded.")
+            print('Fin de FileUpload_ ------------------------------------------')
 
             return file.get('webViewLink')
 
 
         except:
             print('Error FileUpload_ ')
+            print('Fin de FileUpload_ ------------------------------------------')
+
             # Raise UploadError if file is not uploaded.
             # raise UploadError("Can't Upload File.")
 
