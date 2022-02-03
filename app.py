@@ -501,33 +501,34 @@ class DriveAPI:
         mimetype = MimeTypes().guess_type(name)[0]
         # print('mimetype= ', mimetype )
         # create file metadata
+        print('name= ', name2 )
+        print('parents= ', [folder_id] )
+
         file_metadata = {'name': name2, 'parents': [folder_id]}
 
-        try:
-            media = MediaFileUpload(filepath, mimetype=mimetype)
 
-            # Create a new file in the Drive storage
-            file = self.service.files().create(
-                body=file_metadata, media_body=media, fields='webViewLink, id').execute()
+        #try:
 
-            # print('file.path= ', file.path)
+        media = MediaFileUpload(filepath, mimetype=mimetype)
+        # Create a new file in the Drive storage
+        file = self.service.files().create(
+            body=file_metadata, media_body=media, fields='webViewLink, id').execute()
+        # print('file.path= ', file.path)
 
-            # print('File ID: %s' % file.get('id'))
-            # print(file.get('webViewLink'))
-            # new = DRIVE.files().create(body=data, fields='webViewLink, id').execute()
-            # return new.get('webViewLink')
-            print("File Uploaded.")
-            print('Fin de FileUpload_ ------------------------------------------')
+        # print('File ID: %s' % file.get('id'))
+        # print(file.get('webViewLink'))
+        # new = DRIVE.files().create(body=data, fields='webViewLink, id').execute()
+        # return new.get('webViewLink')
+        print("File Uploaded.")
+        print('Fin de FileUpload_ ------------------------------------------')
+        return file.get('webViewLink')
 
-            return file.get('webViewLink')
+        #except:
 
-
-        except:
-            print('Error FileUpload_ ')
-            print('Fin de FileUpload_ ------------------------------------------')
-
-            # Raise UploadError if file is not uploaded.
-            # raise UploadError("Can't Upload File.")
+        #print('Error FileUpload_ ')
+        #print('Fin de FileUpload_ ------------------------------------------')
+        # Raise UploadError if file is not uploaded.
+        # raise UploadError("Can't Upload File.")
 
 def date_expander(dataframe: pd.DataFrame, start_dt_colname: str, end_dt_colname: str,
                           time_unit: str, new_colname: str, end_inclusive: bool):
