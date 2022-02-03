@@ -501,10 +501,10 @@ class DriveAPI:
         mimetype = MimeTypes().guess_type(name)[0]
         # print('mimetype= ', mimetype )
         # create file metadata
-        print('name= ', name2 )
+        print('name= ', name2[0] )
         print('parents= ', [folder_id] )
 
-        file_metadata = {'name': name2, 'parents': [folder_id]}
+        file_metadata = {'name': name2[0], 'parents': [folder_id]}
 
 
         #try:
