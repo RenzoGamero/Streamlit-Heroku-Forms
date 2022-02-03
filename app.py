@@ -1024,7 +1024,9 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
 
     if tipo == 'foto':
         uploaded_file = st.file_uploader("Escoge las fotos a cargar: ", accept_multiple_files=True, type=['png', 'jpg'] )
+
         if uploaded_file is not None:
+            st.write('---> ', uploaded_file)
             image = Image.open(uploaded_file)
             st.image(image, caption='Uploaded Image.', use_column_width=True)
             st.write(".........")
