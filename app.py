@@ -1018,12 +1018,10 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
         # To read file as string:
         #string_data = stringio.read()
         #st.write(string_data)
-
-
-
         # Can be used wherever a "file-like" object is accepted:
         #if uploaded_file is not None:
         #dataframe = pd.read_csv(uploaded_file)
+        
         st.write(uploaded_file)
 
 gc = pygsheets.authorize(service_file='client_secrets.json')
