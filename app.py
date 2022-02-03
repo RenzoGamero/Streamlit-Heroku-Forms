@@ -1025,6 +1025,7 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
     if tipo == 'foto':
         st.write('1folder ---> ', os.getcwd())
         st.write('1folder 2---> ', os.chdir(os.getcwd()))
+        st.write('1folder 3---> ', os.chdir())
 
 
         uploaded_file = st.file_uploader("Escoge las fotos a cargar: ", accept_multiple_files=True, type=['png', 'jpg'] )
@@ -1032,6 +1033,7 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
 
         st.write('2folder ---> ', os.getcwd())
         st.write('2folder 2---> ', os.chdir(os.getcwd()))
+        st.write('2folder 3---> ', os.chdir())
         if uploaded_file is not None:
 
             st.write('---> ', uploaded_file)
