@@ -648,7 +648,16 @@ def expanderrrbackup(x, q, op, tipo, qe):
                 number = st.number_input(q, max_value=100)
                 st.write('Seleccionaste: ', number, ' %')
                 df['resp'][x] = number
-
+    if tipo == 'foto':
+        if qe == '':
+            option = st.selectbox(q, op)
+            st.write('Seleccionaste:', option)
+            df['resp'][x] = option
+        else:
+            if df[(df['q_'] == qe)]['resp'].values[0] == str(DependenciaSiNo):
+                option = st.selectbox(q, op)
+                st.write('Seleccionaste:', option)
+                df['resp'][x] = option
 
 def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
     # print('=============================================================')

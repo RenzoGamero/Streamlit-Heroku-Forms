@@ -836,6 +836,7 @@ def expanderrr(x, q, op, tipo, qe, nivel,vista, DependenciaSiNo):
 
 
             df['resp'][x] = DFMetadata[(DFMetadata[tt['op'].values[0][0]] == tt['resp'].values[0])][tt['op'].values[0][0]].values[0]
+
     if tipo == 'foto':
         if qe == '':
             option = st.selectbox(q, op)
