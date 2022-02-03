@@ -659,6 +659,7 @@ def expanderrrbackup(x, q, op, tipo, qe):
                 st.write('Seleccionaste:', option)
                 df['resp'][x] = option
 
+
 def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
     # print('=============================================================')
     # print('X= ', x)
