@@ -1021,8 +1021,8 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
 
         # Can be used wherever a "file-like" object is accepted:
         if uploaded_file is not None:
-            dataframe = pd.read_csv(uploaded_file)
-            st.write(dataframe)
+            #dataframe = pd.read_csv(uploaded_file)
+            st.write(uploaded_file)
 
 gc = pygsheets.authorize(service_file='client_secrets.json')
 sh = gc.open_by_key('18-AUWmWlBRzDPv0v3KSGqeeUiWLzJ6Bp-7yoYqv6o7U')
