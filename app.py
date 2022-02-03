@@ -1042,9 +1042,9 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
             st.write('filepath= ',filepath)
             spl= str(filepath).split("'")
 
-            st.write('filepath-spl= ',spl)
+            st.write('filepath-spl= ',spl[1])
 
-            obj.FileUpload_(name2, filepath, f[1])
+            obj.FileUpload_(name2, spl[1], f[1])
         else:
             st.write('len != 0 No crear y guardar en carpeta')
             st.write('id= ', d['id'].values[0])
@@ -1052,9 +1052,9 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
             filepath = uploaded_file
             st.write('filepath= ',filepath)
             spl= str(filepath).split("'")
-            st.write('filepath-split= ',spl)
+            st.write('filepath-split= ',spl[1])
 
-            obj.FileUpload_(name2, filepath, d['id'].values[0])
+            obj.FileUpload_(name2, spl[1], d['id'].values[0])
         #st.write(uploaded_file)
 
 gc = pygsheets.authorize(service_file='client_secrets.json')
