@@ -1036,11 +1036,16 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
 
             f = obj.FolderCreator(str(page), folder_id)
             st.write(str(f))
-            st.write('id= ', f[1] )
+            st.write('id= ', f[1])
+            name2='Foto1'
+            filepath=uploaded_file
+            obj.FileUpload_(name2, filepath, f[1])
         else:
-
             st.write('len != 0 No crear y guardar en carpeta')
             st.write('id= ', d['id'].values[0])
+            name2 = 'Foto1'
+            filepath = uploaded_file
+            obj.FileUpload_(name2, filepath, d['id'].values[0])
         #st.write(uploaded_file)
 
 gc = pygsheets.authorize(service_file='client_secrets.json')
