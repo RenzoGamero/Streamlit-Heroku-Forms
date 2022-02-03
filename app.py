@@ -1032,9 +1032,12 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
         st.write(page)
 
         if(len(df_t[(df_t['mimeType'] == 'application/vnd.google-apps.folder') & (df_t['name'] == str(page))])==0):
-            st.write('len   0 ')
+            st.write('len   0  Crear carpeta y guardar alli ')
+
+            obj.FolderCreator(str(page), folder_id)
+
         else:
-            st.write('len != 0')
+            st.write('len != 0 No crear y guardar en carpeta')
 
         #st.write(uploaded_file)
 
