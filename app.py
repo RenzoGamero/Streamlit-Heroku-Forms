@@ -1049,7 +1049,7 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
             spl= str(filepath).split("'")
 
             st.write('filepath-spl= ',spl[1])
-            image = Image.open(spl[1])
+            image = Image.open(uploaded_file)
             st.image(image, caption='Sunrise by the mountains')
 
             r=obj.FileUpload_(uploaded_file, spl[1], f[1])
@@ -1064,7 +1064,7 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
             spl= str(filepath).split("'")
             st.write('filepath-split= ',spl[1])
 
-            image = Image.open(spl[1])
+            image = Image.open(uploaded_file)
             st.image(image, caption='Sunrise by the mountains')
 
             r=obj.FileUpload_(uploaded_file, spl[1], d['id'].values[0])
