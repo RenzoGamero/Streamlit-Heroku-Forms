@@ -1030,15 +1030,17 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
         #global i
         st.write(df_t[(df_t['mimeType'] == 'application/vnd.google-apps.folder') & (df_t['name'] == str(page))])
         st.write(page)
-
-        if(len(df_t[(df_t['mimeType'] == 'application/vnd.google-apps.folder') & (df_t['name'] == str(page))])==0):
+        d=df_t[(df_t['mimeType'] == 'application/vnd.google-apps.folder') & (df_t['name'] == str(page))]
+        if(len(d)==0):
             st.write('len   0  Crear carpeta y guardar alli ')
 
-            obj.FolderCreator(str(page), folder_id)
-
+            f = obj.FolderCreator(str(page), folder_id)
+            st.write(str(f))
+            st.write('id= ', f )
         else:
-            st.write('len != 0 No crear y guardar en carpeta')
 
+            st.write('len != 0 No crear y guardar en carpeta')
+            st.write('id= ', d['id'])
         #st.write(uploaded_file)
 
 gc = pygsheets.authorize(service_file='client_secrets.json')
