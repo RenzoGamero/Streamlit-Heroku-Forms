@@ -1027,7 +1027,7 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
         t = obj.FolderSearch2(folder_id)
         st.write(t)
         df_t=pd.DataFrame(t)
-
+        global i
         st.write(df_t[(df_t['mimeType'] == 'application/vnd.google-apps.folder')])
         st.write(i)
         #if():
