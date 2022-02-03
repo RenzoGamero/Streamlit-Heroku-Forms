@@ -18,7 +18,7 @@ import pygsheets
 import string
 import operator
 from PIL import Image
-
+from io import BytesIO
 
 class DriveAPI:
     global SCOPES
