@@ -791,7 +791,6 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
                 number = st.number_input(q, max_value=100)
                 st.write('Seleccionaste: ', number, ' %')
                 df['resp'][x] = number
-
     if tipo == 'text_input_Multiple':
         if qe == '':
             st.write(q)
@@ -1021,8 +1020,17 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
         # Can be used wherever a "file-like" object is accepted:
         #if uploaded_file is not None:
         #dataframe = pd.read_csv(uploaded_file)
-
+        st.write('Existe folder con el nombre del formulario?')
+        obj = DriveAPI()
         st.write(uploaded_file)
+        folder_id = '1yhcPImMAu8AS93vj1PEByd5xYUEk94QE'
+        t = obj.FolderSearch2(folder_id)
+        st.write(t)
+        #if():
+        #else:
+
+
+        #st.write(uploaded_file)
 
 gc = pygsheets.authorize(service_file='client_secrets.json')
 sh = gc.open_by_key('18-AUWmWlBRzDPv0v3KSGqeeUiWLzJ6Bp-7yoYqv6o7U')
