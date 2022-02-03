@@ -1023,6 +1023,11 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
                 DFMetadata[(DFMetadata[tt['op'].values[0][0]] == tt['resp'].values[0])][tt['op'].values[0][0]].values[0]
 
     if tipo == 'foto':
+        st.write('folder ---> ', os.getcwd())
+        st.write('folder 2---> ', os.chdir(os.getcwd()))
+
+
+
         uploaded_file = st.file_uploader("Escoge las fotos a cargar: ", accept_multiple_files=True, type=['png', 'jpg'] )
 
         if uploaded_file is not None:
