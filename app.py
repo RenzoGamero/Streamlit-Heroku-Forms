@@ -1061,7 +1061,7 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
             #image = Image.open(uploaded_file)
             #st.image(image, caption='Sunrise by the mountains')
 
-            r=obj.FileUpload_(uploaded_file, uploaded_file, f[1])
+            r=obj.FileUpload_(uploaded_file, spl[1], f[1])
             st.write('r= ',r)
 
         else:
@@ -1078,7 +1078,7 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
             #image = Image.open(uploaded_file)
             #st.image(image, caption='Sunrise by the mountains')
 
-            r=obj.FileUpload_(uploaded_file, uploaded_file, d['id'].values[0])
+            r=obj.FileUpload_(uploaded_file, spl[1], d['id'].values[0])
             st.write('r= ', r)
         #st.write(uploaded_file)
 
