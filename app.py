@@ -1028,11 +1028,13 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
         st.write(t)
         df_t = pd.DataFrame(t)
         #global i
-        st.write(df_t[(df_t['mimeType'] == 'application/vnd.google-apps.folder')])
+        st.write(df_t[(df_t['mimeType'] == 'application/vnd.google-apps.folder') & (df_t['name'] == str(page))])
         st.write(page)
-        #if():
-        #else:
 
+        if(len(df_t[(df_t['mimeType'] == 'application/vnd.google-apps.folder') & (df_t['name'] == str(page))])==0):
+            st.write('len   0 ')
+        else:
+            st.write('len != 0')
 
         #st.write(uploaded_file)
 
