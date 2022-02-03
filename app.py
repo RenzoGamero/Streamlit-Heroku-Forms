@@ -1020,11 +1020,7 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
 
     if tipo == 'foto':
         uploaded_file = st.file_uploader("Escoge las fotos a cargar: ", accept_multiple_files=True, type=['png', 'jpg'] )
-        if uploaded_file is not None:
-            # To read file as bytes:
-            bytes_data = uploaded_file.read()
-            st.write("filename:", uploaded_file.name)
-            st.write('--->', bytes_data)
+
 
 
         # To read file as string:
@@ -1056,6 +1052,8 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
             spl= str(filepath).split("'")
 
             st.write('filepath-spl= ',spl[1])
+            st.write('uploaded_file= ', uploaded_file)
+
             image = Image.open(uploaded_file)
             st.image(image, caption='Sunrise by the mountains')
 
@@ -1070,6 +1068,8 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
             st.write('filepath= ',filepath)
             spl= str(filepath).split("'")
             st.write('filepath-split= ',spl[1])
+            st.write('uploaded_file= ', uploaded_file)
+
 
             image = Image.open(uploaded_file)
             st.image(image, caption='Sunrise by the mountains')
