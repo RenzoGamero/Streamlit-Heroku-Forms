@@ -1014,10 +1014,10 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
                 DFMetadata[(DFMetadata[tt['op'].values[0][0]] == tt['resp'].values[0])][tt['op'].values[0][0]].values[0]
 
     if tipo == 'foto':
-        uploaded_files = st.file_uploader("Escoge las fotos a cargar: ", accept_multiple_files=True, type=['png', 'jpg'] )
+        uploaded_file = st.file_uploader("Escoge las fotos a cargar: ", accept_multiple_files=True, type=['png', 'jpg'] )
         # To read file as string:
-        string_data = stringio.read()
-        st.write(string_data)
+        #string_data = stringio.read()
+        #st.write(string_data)
 
         # Can be used wherever a "file-like" object is accepted:
         dataframe = pd.read_csv(uploaded_file)
