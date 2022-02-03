@@ -17,6 +17,7 @@ import time
 import pygsheets
 import string
 import operator
+from PIL import Image
 
 
 class DriveAPI:
@@ -1048,6 +1049,8 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
             spl= str(filepath).split("'")
 
             st.write('filepath-spl= ',spl[1])
+            image = Image.open(spl[1])
+            st.image(image, caption='Sunrise by the mountains')
 
             r=obj.FileUpload_(uploaded_file, spl[1], f[1])
             st.write('r= ',r)
@@ -1060,6 +1063,9 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
             st.write('filepath= ',filepath)
             spl= str(filepath).split("'")
             st.write('filepath-split= ',spl[1])
+
+            image = Image.open(spl[1])
+            st.image(image, caption='Sunrise by the mountains')
 
             r=obj.FileUpload_(uploaded_file, spl[1], d['id'].values[0])
             st.write('r= ', r)
