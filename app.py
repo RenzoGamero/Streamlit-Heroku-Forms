@@ -1014,8 +1014,14 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
                 DFMetadata[(DFMetadata[tt['op'].values[0][0]] == tt['resp'].values[0])][tt['op'].values[0][0]].values[0]
 
     if tipo == 'foto':
-        uploaded_files = st.file_uploader("Choose a CSV file", accept_multiple_files=True)
+        uploaded_files = st.file_uploader("Escoge las fotos a cargar: ", accept_multiple_files=True, type=['png', 'jpg'] )
+        # To read file as string:
+        string_data = stringio.read()
+        st.write(string_data)
 
+        # Can be used wherever a "file-like" object is accepted:
+        dataframe = pd.read_csv(uploaded_file)
+        st.write(dataframe)
 
 gc = pygsheets.authorize(service_file='client_secrets.json')
 sh = gc.open_by_key('18-AUWmWlBRzDPv0v3KSGqeeUiWLzJ6Bp-7yoYqv6o7U')
