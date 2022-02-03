@@ -496,6 +496,10 @@ class DriveAPI:
     def FileUpload_(self, name2, filepath, folder_id):
         print('Inicio de FileUpload_ ------------------------------------------')
         # Extract the file name out of the file path
+        print('name2= ', name2)
+        print('filepath= ', filepath)
+        print('folder_id= ', folder_id)
+        #        print('name= ', name2[0])
         name = filepath.split('/')[-1]
 
         # Find the MimeType of the file
