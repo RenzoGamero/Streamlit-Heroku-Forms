@@ -1022,8 +1022,10 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
         uploaded_file = st.file_uploader("Escoge las fotos a cargar: ", accept_multiple_files=True, type=['png', 'jpg'] )
         if uploaded_file is not None:
             # To read file as bytes:
-            bytes_data = uploaded_file.getvalue()
-            st.write('___>',bytes_data)
+            bytes_data = uploaded_file.read()
+            st.write("filename:", uploaded_file.name)
+            st.write('--->', bytes_data)
+
 
         # To read file as string:
         #string_data = stringio.read()
