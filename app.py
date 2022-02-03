@@ -1033,7 +1033,7 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
         if uploaded_file is not None:
 
             st.write('---> ', uploaded_file)
-            uploaded_file='CAP.png'
+            uploaded_file='/app/CAP.png'
             image = Image.open(uploaded_file)
             st.image(image, caption='Uploaded Image.', use_column_width=True)
             st.write(".........")
