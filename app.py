@@ -1040,7 +1040,9 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
             name2='Foto1'
             filepath=uploaded_file
             st.write('filepath= ',filepath)
-            st.write('filepath-name= ',filepath['name'])
+            spl= str(filepath).split("='")
+
+            st.write('filepath-spl= ',spl)
 
             obj.FileUpload_(name2, filepath, f[1])
         else:
@@ -1049,7 +1051,7 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
             name2 = 'Foto1'
             filepath = uploaded_file
             st.write('filepath= ',filepath)
-            spl= filepath.split("='")
+            spl= str(filepath).split("='")
             st.write('filepath-split= ',spl)
 
             obj.FileUpload_(name2, filepath, d['id'].values[0])
