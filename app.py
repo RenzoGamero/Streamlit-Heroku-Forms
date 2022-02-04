@@ -19,7 +19,7 @@ import string
 import operator
 from PIL import Image
 from io import BytesIO
-
+import glob
 class DriveAPI:
     global SCOPES
     SCOPES = ['https://www.googleapis.com/auth/drive']
@@ -1050,6 +1050,12 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
                 #else:
                 #    print('No esta causa')
         print('busqueda f')
+        path = os.getcwd()
+
+        text_files = glob.glob(path + "/**/*.png", recursive=True)
+
+        print(text_files)
+        print('busqueda f2')
 
         uploaded_file = st.file_uploader("Escoge las fotos a cargar: ", accept_multiple_files=True, type=['png', 'jpg'] )
         print('-----------------------------------------------------2')
@@ -1077,7 +1083,12 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
                 # else:
                 #    print('No esta causa')
         print('busqueda f')
+        path = os.getcwd()
 
+        text_files = glob.glob(path + "/**/*.png", recursive=True)
+
+        print(text_files)
+        print('busqueda f2')
 
 
         st.write('2folder ---> ', os.getcwd())
