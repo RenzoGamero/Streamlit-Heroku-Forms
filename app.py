@@ -1040,7 +1040,10 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
         print(os.path.dirname(full_path))
         for path, subdirs, files in os.walk(os.getcwd()):
             for name in files:
-                print('=-->',os.path.join(path, name))
+                we=os.path.join(path, name)
+                print('1=-->',we)
+                name = we.split('/')[-1]
+                print('1name=-->', name)
 
         uploaded_file = st.file_uploader("Escoge las fotos a cargar: ", accept_multiple_files=True, type=['png', 'jpg'] )
         print('-----------------------------------------------------2')
@@ -1058,7 +1061,10 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
         print(os.path.dirname(full_path))
         for path, subdirs, files in os.walk(os.getcwd()):
             for name in files:
-                print('=-->',os.path.join(path, name))
+                we = os.path.join(path, name)
+                print('2=-->', we)
+                name = we.split('/')[-1]
+                print('2name=-->', name)
 
 
         st.write('2folder ---> ', os.getcwd())
