@@ -1025,15 +1025,39 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
     if tipo == 'foto':
         st.write('1folder ---> ', os.getcwd())
         st.write('1folder 2---> ', os.chdir(os.getcwd()))
-        st.write('1folder 3---> ', os.chdir())
-
+        print('-----------------------------------------------------1')
+        print("Path at terminal when executing this file")
+        print(os.getcwd() + "\n")
+        print("This file path, relative to os.getcwd()")
+        print(__file__ + "\n")
+        print("This file full path (following symlinks)")
+        full_path = os.path.realpath(__file__)
+        print(full_path + "\n")
+        print("This file directory and name")
+        path, filename = os.path.split(full_path)
+        print(path + ' --> ' + filename + "\n")
+        print("This file directory only")
+        print(os.path.dirname(full_path))
 
         uploaded_file = st.file_uploader("Escoge las fotos a cargar: ", accept_multiple_files=True, type=['png', 'jpg'] )
+        print('-----------------------------------------------------2')
+        print("Path at terminal when executing this file")
+        print(os.getcwd() + "\n")
+        print("This file path, relative to os.getcwd()")
+        print(__file__ + "\n")
+        print("This file full path (following symlinks)")
+        full_path = os.path.realpath(__file__)
+        print(full_path + "\n")
+        print("This file directory and name")
+        path, filename = os.path.split(full_path)
+        print(path + ' --> ' + filename + "\n")
+        print("This file directory only")
+        print(os.path.dirname(full_path))
 
 
         st.write('2folder ---> ', os.getcwd())
         st.write('2folder 2---> ', os.chdir(os.getcwd()))
-        st.write('2folder 3---> ', os.chdir())
+
         if uploaded_file is not None:
 
             st.write('---> ', uploaded_file)
