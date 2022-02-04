@@ -1025,6 +1025,14 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
     if tipo == 'foto':
         st.write('1folder ---> ', os.getcwd())
         st.write('1folder 2---> ', os.chdir(os.getcwd()))
+
+        #['/app/icon-32x32.png', '/app/images/32x32.png']
+        uploaded_file = '/app/icon-32x32.png'
+        image = Image.open(uploaded_file)
+        st.image(image, caption='Uploaded Image.', use_column_width=True)
+        uploaded_file = '/app/images/32x32.png'
+        image = Image.open(uploaded_file)
+        st.image(image, caption='Uploaded Image.', use_column_width=True)
         print('-----------------------------------------------------1')
         print("Path at terminal when executing this file")
         print(os.getcwd() + "\n")
