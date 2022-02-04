@@ -1085,6 +1085,7 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
         print('busqueda f')
         path = os.getcwd()
 
+
         text_files = glob.glob(path + "/**/*.png", recursive=True)
 
         print(text_files)
