@@ -1173,7 +1173,7 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
             st.dataframe(test)
             st.write(str(x))
             st.write(str(df.loc(x).values.tolist()))
-            df.append([df[x].values.tolist()], ignore_index=True)
+            df.append([df[int(x)].values.tolist()], ignore_index=True)
 
 
         else:
@@ -1192,7 +1192,7 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
                 st.write(str(x))
 
                 st.write(str(df.loc(x).values.tolist()))
-                df.append([df[x].values.tolist()],ignore_index=True)
+                df.append([df[int(x)].values.tolist()],ignore_index=True)
 
 
 gc = pygsheets.authorize(service_file='client_secrets.json')
