@@ -1175,7 +1175,10 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
             # st.write(str(x))
             # st.write(str(df.loc(int(x))))
             st.write(str(df[(df.index == int(x))]))
-            # df.append([df[int(x)].values.tolist()], ignore_index=True)
+            #df.append([df[int(x)].values.tolist()], ignore_index=True)
+            df = pd.concat([df[(df.index == int(x))]], ignore_index=True)
+            test = df.astype(str)
+            st.dataframe(test)
 
         else:
             if df[(df['q_'] == qe)]['resp'].values[0] == str(DependenciaSiNo):
@@ -1191,10 +1194,13 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
 
                 test = df.astype(str)
                 st.dataframe(test)
-                #st.write(str(x))
-                #st.write(str(df.loc(int(x))))
+                # st.write(str(x))
+                # st.write(str(df.loc(int(x))))
                 st.write(str(df[(df.index == int(x))]))
-                #df.append([df[int(x)].values.tolist()], ignore_index=True)
+                # df.append([df[int(x)].values.tolist()], ignore_index=True)
+                df = pd.concat([df[(df.index == int(x))]], ignore_index=True)
+                test = df.astype(str)
+                st.dataframe(test)
 
 
 gc = pygsheets.authorize(service_file='client_secrets.json')
