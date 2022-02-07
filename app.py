@@ -1166,7 +1166,8 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
                 a.append(title1)
             st.write('Seleccionaste:', a)
             df['resp'][x] = str(a)
-            df['resp'][x] = ",".join("{0}:{1}".format(x, y) for x, y in zip(op, a))
+            df['resp'][x] = [",".join("{0}:{1}".format(x, y) for x, y in zip(op, a))]
+
         else:
             if df[(df['q_'] == qe)]['resp'].values[0] == str(DependenciaSiNo):
                 # title1 = st.text_input(q , key='1')
@@ -1177,7 +1178,7 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
                     a.append(title1)
                 st.write('Seleccionaste:', a)
                 #df['resp'][x] = str(a)
-                df['resp'][x] =",".join("{0}:{1}".format(x, y) for x, y in zip(op, a))
+                df['resp'][x] =[",".join("{0}:{1}".format(x, y) for x, y in zip(op, a))]
 
 
 
