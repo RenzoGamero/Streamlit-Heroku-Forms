@@ -1175,7 +1175,7 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
             # st.write(str(x))
             # st.write(str(df.loc(int(x))))
             st.write(str(df[(df.index == int(x))]))
-            df.append([df[(df.index == int(x))]], ignore_index=True)
+            df=df.append([df[(df.index == int(x))]], ignore_index=True)
             #df[(df.index == int(x))]
             #df = pd.concat(df, [df[(df.index == int(x))]], ignore_index=True)
             test = df.astype(str)
@@ -1198,7 +1198,7 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
                 # st.write(str(x))
                 # st.write(str(df.loc(int(x))))
                 st.write(str(df[(df.index == int(x))]))
-                df.append([df[(df.index == int(x))]], ignore_index=True)
+                df=df.append([df[(df.index == int(x))]], ignore_index=True)
                 # df[(df.index == int(x))]
                 # df = pd.concat(df, [df[(df.index == int(x))]], ignore_index=True)
                 test = df.astype(str)
