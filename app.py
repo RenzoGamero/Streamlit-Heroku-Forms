@@ -1171,10 +1171,8 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
             df['resp'][x] = str([",".join("{0}:{1}".format(x, y) for x, y in zip(op, a))])
             test = df.astype(str)
             st.dataframe(test)
-            # Crear 2 respuesta
-            # Existe ?
-            df.append(df[x].values.tolist(),ignore_index=True)
-            #if df['resp'][x]==
+            st.write(df[x].values.tolist())
+            df.append([df[x].values.tolist()], ignore_index=True)
 
 
         else:
@@ -1190,7 +1188,8 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
                 df['resp'][x] =str([",".join("{0}:{1}".format(x, y) for x, y in zip(op, a))])
                 test = df.astype(str)
                 st.dataframe(test)
-                df.append(df[x].values.tolist(),ignore_index=True)
+                st.write(df[x].values.tolist())
+                df.append([df[x].values.tolist()],ignore_index=True)
 
 
 gc = pygsheets.authorize(service_file='client_secrets.json')
