@@ -665,6 +665,7 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
     # print('X= ', x)
     # print('q= ', q)
     # print('qe= ', qe)
+    global df
     if tipo == 'selectbox':
         if qe == '':
             option = st.selectbox(q, op)
@@ -1157,6 +1158,8 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
             st.write('r= ', r)
         #st.write(uploaded_file)
     if tipo == 'number_input_Multiple_Comisarias':
+        print('number_input_Multiple_Comisarias  ===========================================================')
+
         if qe == '':
             st.write(q)
             a = []
@@ -1170,16 +1173,15 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
             #df['resp'][x] = str(a)
             df['resp'][x] = str([",".join("{0}:{1}".format(x, y) for x, y in zip(op, a))])
 
-            test = df.astype(str)
-            st.dataframe(test)
-            # st.write(str(x))
-            # st.write(str(df.loc(int(x))))
-            st.write(str(df[(df.index == int(x))]))
-            df.append([df[(df.index == int(x))]], ignore_index=True)
-            #df[(df.index == int(x))]
-            #df = pd.concat(df, [df[(df.index == int(x))]], ignore_index=True)
-            test = df.astype(str)
-            st.dataframe(test)
+            print(str(df[(df.index == int(x))]))
+            df = df.append([df[(df.index == int(x))]], ignore_index=True)
+            print('len(df)= ', len(df))
+            print('df.columns= ', df.columns)
+            df['Vars'][(len(df) - 1)] = str(df['Vars'][x]) + ('_salida_2')
+            df['resp'][(len(df) - 1)] = str(sum(a))
+            test = df[['Vars','resp']].astype(str)
+            print(test)
+
 
         else:
             if df[(df['q_'] == qe)]['resp'].values[0] == str(DependenciaSiNo):
@@ -1191,18 +1193,19 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
                     a.append(title1)
                 st.write('Seleccionaste:', a)
                 #df['resp'][x] = str(a)
-                df['resp'][x] =str([",".join("{0}:{1}".format(x, y) for x, y in zip(op, a))])
+                df['resp'][x] = str([",".join("{0}:{1}".format(x, y) for x, y in zip(op, a))])
 
-                test = df.astype(str)
-                st.dataframe(test)
-                # st.write(str(x))
-                # st.write(str(df.loc(int(x))))
-                st.write(str(df[(df.index == int(x))]))
-                df.append([df[(df.index == int(x))]], ignore_index=True)
-                # df[(df.index == int(x))]
-                # df = pd.concat(df, [df[(df.index == int(x))]], ignore_index=True)
-                test = df.astype(str)
-                st.dataframe(test)
+                print(str(df[(df.index == int(x))]))
+                df = df.append([df[(df.index == int(x))]], ignore_index=True)
+                print('len(df)= ', len(df))
+                print('df.columns= ', df.columns)
+                df['Vars'][(len(df) - 1)] = str(df['Vars'][x]) + ('_salida_2')
+                df['resp'][(len(df) - 1)] = str(sum(a))
+                test = df[['Vars', 'resp']].astype(str)
+                print(test)
+
+        print('number_input_Multiple_Comisarias  ===========================================================')
+
 
 gc = pygsheets.authorize(service_file='client_secrets.json')
 sh = gc.open_by_key('18-AUWmWlBRzDPv0v3KSGqeeUiWLzJ6Bp-7yoYqv6o7U')
