@@ -1169,12 +1169,13 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
             st.write('Seleccionaste:', a)
             #df['resp'][x] = str(a)
             df['resp'][x] = str([",".join("{0}:{1}".format(x, y) for x, y in zip(op, a))])
+
             test = df.astype(str)
             st.dataframe(test)
-            #st.write(str(x))
-            #st.write(str(df.loc(int(x))))
-            df.append([df[int(x)].values.tolist()], ignore_index=True)
-
+            # st.write(str(x))
+            # st.write(str(df.loc(int(x))))
+            st.write(str(df[(df.index == int(x))]))
+            # df.append([df[int(x)].values.tolist()], ignore_index=True)
 
         else:
             if df[(df['q_'] == qe)]['resp'].values[0] == str(DependenciaSiNo):
@@ -1187,11 +1188,13 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
                 st.write('Seleccionaste:', a)
                 #df['resp'][x] = str(a)
                 df['resp'][x] =str([",".join("{0}:{1}".format(x, y) for x, y in zip(op, a))])
+
                 test = df.astype(str)
                 st.dataframe(test)
                 #st.write(str(x))
                 #st.write(str(df.loc(int(x))))
-                df.append([df[int(x)].values.tolist()],ignore_index=True)
+                st.write(str(df[(df.index == int(x))]))
+                #df.append([df[int(x)].values.tolist()], ignore_index=True)
 
 
 gc = pygsheets.authorize(service_file='client_secrets.json')
