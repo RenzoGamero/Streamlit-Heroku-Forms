@@ -1175,8 +1175,9 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
             # st.write(str(x))
             # st.write(str(df.loc(int(x))))
             st.write(str(df[(df.index == int(x))]))
-            #df.append([df[int(x)].values.tolist()], ignore_index=True)
-            df = pd.concat([df[(df.index == int(x))]], ignore_index=True)
+            df.append([df[(df.index == int(x))]], ignore_index=True)
+            #df[(df.index == int(x))]
+            #df = pd.concat(df, [df[(df.index == int(x))]], ignore_index=True)
             test = df.astype(str)
             st.dataframe(test)
 
@@ -1197,11 +1198,11 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
                 # st.write(str(x))
                 # st.write(str(df.loc(int(x))))
                 st.write(str(df[(df.index == int(x))]))
-                # df.append([df[int(x)].values.tolist()], ignore_index=True)
-                df = pd.concat([df[(df.index == int(x))]], ignore_index=True)
+                df.append([df[(df.index == int(x))]], ignore_index=True)
+                # df[(df.index == int(x))]
+                # df = pd.concat(df, [df[(df.index == int(x))]], ignore_index=True)
                 test = df.astype(str)
                 st.dataframe(test)
-
 
 gc = pygsheets.authorize(service_file='client_secrets.json')
 sh = gc.open_by_key('18-AUWmWlBRzDPv0v3KSGqeeUiWLzJ6Bp-7yoYqv6o7U')
