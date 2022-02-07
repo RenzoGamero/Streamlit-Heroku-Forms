@@ -1169,7 +1169,8 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
             st.write('Seleccionaste:', a)
             #df['resp'][x] = str(a)
             df['resp'][x] = str([",".join("{0}:{1}".format(x, y) for x, y in zip(op, a))])
-            st.dataframe(df)
+            test = df.astype(str)
+            st.dataframe(test)
         else:
             if df[(df['q_'] == qe)]['resp'].values[0] == str(DependenciaSiNo):
                 # title1 = st.text_input(q , key='1')
@@ -1181,7 +1182,8 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
                 st.write('Seleccionaste:', a)
                 #df['resp'][x] = str(a)
                 df['resp'][x] =str([",".join("{0}:{1}".format(x, y) for x, y in zip(op, a))])
-                st.dataframe(df)
+                test = df.astype(str)
+                st.dataframe(test)
 
 
 gc = pygsheets.authorize(service_file='client_secrets.json')
