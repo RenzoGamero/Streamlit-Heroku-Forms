@@ -1172,7 +1172,7 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
             test = df.astype(str)
             st.dataframe(test)
             st.write(str(x))
-            st.write(str(df.loc(x).values.tolist()))
+            st.write(str(df.loc(int(x)).values.tolist()))
             df.append([df[int(x)].values.tolist()], ignore_index=True)
 
 
@@ -1191,7 +1191,7 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
                 st.dataframe(test)
                 st.write(str(x))
 
-                st.write(str(df.loc(x).values.tolist()))
+                st.write(str(df.loc(int(x)).values.tolist()))
                 df.append([df[int(x)].values.tolist()],ignore_index=True)
 
 
