@@ -1171,8 +1171,8 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
             df['resp'][x] = str([",".join("{0}:{1}".format(x, y) for x, y in zip(op, a))])
             test = df.astype(str)
             st.dataframe(test)
-            st.write(str(x))
-            st.write(str(df.loc(int(x))))
+            #st.write(str(x))
+            #st.write(str(df.loc(int(x))))
             df.append([df[int(x)].values.tolist()], ignore_index=True)
 
 
@@ -1189,9 +1189,8 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
                 df['resp'][x] =str([",".join("{0}:{1}".format(x, y) for x, y in zip(op, a))])
                 test = df.astype(str)
                 st.dataframe(test)
-                st.write(str(x))
-
-                st.write(str(df.loc(int(x))))
+                #st.write(str(x))
+                #st.write(str(df.loc(int(x))))
                 df.append([df[int(x)].values.tolist()],ignore_index=True)
 
 
