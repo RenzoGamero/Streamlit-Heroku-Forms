@@ -658,16 +658,6 @@ def expanderrrbackup(x, q, op, tipo, qe):
                 number = st.number_input(q, max_value=100)
                 st.write('Seleccionaste: ', number, ' %')
                 df['resp'][x] = number
-    if tipo == 'foto':
-        if qe == '':
-            option = st.selectbox(q, op)
-            st.write('Seleccionaste:', option)
-            df['resp'][x] = option
-        else:
-            if df[(df['q_'] == qe)]['resp'].values[0] == str(DependenciaSiNo):
-                option = st.selectbox(q, op)
-                st.write('Seleccionaste:', option)
-                df['resp'][x] = option
 
 
 def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
@@ -1166,6 +1156,28 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
             r=obj.FileUpload_(uploaded_file, spl[1], d['id'].values[0])
             st.write('r= ', r)
         #st.write(uploaded_file)
+    if tipo == 'number_input_Multiple_Comisarias':
+        if qe == '':
+            st.write(q)
+            a = []
+            for i in range(len(op)):
+                # number = st.number_input(q, <<<step=1<<<)
+                title1 = st.number_input(op[i], step=1, key=(str(i) + str(x)))
+                a.append(title1)
+            st.write('Seleccionaste:', a)
+            df['resp'][x] = str(a)
+        else:
+            if df[(df['q_'] == qe)]['resp'].values[0] == str(DependenciaSiNo):
+                # title1 = st.text_input(q , key='1')
+                st.write(q)
+                a = []
+                for i in range(len(op)):
+                    title1 = st.number_input(op[i], step=1, key=(str(i) + str(x)))
+                    a.append(title1)
+                st.write('Seleccionaste:', a)
+                df['resp'][x] = str(a)
+
+
 
 gc = pygsheets.authorize(service_file='client_secrets.json')
 sh = gc.open_by_key('18-AUWmWlBRzDPv0v3KSGqeeUiWLzJ6Bp-7yoYqv6o7U')
