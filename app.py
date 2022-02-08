@@ -660,55 +660,57 @@ def expanderrrbackup(x, q, op, tipo, qe):
                 df['resp'][x] = number
 
 
-def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
-    # print('=============================================================')
-    # print('X= ', x)
-    # print('q= ', q)
-    # print('qe= ', qe)
+def expanderrr(x, q, op, tipo, Dependencia, nivel, vista, DependenciaSiNo, Validar,Dependencia_Respuesta):
+    print('=============================================================')
+    print('X= ', x)
+    print('q= ', q)
+    print('Dependencia= ', Dependencia)
+    print('DependenciaSiNo= ', DependenciaSiNo)
+
     global df
     if tipo == 'selectbox':
-        if qe == '':
+        if Dependencia == '':
             option = st.selectbox(q, op)
             st.write('Seleccionaste:', option)
             df['resp'][x] = option
         else:
-            if df[(df['q_'] == qe)]['resp'].values[0] == str(DependenciaSiNo):
+            if df[(df['q_'] == Dependencia)]['resp'].values[0] == str(DependenciaSiNo):
                 option = st.selectbox(q, op)
                 st.write('Seleccionaste:', option)
                 df['resp'][x] = option
     if tipo == 'multiselect':
-        if qe == '':
+        if Dependencia == '':
             options = st.multiselect(q, op)
             st.write('Seleccionaste:', options)
             df['resp'][x] = str(options)
         else:
-            if df[(df['q_'] == qe)]['resp'].values[0] == str(DependenciaSiNo):
+            if df[(df['q_'] == Dependencia)]['resp'].values[0] == str(DependenciaSiNo):
                 options = st.multiselect(q, op)
                 st.write('Seleccionaste:', options)
                 df['resp'][x] = str(options)
     if tipo == 'text_input':
-        if qe == '':
+        if Dependencia == '':
             titles = st.text_input(q, key='text_input1' + str(page))
             st.write('Seleccionaste:', titles)
             df['resp'][x] = titles
         else:
-            if df[(df['q_'] == qe)]['resp'].values[0] == str(DependenciaSiNo):
+            if df[(df['q_'] == Dependencia)]['resp'].values[0] == str(DependenciaSiNo):
                 titles = st.text_input(q, key='text_input2' + str(page))
                 st.write('Seleccionaste:', titles)
                 df['resp'][x] = titles
     if tipo == 'radio':
-        if qe == '':
+        if Dependencia == '':
             genre = st.radio(q, (op))
             st.write('Seleccionaste:', genre)
             df['resp'][x] = genre
         else:
             # print('--->', df[(df['q'] == qe)]['resp'].values[0])
-            if df[(df['q_'] == qe)]['resp'].values[0] == str(DependenciaSiNo):
+            if df[(df['q_'] == Dependencia)]['resp'].values[0] == str(DependenciaSiNo):
                 genre = st.radio(q, (op))
                 st.write('Seleccionaste:', genre)
                 df['resp'][x] = genre
     if tipo == 'date_input':
-        if qe == '':
+        if Dependencia == '':
             Fecha = st.date_input(q,
                                   min_value=dt.datetime.today() + dt.timedelta(days=-30),
                                   max_value=dt.datetime.today() + dt.timedelta(days=14))
@@ -721,22 +723,41 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
 
         else:
             # print('--->', df[(df['q'] == qe)]['resp'].values[0])
-            if df[(df['q_'] == qe)]['resp'].values[0] == str(DependenciaSiNo):
+            if df[(df['q_'] == Dependencia)]['resp'].values[0] == str(DependenciaSiNo):
                 Fecha = st.date_input(q,
                                       min_value=dt.datetime.today() + dt.timedelta(days=-30),
                                       max_value=dt.datetime.today() + dt.timedelta(days=14))
                 st.write('Fecha:', Fecha)
                 df['resp'][x] = str(Fecha.strftime('%Y-%m-%d'))
     if tipo == 'number_input':
-
-        if qe == '':
-            # print('qe vacio ')
+        import operator
+        ops = {"+": operator.add,
+               "-": operator.sub,
+               "<": operator.lt,
+               "<=": operator.le,
+               "==": operator.eq,
+               "!=": operator.ne,
+               ">": operator.gt,
+               ">=": operator.ge
+               }  # etc.
+        if Dependencia == '' :
+            print('qe vacio ')
             number = st.number_input(q, step=1, min_value=0)
             st.write('Seleccionaste: ', number)
             df['resp'][x] = number
         else:
 
-            if df[(df['q_'] == qe)]['resp'].values[0] == str(DependenciaSiNo):
+            if df[(df['q_'] == Dependencia)]['resp'].values[0] == str(DependenciaSiNo):
+                number = st.number_input(q, step=1, min_value=0)
+                st.write('Seleccionaste: ', number)
+                df['resp'][x] = number
+
+            StringOperator = ''.join([i for i in Dependencia_Respuesta if not i.isdigit()])
+            PreguntaObj = ''.join([i for i in Dependencia_Respuesta if i.isdigit()])
+
+            if DependenciaSiNo=='' and Dependencia_Respuesta!='' and  ops[StringOperator]( df[(df['q_'] == int(Dependencia))]['resp'].values[0] ,int(PreguntaObj)):
+
+
                 number = st.number_input(q, step=1, min_value=0)
                 st.write('Seleccionaste: ', number)
                 df['resp'][x] = number
@@ -751,17 +772,6 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
             # st.write('temp_string: ', temp_string)
             # st.write('StringOperator: ', StringOperator)
             # st.write('PreguntaObj: ', PreguntaObj)
-
-            import operator
-            ops = {"+": operator.add,
-                   "-": operator.sub,
-                   "<": operator.lt,
-                   "<=": operator.le,
-                   "==": operator.eq,
-                   "!=": operator.ne,
-                   ">": operator.gt,
-                   ">=": operator.ge
-                   }  # etc.
 
             # st.write('PreguntaObj PreguntaObj   : ', df[(df['q_'] == int(PreguntaObj))]['resp'].values[0])
             # st.write(' x=',x,' q=', q,' op=', op,' qe=', qe)
@@ -782,18 +792,18 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
         # print('tipo  number_input')
         # print(df)
     if tipo == 'number_input%':
-        if qe == '':
+        if Dependencia == '':
             number = st.number_input(q, max_value=100)
             st.write('Seleccionaste: ', number, ' %')
             df['resp'][x] = number
         else:
             # print('--->', df[ (df['q'] == qe)]['resp'].values[0])
-            if df[(df['q_'] == qe)]['resp'].values[0] == str(DependenciaSiNo):
+            if df[(df['q_'] == Dependencia)]['resp'].values[0] == str(DependenciaSiNo):
                 number = st.number_input(q, max_value=100)
                 st.write('Seleccionaste: ', number, ' %')
                 df['resp'][x] = number
     if tipo == 'text_input_Multiple':
-        if qe == '':
+        if Dependencia == '':
             st.write(q)
             a = []
             for i in range(len(op)):
@@ -802,7 +812,7 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
             st.write('Seleccionaste:', a)
             df['resp'][x] = a
         else:
-            if df[(df['q_'] == qe)]['resp'].values[0] == str(DependenciaSiNo):
+            if df[(df['q_'] == Dependencia)]['resp'].values[0] == str(DependenciaSiNo):
                 # title1 = st.text_input(q , key='1')
                 st.write(q)
                 a = []
@@ -812,7 +822,7 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
                 st.write('Seleccionaste:', a)
                 df['resp'][x] = a
     if tipo == 'number_input_Multiple':
-        if qe == '':
+        if Dependencia == '':
             st.write(q)
             a = []
             for i in range(len(op)):
@@ -822,7 +832,7 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
             st.write('Seleccionaste:', a)
             df['resp'][x] = str(a)
         else:
-            if df[(df['q_'] == qe)]['resp'].values[0] == str(DependenciaSiNo):
+            if df[(df['q_'] == Dependencia)]['resp'].values[0] == str(DependenciaSiNo):
                 # title1 = st.text_input(q , key='1')
                 st.write(q)
                 a = []
@@ -886,7 +896,7 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
 
             print('===========================uniques=======================================')
 
-            if qe == '':
+            if Dependencia == '':
                 optionMetadata = st.selectbox(q, dflocal[op[0]].unique().tolist(), key=('Metadata_' + op[0]))
                 st.write('Seleccionaste:', optionMetadata)
                 df['resp'][x] = str(optionMetadata)
@@ -894,7 +904,7 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
 
                 # print('optionMetadata=', st.session_state[op])
             else:
-                if df[(df['q_'] == qe)]['resp'].values[0] == 'Si':
+                if df[(df['q_'] == Dependencia)]['resp'].values[0] == 'Si':
                     optionMetadata = st.selectbox(q, dflocal[op[0]].unique().tolist(), key=('Metadata_' + op[0]))
                     st.write('Seleccionaste:', optionMetadata)
                     df['resp'][x] = str(optionMetadata)
@@ -976,7 +986,7 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
 
             print('===========================uniques=======================================')
 
-            if qe == '':
+            if Dependencia == '':
                 optionMetadata = st.selectbox(q, dflocal[op[0]].unique().tolist(), key=('Metadata_' + op[0]))
                 st.write('Seleccionaste:', optionMetadata)
                 df['resp'][x] = str(optionMetadata)
@@ -984,7 +994,7 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
 
                 # print('optionMetadata=', st.session_state[op])
             else:
-                if df[(df['q_'] == qe)]['resp'].values[0] == 'Si':
+                if df[(df['q_'] == Dependencia)]['resp'].values[0] == 'Si':
                     optionMetadata = st.selectbox(q, dflocal[op[0]].unique().tolist(), key=('Metadata_' + op[0]))
                     st.write('Seleccionaste:', optionMetadata)
                     df['resp'][x] = str(optionMetadata)
@@ -1160,7 +1170,7 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
     if tipo == 'number_input_Multiple_Comisarias':
         print('number_input_Multiple_Comisarias  ===========================================================')
 
-        if qe == '':
+        if Dependencia == '':
             st.write(q)
             a = []
             for i in range(len(op)):
@@ -1184,7 +1194,7 @@ def expanderrr(x, q, op, tipo, qe, nivel, vista, DependenciaSiNo, Validar):
 
 
         else:
-            if df[(df['q_'] == qe)]['resp'].values[0] == str(DependenciaSiNo):
+            if df[(df['q_'] == Dependencia)]['resp'].values[0] == str(DependenciaSiNo):
                 # title1 = st.text_input(q , key='1')
                 st.write(q)
                 a = []
@@ -1298,12 +1308,12 @@ for i in result:
         df['nivel'] = dfRepositorioE['Filtrado']
         df['op'] = dfRepositorioE['Opciones2']
         df['tipo'] = dfRepositorioE['Tipo']
-        df['qe'] = dfRepositorioE['Dependencia']
+        df['Dependencia'] = dfRepositorioE['Dependencia']
         df['Vars'] = dfRepositorioE['Vars']
         df['Vista'] = dfRepositorioE['Vista']
         df['DependenciaSiNo'] = dfRepositorioE['DependenciaSiNo']
         df['Validar'] = dfRepositorioE['Validar']
-
+        df['Dependencia_Respuesta'] = dfRepositorioE['Dependencia_Respuesta']
         df['resp'] = np.nan
 
         duplicateRowsDF = df[df.Vars.duplicated()]
@@ -1328,8 +1338,8 @@ for i in result:
                         # print('i= ', i)
                         # print('---> ', df[(df['sc'] == j)]['q'])
                         # expanderrr(q[i], op[i])
-                        expanderrr(x, dft['q'][i], dft['op'][i], dft['tipo'][i], dft['qe'][i], dft['nivel'][i],
-                                   dft['Vista'][i], dft['DependenciaSiNo'][i], dft['Validar'][i])
+                        expanderrr(x, dft['q'][i], dft['op'][i], dft['tipo'][i], dft['Dependencia'][i], dft['nivel'][i],
+                                   dft['Vista'][i], dft['DependenciaSiNo'][i], dft['Validar'][i], dft['Dependencia_Respuesta'][i])
                         x = x + 1
             # print(df.head(100))
             f = st.button('Terminar')
@@ -1574,11 +1584,14 @@ for i in result:
         # #################################################################
         st.write('-' * 80)
         st.write('Resultados Raw Data')
+        print('Resultados Raw Data')
         DfRaw = sheetDataCheck.tail()
         st.dataframe(data=DfRaw, width=None, height=None)
         # #################################################################
         st.write('-' * 80)
         st.write('Resultados Mod')
+        print('Resultados Mod')
+
         DfMod = sheetDataCheck
 
         def addSem(DfInd, strFecha):
@@ -1615,27 +1628,27 @@ for i in result:
         #DfMod['D1'] = DfMod[listCol].duplicated()
         DfMod['Duplicado'] = DfMod[listCol].duplicated(keep='last')
 
-
-
-
+        DfMod = DfMod.astype(str)
         st.dataframe(data=DfMod, width=None, height=None)
         DfMod = DfMod[DfMod.Duplicado == False]
         st.write('Sin duplicados ')
+        DfMod = DfMod.astype(str)
         st.dataframe(data=DfMod, width=None, height=None)
 
         # #################################################################
         st.write('-'*80)
-
         st.write('Resultados Indicadores')
+        print('Resultados Mod')
+
         DfInd = sheetDataCheck.tail()
         DfInd = DfMod
-
+        print('ok 0')
         gc = pygsheets.authorize(service_file='client_secrets.json')
         sh = gc.open_by_key('18-AUWmWlBRzDPv0v3KSGqeeUiWLzJ6Bp-7yoYqv6o7U')
         worksheet1 = sh.worksheet('title', 'Indicadores')
         sheetDataCheck = worksheet1.get_all_records()
         sheetDataCheck = pd.DataFrame(sheetDataCheck)
-
+        print('ok 1')
         #st.write('sheetDataCheck.columns= ', sheetDataCheck.columns)
 
         # ------
@@ -1687,24 +1700,42 @@ for i in result:
         # st.write('Formula           = ', dff1['Formula'].values)
         ListDfIndCols = list(DfInd.columns)
         ListInd = []
-        try:
-            for i in range(len(dff1)):
-                #DfInd[dff1['Nombre_Indicador'].values[0]] = DfInd.eval(dff1['Formula'].values[0])
-                DfInd[dff1['Nombre_Indicador'][i]] = DfInd.eval(dff1['Formula'][i])
-                ListInd.append(dff1['Nombre_Indicador'][i])
-        except:
-            print('Error')
+        #try:
+        for i in range(len(dff1)):
+            #DfInd[dff1['Nombre_Indicador'].values[0]] = DfInd.eval(dff1['Formula'].values[0])
+            print(DfInd.dtypes)
+            #pd.to_numeric(DfInd, errors='ignore')
+            DfInd=DfInd.apply(pd.to_numeric, errors='ignore')
+            DfInd=DfInd.convert_dtypes()
+            DfInd=DfInd.infer_objects()
+            DfInd=DfInd.convert_dtypes()
+            DfInd = DfInd.astype({"var5": float, "var6": float})
+            #lsc=DfInd.columns
+            #for i in range(len(lsc)):
+            #    print(i,' lsc[i]= ',   lsc[i])
+            #    DfInd = DfInd.astype({lsc[i]: int})
+
+            print(DfInd.dtypes)
+            print('dff1[Nombre_Indicador][i]]=   ', dff1['Nombre_Indicador'][i] )
+            print('dff1[Formula][i]=             ', dff1['Formula'][i])
+            print('DfInd.eval(dff1[Formula][i])= ', DfInd.eval(dff1['Formula'][i]))
+
+            DfInd[dff1['Nombre_Indicador'][i]] = DfInd.eval(dff1['Formula'][i])
+            ListInd.append(dff1['Nombre_Indicador'][i])
+        #except:
+        #    print('Error')
 
         cols = DfInd.columns.tolist()
         cols = [cols[-1]] + cols[:-1]  # or whatever change you need
         DfInd = DfInd.reindex(columns=cols)
-
+        DfInd = DfInd.astype(str)
         st.dataframe(data=DfInd, width=None, height=None)
 
         st.write('Melt ')
         DfInd['ID']=DfInd.index
 
         DfInd = DfInd.melt(id_vars=ListDfIndCols, value_vars=ListInd, var_name='Indicador')
+        DfInd = DfInd.astype(str)
         st.dataframe(data=DfInd, width=None, height=None)
 
         # #################################################################
