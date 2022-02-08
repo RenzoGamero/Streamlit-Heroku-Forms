@@ -1626,20 +1626,21 @@ for i in result:
         listCol=[s for s in listCol if s != 'Fecha']
         #st.write('listCol= ', listCol)
         #DfMod['D1'] = DfMod[listCol].duplicated()
+        print(DfMod)
         DfMod['Duplicado'] = DfMod[listCol].duplicated(keep='last')
-
-        DfMod = DfMod.astype(str)
-        st.dataframe(data=DfMod, width=None, height=None)
+        print(DfMod)
+        DfMod1 = DfMod.astype(str)
+        st.dataframe(data=DfMod1, width=None, height=None)
         DfMod = DfMod[DfMod.Duplicado == False]
         st.write('Sin duplicados ')
-        DfMod = DfMod.astype(str)
-        st.dataframe(data=DfMod, width=None, height=None)
+        DfMod1 = DfMod.astype(str)
+        st.dataframe(data=DfMod1, width=None, height=None)
 
         # #################################################################
         st.write('-'*80)
         st.write('Resultados Indicadores')
-        print('Resultados Mod')
-
+        print('Resultados Mod', '#'*100)
+        print(DfMod)
         DfInd = sheetDataCheck.tail()
         DfInd = DfMod
         print('ok 0')
@@ -1702,26 +1703,29 @@ for i in result:
         ListInd = []
         #try:
         for i in range(len(dff1)):
+            print(i, '#'*20)
             #DfInd[dff1['Nombre_Indicador'].values[0]] = DfInd.eval(dff1['Formula'].values[0])
-            print(DfInd.dtypes)
+            #print(DfInd.dtypes)
             #pd.to_numeric(DfInd, errors='ignore')
-            DfInd=DfInd.apply(pd.to_numeric, errors='ignore')
-            DfInd=DfInd.convert_dtypes()
-            DfInd=DfInd.infer_objects()
-            DfInd=DfInd.convert_dtypes()
+            #DfInd=DfInd.apply(pd.to_numeric, errors='ignore')
+            #DfInd=DfInd.convert_dtypes()
+            #DfInd=DfInd.infer_objects()
+            #DfInd=DfInd.convert_dtypes()
             DfInd = DfInd.astype({"var5": float, "var6": float})
             #lsc=DfInd.columns
             #for i in range(len(lsc)):
             #    print(i,' lsc[i]= ',   lsc[i])
             #    DfInd = DfInd.astype({lsc[i]: int})
 
-            print(DfInd.dtypes)
+            #print(DfInd.dtypes)
             print('dff1[Nombre_Indicador][i]]=   ', dff1['Nombre_Indicador'][i] )
             print('dff1[Formula][i]=             ', dff1['Formula'][i])
-            print('DfInd.eval(dff1[Formula][i])= ', DfInd.eval(dff1['Formula'][i]))
+            print('DfInd.eval(dff1[Formula][i])= ', DfInd.eval(dff1['Formula'][i]) )
 
+            print(DfInd)
             DfInd[dff1['Nombre_Indicador'][i]] = DfInd.eval(dff1['Formula'][i])
             ListInd.append(dff1['Nombre_Indicador'][i])
+            print(DfInd)
         #except:
         #    print('Error')
 
