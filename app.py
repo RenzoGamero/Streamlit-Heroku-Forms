@@ -740,24 +740,123 @@ def expanderrr(x, q, op, tipo, Dependencia, nivel, vista, DependenciaSiNo, Valid
                ">": operator.gt,
                ">=": operator.ge
                }  # etc.
-        if Dependencia == '' :
+
+        #if Dependencia == '' :
+        if DependenciaSiNo=='' and Dependencia_Respuesta=='':
             print('qe vacio ')
             number = st.number_input(q, step=1, min_value=0)
             st.write('Seleccionaste: ', number)
-            df['resp'][x] = number
+            df['resp'][x] = str(int(number))
         else:
 
-            if df[(df['q_'] == Dependencia)]['resp'].values[0] == str(DependenciaSiNo):
+            if df[(df['q_'] == Dependencia)]['resp'].values[0] == str(DependenciaSiNo) \
+                    and Dependencia_Respuesta == '':
+
                 number = st.number_input(q, step=1, min_value=0)
                 st.write('Seleccionaste: ', number)
                 df['resp'][x] = number
 
             StringOperator = ''.join([i for i in Dependencia_Respuesta if not i.isdigit()])
             PreguntaObj = ''.join([i for i in Dependencia_Respuesta if i.isdigit()])
+            print('StringOperator           = ', StringOperator)
+            print('PreguntaObj              = ', PreguntaObj)
+            import re
+            a=['<', '>', '=', '==', '<=','>=']
+            aal=['and', 'or']
+            a1= re.split(' ', StringOperator)
+            list_a=(aal)
+            list_b=set(a1)
 
-            if DependenciaSiNo=='' and Dependencia_Respuesta!='' and  ops[StringOperator]( df[(df['q_'] == int(Dependencia))]['resp'].values[0] ,int(PreguntaObj)):
+            #list_a=[[el] for el in a]
+            #list_b=[[el] for el in a1]
+            print('list_a= ',list_a)
+            print('list_b= ',list_b)
+
+            set2 = set(list_b)
+
+            result = [x for x in list_a if x[0] in list_b]
+            result2= filter(lambda list_a: list_a[0] in list_b, list_a)
+            result3= [x for x in list_a if x in set2]
+            print('result= ', result )
+            print('result2= ', result2)
+            print('result2= ', result3)
+
+            print('Dependencia_Respuesta1    = ', Dependencia_Respuesta)
+
+            DR= re.split('and|or', Dependencia_Respuesta)
+            print('Dependencia_Respuesta2    = ', DR)
+            DR_3 = [s.replace(" ", "") for s in DR]
+            print('Dependencia_Respuesta3  DR_3  = ', DR_3)
+            DR1= re.split('<|>|=|==|>=|<=', Dependencia_Respuesta)
+            print('Dependencia_Respuesta4   = ', DR1)
+
+            indeces = [i for i, x in enumerate(Dependencia_Respuesta) if x in a]
+            print('indeces= ', indeces)
+            from itertools import count
+            zipped = [(i, j) for i, j in zip(count(), a) if j == Dependencia_Respuesta]
+            print('zipped= ', zipped)
+
+            StringOperator = ''.join([i for i in Dependencia_Respuesta if not i.isalpha()])
+            PreguntaObj = ''.join([i for i in Dependencia_Respuesta if i.isalpha()])
+            print('StringOperator   isalpha         = ', StringOperator)
+            print('PreguntaObj      isalpha         = ', PreguntaObj)
+
+            StringOperator1 = ''.join([i for i in StringOperator if not i.isdigit()])
+            PreguntaObj1 = ''.join([i for i in StringOperator if i.isdigit()])
+            print('StringOperator1   isdigit         = ', StringOperator1)
+            print('PreguntaObj1      isdigit         = ', PreguntaObj1)
+            print('StringOperator1   isdigit  list        = ', list(StringOperator1))
+            print('PreguntaObj1      isdigit  list        = ', list(PreguntaObj1))
+            DR = [s.replace(" ", ",") for s in StringOperator1]
+            print('StringOperator1   isdigit   2      = ', DR)
+            DR3 = re.split(' ', StringOperator1)
+            print('PreguntaObj1      DR3      = ', DR3)
+            without_empty_strings = [string for string in DR3 if string != ""]
+            print('without_empty_strings      DR3      = ', without_empty_strings)
+
+            a=['<', '>', '=', '==', '<=','>=']
+
+            for i in range(len(a)):
+                DR_3 = [s.replace(a[i], ' ') for s in DR_3]
+            print('DR_3= ', DR_3)
+
+            DR_3 = re.split(' ', ' '.join(DR_3))
+            DR_3 = [string for string in DR_3 if string != ""]
+
+            print('*'*50)
+            print('DR_3= ', DR_3)
+            print('result3= ', result3)
+            print('without_empty_strings = ', without_empty_strings)
+            print('*'*50)
+            print(list(df.columns))
+            df1=df[['Vars', 'resp']]
+            df1 = df1.set_index('Vars')
+            print(df1)
+
+            df2 = df1.T
+            print(df2)
+            print('---------------')
+            print(df2.eval(Dependencia_Respuesta).values[0])
+            print('---------------')
+
+            print('*'*50)
 
 
+
+            #a=1
+            #b=1
+            #c=2
+            #print('a= ',a, ' b= ', b, ' c=', c)
+            #if a > 2 and b>2 or c==2:
+            #    print('Dentro de If ')
+            #else:
+            #    print('Dentro de else ')
+
+
+
+            #if DependenciaSiNo == '' and Dependencia_Respuesta != '' \
+            #        and ops[StringOperator](df[(df['q_'] == int(Dependencia))]['resp'].values[0] ,int(PreguntaObj)):
+            if df2.eval(Dependencia_Respuesta).values[0]:
                 number = st.number_input(q, step=1, min_value=0)
                 st.write('Seleccionaste: ', number)
                 df['resp'][x] = number
@@ -1185,12 +1284,21 @@ def expanderrr(x, q, op, tipo, Dependencia, nivel, vista, DependenciaSiNo, Valid
 
             print(str(df[(df.index == int(x))]))
             df = df.append([df[(df.index == int(x))]], ignore_index=True)
+            df = df.append([df[(df.index == int(x))]], ignore_index=True)
+
             print('len(df)= ', len(df))
             print('df.columns= ', df.columns)
-            df['Vars'][(len(df) - 1)] = str(df['Vars'][x]) + ('_salida_2')
-            df['resp'][(len(df) - 1)] = str(sum(a))
-            test = df[['Vars','resp']].astype(str)
-            print(test)
+            df['Vars'][(len(df) - 2)] = str(df['Vars'][x]) + ('_salida_2_suma')
+            df['resp'][(len(df) - 2)] = str(sum(a))
+
+
+
+
+            df['Vars'][(len(df) - 1)] = str(df['Vars'][x]) + ('_salida_3_recuento')
+            df['resp'][(len(df) - 1)] = str(len(a)-a.count(0))
+
+            #test = df[['Vars','resp']].astype(str)
+            #print(test)
 
 
         else:
@@ -1408,6 +1516,31 @@ for i in result:
 
                         HeaderDiferencia = list(set(HeaderExcelNuevo) - set(HeaderExcelCargado))
                         print('HeaderDiferencia= ', HeaderDiferencia)
+                        print('-------------a')
+                        Dfa=pd.DataFrame(HeaderExcelNuevo, columns=['a'])
+                        Dfa['i']=Dfa.index
+                        print(Dfa.head())
+                        print(len(Dfa))
+                        print('-------------b')
+                        Dfb = pd.DataFrame(HeaderDiferencia, columns=['a'])
+                        print(Dfb.head())
+                        print(len(Dfb))
+                        Dfb['b']=0
+                        for i in range(len(HeaderDiferencia)):
+                            print('HeaderDiferencia[i]= ', HeaderDiferencia[i])
+                            print(' 1=', Dfb[Dfb.a == HeaderDiferencia[i]])
+                            print(' 2=',Dfa[Dfa.a == HeaderDiferencia[i]])
+                            print(' 3=',Dfa[Dfa.a == HeaderDiferencia[i]]['i'])
+
+                            #Dfb.loc[Dfa[0] == (int(UltimoTimestamp) + 0.0), 'BS'] =
+                            Dfb['b'][i] = Dfa[Dfa.a == HeaderDiferencia[i]]['i']
+                        print(Dfb.head())
+                        Dfb=Dfb.sort_values(by=['b'])
+                        print(Dfb.head())
+                        print('-------------b')
+                        HeaderDiferencia=sorted(HeaderDiferencia)
+                        HeaderDiferencia = Dfb['a'].tolist()
+                        print('HeaderDiferencia= ', HeaderDiferencia)
                         # res = [1 if ele in search_list else 0 for ele in test_list]
                         mask = np.in1d(HeaderExcelNuevo, HeaderDiferencia)
                         # print('mask= ', mask)
@@ -1437,8 +1570,8 @@ for i in result:
                         print(df[['resp', 'Vars']].tail())
 
                         # print( df[(df['Vars'] == ['var95', 'var94'])])
-                        print(df.Vars.isin(['var95', 'var94']))
-                        print(df[df.Vars.isin(['var95', 'var94'])]['resp'].tolist())
+                        #print(df.Vars.isin(['var95', 'var94']))
+                        #print(df[df.Vars.isin(['var95', 'var94'])]['resp'].tolist())
                         List1 = HeaderDiferencia
                         string = "1"
                         output = ["{}{}".format(i, string) for i in List1]
@@ -1464,6 +1597,9 @@ for i in result:
                             #    worksheet1.update_value(str(output[i]), str(Diff[i]))
                             # print((str(output[0])+':'+str(output[-1])))
                             print('a')
+                            print('x= ', x )
+                            print('[Diff]= ', [Diff])
+
                             worksheet1.update_values(x, [Diff], extend=True)
                             print('b')
 
@@ -1523,10 +1659,6 @@ for i in result:
 
                         #####################################################################################
 
-
-
-
-
                     else:
                         print('No existe la pestaña ')
 
@@ -1558,10 +1690,9 @@ for i in result:
                             st.success('Hecho!')
                             st.balloons()
 
+                except ValueError as e:
 
-                except Exception as e:
-
-                    print(e)
+                    print('Error= ', e)
 
                     st.error('Error!... volver a intentar')
 
