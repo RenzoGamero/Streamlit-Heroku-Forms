@@ -664,8 +664,8 @@ def expanderrr(x, q, op, tipo, Dependencia, nivel, vista, DependenciaSiNo, Valid
     print('=============================================================')
     print('X= ', x)
     print('q= ', q)
-    print('Dependencia= ', Dependencia)
-    print('DependenciaSiNo= ', DependenciaSiNo)
+    print('Dependencia= |', Dependencia,'|', len(Dependencia))
+    print('DependenciaSiNo= |', DependenciaSiNo,'|', len(Dependencia))
 
     global df
     if tipo == 'selectbox':
@@ -742,15 +742,14 @@ def expanderrr(x, q, op, tipo, Dependencia, nivel, vista, DependenciaSiNo, Valid
                }  # etc.
 
         #if Dependencia == '' :
-        if DependenciaSiNo=='' and Dependencia_Respuesta=='':
+        if DependenciaSiNo == '' and Dependencia_Respuesta=='':
             print('qe vacio ')
             number = st.number_input(q, step=1, min_value=0)
             st.write('Seleccionaste: ', number)
             df['resp'][x] = str(int(number))
         else:
 
-            if df[(df['q_'] == Dependencia)]['resp'].values[0] == str(DependenciaSiNo) \
-                    and Dependencia_Respuesta == '':
+            if df[(df['q_'] == Dependencia)]['resp'].values[0] == str(DependenciaSiNo) and Dependencia_Respuesta == '':
 
                 number = st.number_input(q, step=1, min_value=0)
                 st.write('Seleccionaste: ', number)
@@ -829,13 +828,44 @@ def expanderrr(x, q, op, tipo, Dependencia, nivel, vista, DependenciaSiNo, Valid
             print('without_empty_strings = ', without_empty_strings)
             print('*'*50)
             print(list(df.columns))
+            df0 = df[['Vars', 'resp', 'tipo']]
+            print(df0)
+
+            print('*'*100)
+            lcolnumbertype=  df0[df0.tipo == 'number_input']['Vars'].tolist()
+            print('lcolnumbertype= ', lcolnumbertype)
+
+            print('*'*100)
+
             df1=df[['Vars', 'resp']]
+            df1=df0[['Vars', 'resp']]
+
             df1 = df1.set_index('Vars')
             print(df1)
 
             df2 = df1.T
             print(df2)
+            for i in range(len(lcolnumbertype)):
+                print('i= ', i)
+                try:
+                    #df2[lcolnumbertype[i]] = df2[lcolnumbertype[i]].fillna(0)
+                    df2[lcolnumbertype[i]].astype('int')
+                    #df2[lcolnumbertype[i]].astype(str).astype(float).astype(int)
+                    #df2[lcolnumbertype[i]].astype('Int32')
+                    #df2[lcolnumbertype[i]].astype(float).astype('Int64')
+                    df2[lcolnumbertype[i]]=       pd.to_numeric(df2[lcolnumbertype[i]], errors='coerce').astype('Int64')
+
+
+                    #df2[lcolnumbertype[i]].astype(np.float).astype("Int32")
+                except:
+                    print('Error de conversion ')
+                    df2[lcolnumbertype[i]]=df2[lcolnumbertype[i]].fillna(0)
+                    #df2[lcolnumbertype[i]].astype(np.float).astype("Int32")
+                    df2[lcolnumbertype[i]].astype(int)
+            print(df2)
             print('---------------')
+            print('Dependencia_Respuesta= ', Dependencia_Respuesta)
+            print(df2.dtypes)
             print(df2.eval(Dependencia_Respuesta).values[0])
             print('---------------')
 
