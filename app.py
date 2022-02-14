@@ -755,141 +755,143 @@ def expanderrr(x, q, op, tipo, Dependencia, nivel, vista, DependenciaSiNo, Valid
                 st.write('Seleccionaste: ', number)
                 df['resp'][x] = number
 
-            StringOperator = ''.join([i for i in Dependencia_Respuesta if not i.isdigit()])
-            PreguntaObj = ''.join([i for i in Dependencia_Respuesta if i.isdigit()])
-            print('StringOperator           = ', StringOperator)
-            print('PreguntaObj              = ', PreguntaObj)
-            import re
-            a=['<', '>', '=', '==', '<=','>=']
-            aal=['and', 'or']
-            a1= re.split(' ', StringOperator)
-            list_a=(aal)
-            list_b=set(a1)
 
-            #list_a=[[el] for el in a]
-            #list_b=[[el] for el in a1]
-            print('list_a= ',list_a)
-            print('list_b= ',list_b)
+            else:
+                StringOperator = ''.join([i for i in Dependencia_Respuesta if not i.isdigit()])
+                PreguntaObj = ''.join([i for i in Dependencia_Respuesta if i.isdigit()])
+                print('StringOperator           = ', StringOperator)
+                print('PreguntaObj              = ', PreguntaObj)
+                import re
+                a=['<', '>', '=', '==', '<=','>=']
+                aal=['and', 'or']
+                a1= re.split(' ', StringOperator)
+                list_a=(aal)
+                list_b=set(a1)
 
-            set2 = set(list_b)
+                #list_a=[[el] for el in a]
+                #list_b=[[el] for el in a1]
+                print('list_a= ',list_a)
+                print('list_b= ',list_b)
 
-            result = [x for x in list_a if x[0] in list_b]
-            result2= filter(lambda list_a: list_a[0] in list_b, list_a)
-            result3= [x for x in list_a if x in set2]
-            print('result= ', result )
-            print('result2= ', result2)
-            print('result2= ', result3)
+                set2 = set(list_b)
 
-            print('Dependencia_Respuesta1    = ', Dependencia_Respuesta)
+                result = [x for x in list_a if x[0] in list_b]
+                result2= filter(lambda list_a: list_a[0] in list_b, list_a)
+                result3= [x for x in list_a if x in set2]
+                print('result= ', result )
+                print('result2= ', result2)
+                print('result2= ', result3)
 
-            DR= re.split('and|or', Dependencia_Respuesta)
-            print('Dependencia_Respuesta2    = ', DR)
-            DR_3 = [s.replace(" ", "") for s in DR]
-            print('Dependencia_Respuesta3  DR_3  = ', DR_3)
-            DR1= re.split('<|>|=|==|>=|<=', Dependencia_Respuesta)
-            print('Dependencia_Respuesta4   = ', DR1)
+                print('Dependencia_Respuesta1    = ', Dependencia_Respuesta)
 
-            indeces = [i for i, x in enumerate(Dependencia_Respuesta) if x in a]
-            print('indeces= ', indeces)
-            from itertools import count
-            zipped = [(i, j) for i, j in zip(count(), a) if j == Dependencia_Respuesta]
-            print('zipped= ', zipped)
+                DR= re.split('and|or', Dependencia_Respuesta)
+                print('Dependencia_Respuesta2    = ', DR)
+                DR_3 = [s.replace(" ", "") for s in DR]
+                print('Dependencia_Respuesta3  DR_3  = ', DR_3)
+                DR1= re.split('<|>|=|==|>=|<=', Dependencia_Respuesta)
+                print('Dependencia_Respuesta4   = ', DR1)
 
-            StringOperator = ''.join([i for i in Dependencia_Respuesta if not i.isalpha()])
-            PreguntaObj = ''.join([i for i in Dependencia_Respuesta if i.isalpha()])
-            print('StringOperator   isalpha         = ', StringOperator)
-            print('PreguntaObj      isalpha         = ', PreguntaObj)
+                indeces = [i for i, x in enumerate(Dependencia_Respuesta) if x in a]
+                print('indeces= ', indeces)
+                from itertools import count
+                zipped = [(i, j) for i, j in zip(count(), a) if j == Dependencia_Respuesta]
+                print('zipped= ', zipped)
 
-            StringOperator1 = ''.join([i for i in StringOperator if not i.isdigit()])
-            PreguntaObj1 = ''.join([i for i in StringOperator if i.isdigit()])
-            print('StringOperator1   isdigit         = ', StringOperator1)
-            print('PreguntaObj1      isdigit         = ', PreguntaObj1)
-            print('StringOperator1   isdigit  list        = ', list(StringOperator1))
-            print('PreguntaObj1      isdigit  list        = ', list(PreguntaObj1))
-            DR = [s.replace(" ", ",") for s in StringOperator1]
-            print('StringOperator1   isdigit   2      = ', DR)
-            DR3 = re.split(' ', StringOperator1)
-            print('PreguntaObj1      DR3      = ', DR3)
-            without_empty_strings = [string for string in DR3 if string != ""]
-            print('without_empty_strings      DR3      = ', without_empty_strings)
+                StringOperator = ''.join([i for i in Dependencia_Respuesta if not i.isalpha()])
+                PreguntaObj = ''.join([i for i in Dependencia_Respuesta if i.isalpha()])
+                print('StringOperator   isalpha         = ', StringOperator)
+                print('PreguntaObj      isalpha         = ', PreguntaObj)
 
-            a=['<', '>', '=', '==', '<=','>=']
+                StringOperator1 = ''.join([i for i in StringOperator if not i.isdigit()])
+                PreguntaObj1 = ''.join([i for i in StringOperator if i.isdigit()])
+                print('StringOperator1   isdigit         = ', StringOperator1)
+                print('PreguntaObj1      isdigit         = ', PreguntaObj1)
+                print('StringOperator1   isdigit  list        = ', list(StringOperator1))
+                print('PreguntaObj1      isdigit  list        = ', list(PreguntaObj1))
+                DR = [s.replace(" ", ",") for s in StringOperator1]
+                print('StringOperator1   isdigit   2      = ', DR)
+                DR3 = re.split(' ', StringOperator1)
+                print('PreguntaObj1      DR3      = ', DR3)
+                without_empty_strings = [string for string in DR3 if string != ""]
+                print('without_empty_strings      DR3      = ', without_empty_strings)
 
-            for i in range(len(a)):
-                DR_3 = [s.replace(a[i], ' ') for s in DR_3]
-            print('DR_3= ', DR_3)
+                a=['<', '>', '=', '==', '<=','>=']
 
-            DR_3 = re.split(' ', ' '.join(DR_3))
-            DR_3 = [string for string in DR_3 if string != ""]
+                for i in range(len(a)):
+                    DR_3 = [s.replace(a[i], ' ') for s in DR_3]
+                print('DR_3= ', DR_3)
 
-            print('*'*50)
-            print('DR_3= ', DR_3)
-            print('result3= ', result3)
-            print('without_empty_strings = ', without_empty_strings)
-            print('*'*50)
-            print(list(df.columns))
-            df0 = df[['Vars', 'resp', 'tipo']]
-            print(df0)
+                DR_3 = re.split(' ', ' '.join(DR_3))
+                DR_3 = [string for string in DR_3 if string != ""]
 
-            print('*'*100)
-            lcolnumbertype=  df0[df0.tipo == 'number_input']['Vars'].tolist()
-            print('lcolnumbertype= ', lcolnumbertype)
+                print('*'*50)
+                print('DR_3= ', DR_3)
+                print('result3= ', result3)
+                print('without_empty_strings = ', without_empty_strings)
+                print('*'*50)
+                print(list(df.columns))
+                df0 = df[['Vars', 'resp', 'tipo']]
+                print(df0)
 
-            print('*'*100)
+                print('*'*100)
+                lcolnumbertype=  df0[df0.tipo == 'number_input']['Vars'].tolist()
+                print('lcolnumbertype= ', lcolnumbertype)
 
-            df1=df[['Vars', 'resp']]
-            df1=df0[['Vars', 'resp']]
+                print('*'*100)
 
-            df1 = df1.set_index('Vars')
-            print(df1)
+                df1=df[['Vars', 'resp']]
+                df1=df0[['Vars', 'resp']]
 
-            df2 = df1.T
-            print(df2)
-            for i in range(len(lcolnumbertype)):
-                print('i= ', i)
-                try:
-                    #df2[lcolnumbertype[i]] = df2[lcolnumbertype[i]].fillna(0)
-                    df2[lcolnumbertype[i]].astype('int')
-                    #df2[lcolnumbertype[i]].astype(str).astype(float).astype(int)
-                    #df2[lcolnumbertype[i]].astype('Int32')
-                    #df2[lcolnumbertype[i]].astype(float).astype('Int64')
-                    df2[lcolnumbertype[i]]=       pd.to_numeric(df2[lcolnumbertype[i]], errors='coerce').astype('Int64')
+                df1 = df1.set_index('Vars')
+                print(df1)
 
-
-                    #df2[lcolnumbertype[i]].astype(np.float).astype("Int32")
-                except:
-                    print('Error de conversion ')
-                    df2[lcolnumbertype[i]]=df2[lcolnumbertype[i]].fillna(0)
-                    #df2[lcolnumbertype[i]].astype(np.float).astype("Int32")
-                    df2[lcolnumbertype[i]].astype(int)
-            print(df2)
-            print('---------------')
-            print('Dependencia_Respuesta= ', Dependencia_Respuesta)
-            print(df2.dtypes)
-            print(df2.eval(Dependencia_Respuesta).values[0])
-            print('---------------')
-
-            print('*'*50)
+                df2 = df1.T
+                print(df2)
+                for i in range(len(lcolnumbertype)):
+                    print('i= ', i)
+                    try:
+                        #df2[lcolnumbertype[i]] = df2[lcolnumbertype[i]].fillna(0)
+                        df2[lcolnumbertype[i]].astype('int')
+                        #df2[lcolnumbertype[i]].astype(str).astype(float).astype(int)
+                        #df2[lcolnumbertype[i]].astype('Int32')
+                        #df2[lcolnumbertype[i]].astype(float).astype('Int64')
+                        df2[lcolnumbertype[i]]=       pd.to_numeric(df2[lcolnumbertype[i]], errors='coerce').astype('Int64')
 
 
+                        #df2[lcolnumbertype[i]].astype(np.float).astype("Int32")
+                    except:
+                        print('Error de conversion ')
+                        df2[lcolnumbertype[i]]=df2[lcolnumbertype[i]].fillna(0)
+                        #df2[lcolnumbertype[i]].astype(np.float).astype("Int32")
+                        df2[lcolnumbertype[i]].astype(int)
+                print(df2)
+                print('---------------')
+                print('Dependencia_Respuesta= ', Dependencia_Respuesta)
+                print(df2.dtypes)
+                print(df2.eval(Dependencia_Respuesta).values[0])
+                print('---------------')
 
-            #a=1
-            #b=1
-            #c=2
-            #print('a= ',a, ' b= ', b, ' c=', c)
-            #if a > 2 and b>2 or c==2:
-            #    print('Dentro de If ')
-            #else:
-            #    print('Dentro de else ')
+                print('*'*50)
 
 
 
-            #if DependenciaSiNo == '' and Dependencia_Respuesta != '' \
-            #        and ops[StringOperator](df[(df['q_'] == int(Dependencia))]['resp'].values[0] ,int(PreguntaObj)):
-            if df2.eval(Dependencia_Respuesta).values[0]:
-                number = st.number_input(q, step=1, min_value=0)
-                st.write('Seleccionaste: ', number)
-                df['resp'][x] = number
+                #a=1
+                #b=1
+                #c=2
+                #print('a= ',a, ' b= ', b, ' c=', c)
+                #if a > 2 and b>2 or c==2:
+                #    print('Dentro de If ')
+                #else:
+                #    print('Dentro de else ')
+
+
+
+                #if DependenciaSiNo == '' and Dependencia_Respuesta != '' \
+                #        and ops[StringOperator](df[(df['q_'] == int(Dependencia))]['resp'].values[0] ,int(PreguntaObj)):
+                if df2.eval(Dependencia_Respuesta).values[0]:
+                    number = st.number_input(q, step=1, min_value=0)
+                    st.write('Seleccionaste: ', number)
+                    df['resp'][x] = number
 
         if Validar != '':
             temp_string = Validar
@@ -1811,6 +1813,7 @@ for i in result:
         sheetDataCheck = worksheet1.get_all_records()
         sheetDataCheck = pd.DataFrame(sheetDataCheck)
         print('ok 1')
+        print('sheetDataCheck= ', sheetDataCheck)
         #st.write('sheetDataCheck.columns= ', sheetDataCheck.columns)
 
         # ------
@@ -1848,6 +1851,8 @@ for i in result:
 
         #sheetDataCheck=dft2
         dff1 = sheetDataCheck[(sheetDataCheck['Sector'] == str(option))]
+        dff1 = dff1.reset_index()
+
         #st.write('dff1= ', dff1)
 
         #st.write('Nombre_Indicador 1= ', dff1['Nombre_Indicador'][0])
@@ -1860,7 +1865,10 @@ for i in result:
 
         # st.write('Nombre_Indicador  = ',dff1['Nombre_Indicador'].values)
         # st.write('Formula           = ', dff1['Formula'].values)
+        print('dff1= ', dff1)
         ListDfIndCols = list(DfInd.columns)
+        print('ListDfIndCols= ', ListDfIndCols)
+
         ListInd = []
         #try:
         for i in range(len(dff1)):
@@ -1872,23 +1880,257 @@ for i in result:
             #DfInd=DfInd.convert_dtypes()
             #DfInd=DfInd.infer_objects()
             #DfInd=DfInd.convert_dtypes()
-            DfInd = DfInd.astype({"var5": float, "var6": float})
+            # ##########################################################
+
+            
+            #print('DfInd= ', DfInd)
+            #df0 = df[['Vars', 'resp', 'tipo']]
+            #print(df0)
+            #print('*' * 100)
+            #lcolnumbertype = df0[df0.tipo == 'number_input']['Vars'].tolist()
+            #print('lcolnumbertype= ', lcolnumbertype)
+            #print('*' * 100)
+            #df1 = df[['Vars', 'resp']]
+            #df1 = df0[['Vars', 'resp']]
+            #df1 = df1.set_index('Vars')
+            #print(df1)
+            #df2 = df1.T
+            #print(df2)
+            #for i in range(len(lcolnumbertype)):
+            #    print('i= ', i)
+            #    try:
+            #        df2[lcolnumbertype[i]].astype('int')
+            #        df2[lcolnumbertype[i]] = pd.to_numeric(df2[lcolnumbertype[i]], errors='coerce').astype('Int64')
+            #    except:
+            #        print('Error de conversion ')
+            #        df2[lcolnumbertype[i]] = df2[lcolnumbertype[i]].fillna(0)
+            #        df2[lcolnumbertype[i]].astype(int)
+            #print(df2)
+            
+            #print('*' * 50)
+
+            # ################################################################
+
+            #(var67 / var44)
+            # DfInd = DfInd.astype({"var5": float, "var6": float})
+            #print(DfInd[['var67','var44']].dtypes)
+            #DfInd = DfInd.astype({"var67": float, "var44": float})
+            #print(DfInd[['var67', 'var44']].dtypes)
+
+
             #lsc=DfInd.columns
             #for i in range(len(lsc)):
             #    print(i,' lsc[i]= ',   lsc[i])
             #    DfInd = DfInd.astype({lsc[i]: int})
 
             #print(DfInd.dtypes)
-            print('dff1[Nombre_Indicador][i]]=   ', dff1['Nombre_Indicador'][i] )
-            print('dff1[Formula][i]=             ', dff1['Formula'][i])
-            print('DfInd.eval(dff1[Formula][i])= ', DfInd.eval(dff1['Formula'][i]) )
-
-            print(DfInd)
-            DfInd[dff1['Nombre_Indicador'][i]] = DfInd.eval(dff1['Formula'][i])
-            ListInd.append(dff1['Nombre_Indicador'][i])
-            print(DfInd)
+            #print('dff1[Nombre_Indicador][i]]=   ', dff1['Nombre_Indicador'][i] )
+            #print('dff1[Formula][i]=             ', dff1['Formula'][i])
+            #print('DfInd.eval(dff1[Formula][i])= ', DfInd.eval(dff1['Formula'][i]) )
+            #print(DfInd)
+            #DfInd[dff1['Nombre_Indicador'][i]] = DfInd.eval(dff1['Formula'][i])
+            #ListInd.append(dff1['Nombre_Indicador'][i])
+            #print(DfInd)
         #except:
         #    print('Error')
+
+        print('-'*100) # ##########################################################
+        #data = {'a': [1, 2, 3]}
+        #df = pd.DataFrame({'a': [1, 2, 3]})
+        #df.if(df.a > 2, 42, 0 )
+        #print('df= ', df)
+        #df.eval('where(a>2, 42, 0)')
+        #print('df= ', df)
+        #print(DfInd)
+        #DfInd2=DfInd.eval("op = var7 * 1 if var7 < 2 else var7", inplace=True)
+        # 'where(a>2, 42, 0)
+        #DfInd2 = DfInd.eval("where(var7 < 2,var7 * 1,var7 * 3)", inplace=True)
+        #print(DfInd2)
+
+
+        with_s = [x for x in list(dff1.columns) if x.startswith('Sub')]
+
+        dft = dff1[with_s]
+        for j in range(len(dft)):
+            print('j= ',j,'='*200)
+            print('j= ', j)
+            for i in range(len(with_s)):
+                print('i= ', i,'-' * 200)
+                print('dft[with_s[i]][j]= ', dft[with_s[i]][j])
+                if dft[with_s[i]][j] != '':
+                    print('dff1= ', dff1)
+                    print('dff1 columns = ', dff1.columns)
+
+                    print('with_s= ', with_s)
+                    #with_s= with_s +['Ind']
+                    print('with_s= ', with_s)
+                    print('dft= ', dft)
+                    #print('dft= ', dft['Sub1'])
+                    import re
+                    print('i= ', i, ' j= ',j)
+                    print('with_s[i]]= ', with_s[i])
+                    print('dft[with_s[i]]=' ,  dft[with_s[i]])
+                    print('dft[with_s[i]][j]=' ,  dft[with_s[i]][j])
+
+                    print('dft[with_s[i]].values[0]= ', dft[with_s[i]].values[0])
+
+                    #a1 = re.split("'('|')'", dft[with_s[i]].values[0])
+                    a1 = re.split("'('|')'", dft[with_s[i]][j])
+
+                    print('a1= ', a1)
+                    #a2=re.findall('\[[^\]]*\]|\([^\)]*\)|\"[^\"]*\"|\S+', dft[with_s[i]].values[0])
+                    a2=re.findall('\[[^\]]*\]|\([^\)]*\)|\"[^\"]*\"|\S+', dft[with_s[i]][j])
+
+                    print('a2= ', a2)
+                    a3 = re.split(",|;", a2[1])
+                    a3 = [s.replace("(", "") for s in a3]
+                    print('a3= ', a3)
+                    print('str(a3[0])= ', str(a3[0]))
+                    print('****************************')
+                    print('DfInd= ', DfInd)
+                    a33=str(a3[0])
+                    print('a33= ', a33)
+                    #a33 = re.split("isnull|isnull()", a33)
+                    #a33 = [s.replace("isnull", "isnull()") for s in a33]
+                    a33=a33.replace("isnull", "isnull()")
+                    print('a33= ', a33)
+                    print('a33= ', str(a33))
+
+                    #Result = DfInd.eval((a33))
+                    #print('Result= ', Result)
+
+                    try:
+                        Result = DfInd.eval((a33))
+                        print('Result= ', Result)
+                        print('****************************')
+
+                        print('a3[1]= ', a3[1])
+                        Result = Result.replace({True: int(a3[1]), False: int(a3[2])})
+                        print('Result= ', Result)
+
+                        DfInd[with_s[i]] = Result
+                    except:
+                        print('Error')
+
+
+
+
+                    a22 = re.findall('\[[^\]]*\]|\([^\)]*\)|\"[^\"]*\"|\S+', dff1['Ind'][j])
+                    print('a22= ', a22)
+                    a3 = re.split(",|;", a22[1])
+                    a3 = [s.replace("(", "") for s in a3]
+                    print('a3= ', a3)
+                    try:
+                        Result = DfInd.eval(str(a3[0]))
+                        Result = Result.replace({True: int(a3[1]), False: int(a3[2])})
+                        print('Result= ', Result)
+                        print('dff1[Nombre_Indicador][j]= ', dff1['Nombre_Indicador'][j])
+                        # print('dff1[Nombre_Indicador][j]= ', dff1['Nombre_Indicador'][j])
+                        DfInd[dff1['Nombre_Indicador'][j]] = Result
+                        print('1 DfInd= ', DfInd)
+                        aa = str(with_s[i])
+                        bb = str((with_s[i] + '_' + str(j)))
+                        print('aa= ', aa, ' bb= ', bb)
+                        # DfInd=DfInd.rename(columns={aa: bb}, inplace=True)
+                        # df2_tidy = df2_melted.rename(columns={'variable': 'Year', 'value': 'Income'}, inplace=False)
+                        DfInd[bb] = DfInd[aa]
+                        DfInd.drop(aa, axis='columns', inplace=True)
+                        print('2 DfInd= ', DfInd)
+                    except:
+                        print('error')
+
+
+
+                else:
+                    print('ingreso a else ')
+
+                    try:
+                        a22 = re.findall('\[[^\]]*\]|\([^\)]*\)|\"[^\"]*\"|\S+', dff1['Ind'][j])
+                        print('a22= ', a22)
+                        a3 = re.split(",|;", a22[1])
+                        a3 = [s.replace("(", "") for s in a3]
+                        print('a3= ', a3)
+                        print('str(a3[0])= ', str(a3[0]))
+                        Result = DfInd.eval(str(a3[0]))
+                        Result = Result.replace({True: int(a3[1]), False: int(a3[2])})
+                        print('Result= ', Result)
+                        DfInd[dff1['Nombre_Indicador'][j]] = Result
+                        print('1 DfInd= ', DfInd)
+                    except:
+                        print('error')
+
+
+        """
+        a=['<', '>', '=', '==', '<=','>=']
+            aal=['and', 'or']
+            a1= re.split(' ', StringOperator)
+            list_a=(aal)
+            list_b=set(a1)
+
+            #list_a=[[el] for el in a]
+            #list_b=[[el] for el in a1]
+            print('list_a= ',list_a)
+            print('list_b= ',list_b)
+
+            set2 = set(list_b)
+
+            result = [x for x in list_a if x[0] in list_b]
+            result2= filter(lambda list_a: list_a[0] in list_b, list_a)
+            result3= [x for x in list_a if x in set2]
+            print('result= ', result )
+            print('result2= ', result2)
+            print('result2= ', result3)
+
+            print('Dependencia_Respuesta1    = ', Dependencia_Respuesta)
+
+            DR= re.split('and|or', Dependencia_Respuesta)
+            print('Dependencia_Respuesta2    = ', DR)
+            DR_3 = [s.replace(" ", "") for s in DR]
+            print('Dependencia_Respuesta3  DR_3  = ', DR_3)
+            DR1= re.split('<|>|=|==|>=|<=', Dependencia_Respuesta)
+            print('Dependencia_Respuesta4   = ', DR1)
+
+            indeces = [i for i, x in enumerate(Dependencia_Respuesta) if x in a]
+            print('indeces= ', indeces)
+            from itertools import count
+            zipped = [(i, j) for i, j in zip(count(), a) if j == Dependencia_Respuesta]
+            print('zipped= ', zipped)
+
+            StringOperator = ''.join([i for i in Dependencia_Respuesta if not i.isalpha()])
+            PreguntaObj = ''.join([i for i in Dependencia_Respuesta if i.isalpha()])
+            print('StringOperator   isalpha         = ', StringOperator)
+            print('PreguntaObj      isalpha         = ', PreguntaObj)
+
+            StringOperator1 = ''.join([i for i in StringOperator if not i.isdigit()])
+            PreguntaObj1 = ''.join([i for i in StringOperator if i.isdigit()])
+            print('StringOperator1   isdigit         = ', StringOperator1)
+            print('PreguntaObj1      isdigit         = ', PreguntaObj1)
+            print('StringOperator1   isdigit  list        = ', list(StringOperator1))
+            print('PreguntaObj1      isdigit  list        = ', list(PreguntaObj1))
+            DR = [s.replace(" ", ",") for s in StringOperator1]
+            print('StringOperator1   isdigit   2      = ', DR)
+            DR3 = re.split(' ', StringOperator1)
+            print('PreguntaObj1      DR3      = ', DR3)
+            without_empty_strings = [string for string in DR3 if string != ""]
+            print('without_empty_strings      DR3      = ', without_empty_strings)
+
+            a=['<', '>', '=', '==', '<=','>=']
+
+            for i in range(len(a)):
+                DR_3 = [s.replace(a[i], ' ') for s in DR_3]
+            print('DR_3= ', DR_3)
+
+            DR_3 = re.split(' ', ' '.join(DR_3))
+            DR_3 = [string for string in DR_3 if string != ""]
+
+            print('*'*50)
+            print('DR_3= ', DR_3)
+            print('result3= ', result3)
+            print('without_empty_strings = ', without_empty_strings)
+        
+        """
+
+        print('-'*100) # ##########################################################
 
         cols = DfInd.columns.tolist()
         cols = [cols[-1]] + cols[:-1]  # or whatever change you need
@@ -1898,10 +2140,13 @@ for i in result:
 
         st.write('Melt ')
         DfInd['ID']=DfInd.index
-
         DfInd = DfInd.melt(id_vars=ListDfIndCols, value_vars=ListInd, var_name='Indicador')
+
         DfInd = DfInd.astype(str)
         st.dataframe(data=DfInd, width=None, height=None)
+
+
+
 
         # #################################################################
         st.write('-'*80)
@@ -1940,3 +2185,10 @@ for i in result:
             with open(f_nameg, 'rb') as f:
                 st.download_button('Download Indicadores', f,
                                    file_name=f_nameg)  # Defaults to 'application/octet-stream'
+
+
+### 10 if var67 == 1 else 0
+
+# data.groupby('Group').sum().eval('one_two = One / Two')
+
+# df.eval("op = op * @mult if index < @ex_date else op", inplace=True)
