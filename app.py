@@ -748,15 +748,18 @@ def expanderrr(x, q, op, tipo, Dependencia, nivel, vista, DependenciaSiNo, Valid
             st.write('Seleccionaste: ', number)
             df['resp'][x] = str(int(number))
         else:
-
+            print('df[(df[q_] == Dependencia)][resp].values[0]= ', df[(df['q_'] == Dependencia)]['resp'].values[0])
+            print('str(DependenciaSiNo)= ', str(DependenciaSiNo))
+            print('Dependencia_Respuesta =  ', Dependencia_Respuesta)
             if df[(df['q_'] == Dependencia)]['resp'].values[0] == str(DependenciaSiNo) and Dependencia_Respuesta == '':
-
+                print('entro a if ')
                 number = st.number_input(q, step=1, min_value=0)
                 st.write('Seleccionaste: ', number)
                 df['resp'][x] = number
 
 
-            else:
+            if Dependencia_Respuesta != '':
+                print('entro a else ')
                 StringOperator = ''.join([i for i in Dependencia_Respuesta if not i.isdigit()])
                 PreguntaObj = ''.join([i for i in Dependencia_Respuesta if i.isdigit()])
                 print('StringOperator           = ', StringOperator)
