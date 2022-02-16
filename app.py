@@ -2344,7 +2344,7 @@ for i in result:
                 ColAgregacionSelect=ColAgregacionPrecargado
 
 
-            from st_aggrid import AgGrid
+            #from st_aggrid import AgGrid
             st.write('Matriz Resultado: ')
             #AgGrid(DfIndAg)
             DfInd = DfIndAg[ColtiempoSelect+ColAgrupacionSelect+ColAgregacionSelect].astype(str)
