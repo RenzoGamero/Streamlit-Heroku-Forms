@@ -35,3 +35,25 @@ app.layout = html.Div(children=[
 
 if __name__ == '__main__':
     app.run_server(debug=True)
+
+
+
+
+
+myKey = 'my_key'
+        if myKey not in st.session_state:
+            st.session_state[myKey] = False
+        if st.session_state[myKey]:
+            myBtn = st.button('Mostrar Opciones')
+            st.session_state[myKey] = False
+        else:
+            myBtn = st.button('Ocultar Opciones')
+            st.session_state[myKey] = True
+
+        print('st.session_state[myKey]= ', st.session_state[myKey])
+        if st.session_state[myKey] == True:
+            T = st.multiselect('Columnas para Agregar t ', (ColAgregacion))
+
+
+
+
