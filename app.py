@@ -1323,7 +1323,7 @@ def expanderrr(x, q, op, tipo, Dependencia, nivel, vista, DependenciaSiNo, Valid
 
             print('len(df)= ', len(df))
             print('df.columns= ', df.columns)
-            df['Vars'][(len(df) - 2)] = str(df['Vars'][x]) + ('_salida_2_suma')
+            df['Vars'][(len(df) - 2)] = str(df['Vars'][x]) + ('_salida_2_s')
             df['resp'][(len(df) - 2)] = str(sum(a))
 
 
@@ -2130,11 +2130,11 @@ for i in result:
             print('dff1= ', dff1)
             print('dff1.columns= ', dff1.columns)
 
-            str_list = re.split(",|;| ", dff1['operacion_de_agregacion'][0])
-            print('str_list= ', str_list)
+            #str_list = re.split(",|;| ", dff1['operacion_de_agregacion'][0])
+            #print('str_list= ', str_list)
 
-            str_list = list(filter(None, str_list))
-            print('str_list= ', str_list)
+            #str_list = list(filter(None, str_list))
+            #print('str_list= ', str_list)
             ColTotalSelect = ColtiempoSelect + ColAgrupacionSelect + ColAgregacionSelect
 
             b = []
@@ -2226,10 +2226,10 @@ for i in result:
                 print('dff1= ', dff1)
                 print('dff1.columns= ', dff1.columns)
 
-                str_list = re.split(",|;| ", dff1['operacion_de_agregacion'][0])
+                #str_list = re.split(",|;| ", dff1['operacion_de_agregacion'][0])
                 #print('str_list= ', str_list)
 
-                str_list = list(filter(None, str_list))
+                #str_list = list(filter(None, str_list))
                 #print('str_list= ', str_list)
                 #ColTotalSelect = ColtiempoSelect + ColAgrupacionSelect + ColAgregacionSelect
 
