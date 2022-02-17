@@ -1317,6 +1317,7 @@ def expanderrr(x, q, op, tipo, Dependencia, nivel, vista, DependenciaSiNo, Valid
             #df['resp'][x] = str(a)
             df['resp'][x] = str([",".join("{0}:{1}".format(x, y) for x, y in zip(op, a))])
 
+
             print(str(df[(df.index == int(x))]))
             df = df.append([df[(df.index == int(x))]], ignore_index=True)
             df = df.append([df[(df.index == int(x))]], ignore_index=True)
