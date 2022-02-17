@@ -2069,7 +2069,9 @@ for i in result:
 
         cols = DfInd.columns.tolist()
         cols = [cols[-1]] + cols[:-1]  # or whatever change you need
+
         DfInd = DfInd.reindex(columns=cols)
+        DfIndCopy= DfInd
         DfInd = DfInd.astype(str)
         st.dataframe(data=DfInd, width=None, height=None)
 
@@ -2248,21 +2250,21 @@ for i in result:
                     #    'Sub3_4': ['sum', 'max', 'mean'],
                     #    'Sub1_2': ['sum', 'max', 'mean']
                     # })
-                    #print(DfIndAg)
-                    #print(DfIndAg.columns)
+                    print(DfIndAg)
+                    print(DfIndAg.columns)
                     #DfIndAg['inde']=DfIndAg.index
                     DfIndAg = DfIndAg.reset_index()
-                    #print(DfIndAg)
+                    print(DfIndAg)
 
                     DfIndAg.columns = ['_'.join(col) for col in DfIndAg.columns.values]
-                    #print(DfIndAg)
-                    #print(DfIndAg.columns)
+                    print(DfIndAg)
+                    print(DfIndAg.columns)
 
 
                 return DfIndAg
 
             DfIndAg= generarDf()
-
+            print(DfIndAg)
             print()
             print()
             print()
@@ -2283,12 +2285,10 @@ for i in result:
             print('ColumnasSub= ', ColumnasSub)
             ColumnasSubAgregacion = [ele for ele in ColumnasSub if any(ele.endswith(el) for el in [TipoAgregacion])]
             print('ColumnasSubAgregacion= ', ColumnasSubAgregacion)
-
             ColumnasInd = [ele for ele in TodaslasColumnas if any(ele.startswith(el) for el in ListNameIndi)]
             print('ColumnasInd= ', ColumnasInd)
             ColumnasIndAgregacion = [ele for ele in ColumnasInd if any(ele.endswith(el) for el in [TipoAgregacion])]
             print('ColumnasSubAgregacion= ', ColumnasSubAgregacion)
-
             ColumnasTiempo = [ele for ele in TodaslasColumnas if any(ele.startswith(el) for el in ColTiempo)]
             print('ColumnasTiempo= ', ColumnasTiempo)
             TodoconTipoAgregacion= [ele for ele in TodaslasColumnas if any(ele.endswith(el) for el in [TipoAgregacion])]
@@ -2308,13 +2308,11 @@ for i in result:
                 ColTiempoPrecargado=ColumnasTiempo
                 ColAgrupacionPrecargado=TodoAgrupacion
                 ColAgregacionPrecargado=TodoconAgregacion
-
             if QueAgregar == 'Agregar Todo solo con tipo de Agregacion':
                 print('2')
                 ColTiempoPrecargado=ColumnasTiempo
                 ColAgrupacionPrecargado=TodoAgrupacion
                 ColAgregacionPrecargado= ColumnasIndAgregacion
-
             if QueAgregar == 'Agregar solo Indicadores con tipo de Agregacion':
                 print('3')
                 ColTiempoPrecargado = ColumnasTiempo
@@ -2343,21 +2341,93 @@ for i in result:
                 ColAgrupacionSelect=ColAgrupacionPrecargado
                 ColAgregacionSelect=ColAgregacionPrecargado
 
+            print()
+            print()
+            print('ColtiempoSelect=     ', ColtiempoSelect)
+            print('ColAgrupacionSelect= ', ColAgrupacionSelect)
+            print('ColAgregacionSelect= ', ColAgregacionSelect)
+
+            ColtiempoSelectRecalculo=[]
+            ColAgrupacionSelectRecalculo=[]
+            ColAgregacionSelectRecalculo_a=[]
+            ColAgregacionSelectRecalculo_b=[]
+
+            for i in range(len(ColtiempoSelect)):
+                ColtiempoSelectRecalculo.append(ColtiempoSelect[i][:-1])
+
+            for i in range(len(ColAgrupacionSelect)):
+                ColAgrupacionSelectRecalculo.append(ColAgrupacionSelect[i][:-1])
+            for i in range(len(ColAgregacionSelect)):
+                str_list = re.split("_sum|_min|_mean|_max", ColAgregacionSelect[i])
+                str_list = [string for string in str_list if string != ""]
+                ColAgregacionSelectRecalculo_a.append(str_list[0])
+                ft = (ColAgregacionSelect[i])
+                str_list = ft.split(str_list[0])
+                str_list = [string for string in str_list if string != ""]
+                #str_list = re.split("_", str_list)
+                ColAgregacionSelectRecalculo_b.append(str_list[0][1:])
+
+            print()
+            print('ColtiempoSelectRecalculo=            ', ColtiempoSelectRecalculo)
+            print('ColAgrupacionSelectRecalculo=        ', ColAgrupacionSelectRecalculo)
+            print('ColAgregacionSelectRecalculo_a=      ', ColAgregacionSelectRecalculo_a)
+            print('ColAgregacionSelectRecalculo_b=      ', ColAgregacionSelectRecalculo_b)
+
+
+            aa= ColtiempoSelectRecalculo + ColAgrupacionSelectRecalculo
+            bb = dict(zip(ColAgregacionSelectRecalculo_a, ColAgregacionSelectRecalculo_b))
+            print('aa= ', aa)
+            print('bb= ', bb)
+            print('DfIndCopy.columns= ', DfIndCopy.columns)
+
+            print('DfIndCopy= ', DfIndCopy)
+
+            for i in range (len(ColAgregacionSelectRecalculo_a)):
+                DfIndCopy[ColAgregacionSelectRecalculo_a[i]].astype('int')
+
+            DfIndAg = DfIndCopy.groupby(aa).agg(bb)
+            print(DfIndAg)
+            #st.dataframe(data=DfIndAg, width=None, height=None)
+
+            DfIndAg = DfIndAg.reset_index()
+            print(DfIndAg)
+            #st.dataframe(data=DfIndAg, width=None, height=None)
+
+            for i in range(len(ColAgregacionSelectRecalculo_a)):
+                DfIndAg[ColAgregacionSelect[i]] = DfIndAg[ColAgregacionSelectRecalculo_a[i]]
+                DfIndAg.drop(ColAgregacionSelectRecalculo_a[i], axis='columns', inplace=True)
+
+            a= ColtiempoSelect + ColAgrupacionSelect
+            b= ColtiempoSelectRecalculo +  ColAgrupacionSelectRecalculo
+            for i in range(len(a)):
+                DfIndAg[a[i]] = DfIndAg[b[i]]
+                DfIndAg.drop(b[i], axis='columns', inplace=True)
+
+
+
+            #DfIndAg.columns = ['_'.join(col) for col in DfIndAg.columns.values]
+            print(DfIndAg)
+            st.write('Matriz Resultado: ')
+
+            st.dataframe(data=DfIndAg, width=None, height=None)
 
             #from st_aggrid import AgGrid
-            st.write('Matriz Resultado: ')
             #AgGrid(DfIndAg)
-            DfInd = DfIndAg[ColtiempoSelect+ColAgrupacionSelect+ColAgregacionSelect].astype(str)
-            st.dataframe(data=DfInd, width=None, height=None)
+            #DfInd = DfIndAg[ColtiempoSelect+ColAgrupacionSelect+ColAgregacionSelect].astype(str)
+            #st.dataframe(data=DfInd, width=None, height=None)
 
             st.write('Matriz Resultado - Melt: ')
 
 
             a=ColtiempoSelect+ ColAgrupacionSelect
+            #a= ColAgrupacionSelect
             b= ColAgregacionSelect
+            print('a= ',a)
+            print('b= ',b)
 
             DfInd = DfIndAg.melt(id_vars=a, value_vars=b, value_name='Valor',var_name='Descripcion')
-            DfInd = DfInd.astype(str)
+            print(DfInd)
+            #DfInd = DfInd.astype(str)
             st.dataframe(data=DfInd, width=None, height=None)
 
             st.write('- ' * 80)
