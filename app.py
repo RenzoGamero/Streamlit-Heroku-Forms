@@ -2376,33 +2376,85 @@ for i in result:
 
 
             aa= ColtiempoSelectRecalculo + ColAgrupacionSelectRecalculo
+            lst1 = ColAgregacionSelectRecalculo_a
+            lst2 = ColAgregacionSelectRecalculo_b
+            lst_tuple = list(zip(lst1, lst2))
+            print('lst_tuple= ', lst_tuple)
+            from collections import defaultdict
+
+            d = defaultdict(list)
+            for k, v in lst_tuple:
+                d[k].append(v)
+
+            print('(d.items())= ', (d.items()))
+
+            print('sorted(d.items())= ', sorted(d.items()))
+            print('dict(d.items())= ', dict(d.items()))
+
+
             bb = dict(zip(ColAgregacionSelectRecalculo_a, ColAgregacionSelectRecalculo_b))
+            bb= dict(d.items())
+            #bb = {ColAgregacionSelectRecalculo_a[i]: ColAgregacionSelectRecalculo_b[i] for i in range(len(ColAgregacionSelectRecalculo_a))}
             print('aa= ', aa)
             print('bb= ', bb)
             print('DfIndCopy.columns= ', DfIndCopy.columns)
 
             print('DfIndCopy= ', DfIndCopy)
 
-            for i in range (len(ColAgregacionSelectRecalculo_a)):
-                DfIndCopy[ColAgregacionSelectRecalculo_a[i]].astype('int')
+            #print('DfIndCopy= ', DfIndCopy[bb].head())
 
+            for i in range (len(ColAgregacionSelectRecalculo_a)):
+                #DfIndCopy[ColAgregacionSelectRecalculo_a[i]].astype('float')
+                #DfIndCopy[ColAgregacionSelectRecalculo_a[i]].astype(str).astype('float').astype(int)
+                DfIndCopy[ColAgregacionSelectRecalculo_a[i]] = pd.to_numeric(DfIndCopy[ColAgregacionSelectRecalculo_a[i]])
+
+
+            #print((DfIndCopy[bb].dtypes))
+
+            print('-'*100, 'DfIndAg', '-'*90)
             DfIndAg = DfIndCopy.groupby(aa).agg(bb)
             print(DfIndAg)
-            #st.dataframe(data=DfIndAg, width=None, height=None)
+            print('-'*200)
 
+            #DfIndAg = DfIndAg.reset_index()
+            #DfIndAg.columns = ['_'.join(col) for col in DfIndAg.columns.values]
+
+
+
+            print('-'*100, 'reset index  test df', '-'*60)
             DfIndAg = DfIndAg.reset_index()
+
+            DfIndAg.columns = ['_'.join(col).strip() for col in DfIndAg.columns.values]
+            #DfIndAg.columns = DfIndAg.columns.get_level_values(0)
             print(DfIndAg)
+            print('-' * 200)
+
+            #st.dataframe(data=DfIndAg, width=None, height=None)
+            print('-'*100, 'reset index  DfIndAg', '-'*80)
+
+            DfIndAg = DfIndAg.reset_index(drop=False)
+            print(DfIndAg)
+            print('-'*200)
+
             #st.dataframe(data=DfIndAg, width=None, height=None)
 
-            for i in range(len(ColAgregacionSelectRecalculo_a)):
-                DfIndAg[ColAgregacionSelect[i]] = DfIndAg[ColAgregacionSelectRecalculo_a[i]]
-                DfIndAg.drop(ColAgregacionSelectRecalculo_a[i], axis='columns', inplace=True)
+            print('-'*200)
+            print('DfIndAg list = ', list(DfIndAg.columns))
+            print('-'*200)
+            print('ColAgregacionSelectRecalculo_a=  ', ColAgregacionSelectRecalculo_a)
+            print('-'*200)
+            print('ColAgregacionSelect=             ', ColAgregacionSelect)
+            print('-'*200)
 
-            a= ColtiempoSelect + ColAgrupacionSelect
-            b= ColtiempoSelectRecalculo +  ColAgrupacionSelectRecalculo
-            for i in range(len(a)):
-                DfIndAg[a[i]] = DfIndAg[b[i]]
-                DfIndAg.drop(b[i], axis='columns', inplace=True)
+            """"""
+            #for i in range(len(ColAgregacionSelectRecalculo_a)):
+            #    DfIndAg[ColAgregacionSelect[i]] = DfIndAg[ColAgregacionSelectRecalculo_a[i]]
+            #    DfIndAg.drop(ColAgregacionSelectRecalculo_a[i], axis='columns', inplace=True)
+            #a= ColtiempoSelect + ColAgrupacionSelect
+            #b= ColtiempoSelectRecalculo +  ColAgrupacionSelectRecalculo
+            #for i in range(len(a)):
+            #    DfIndAg[a[i]] = DfIndAg[b[i]]
+            #    DfIndAg.drop(b[i], axis='columns', inplace=True)
 
 
 
