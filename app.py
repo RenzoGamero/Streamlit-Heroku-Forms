@@ -1,3 +1,4 @@
+# Domigngo 12 de setiembre
 import pandas as pd
 import numpy as np
 import os
@@ -664,6 +665,9 @@ def expanderrr(x, q, op, tipo, Dependencia, nivel, vista, DependenciaSiNo, Valid
     print('=============================================================')
     print('X= ', x)
     print('q= ', q)
+    print('nivel= ', nivel)
+    print('op= ', op)
+
     #print('Dependencia= |', Dependencia,'|', len(Dependencia))
     #print('DependenciaSiNo= |', DependenciaSiNo,'|', len(Dependencia))
 
@@ -730,6 +734,12 @@ def expanderrr(x, q, op, tipo, Dependencia, nivel, vista, DependenciaSiNo, Valid
                 st.write('Fecha:', Fecha)
                 df['resp'][x] = str(Fecha.strftime('%Y-%m-%d'))
     if tipo == 'number_input':
+        print('df= ', df)
+        print('df q= ',df['q_'] )
+        print('Dependencia= ', Dependencia)
+        print('DependenciaSiNo= ', DependenciaSiNo)
+        print('Dependencia_Respuesta= ', Dependencia_Respuesta)
+
         import operator
         ops = {"+": operator.add,
                "-": operator.sub,
@@ -748,15 +758,19 @@ def expanderrr(x, q, op, tipo, Dependencia, nivel, vista, DependenciaSiNo, Valid
             st.write('Seleccionaste: ', number)
             df['resp'][x] = str(int(number))
         else:
-            print('df[(df[q_] == Dependencia)][resp].values[0]= ', df[(df['q_'] == Dependencia)]['resp'].values[0])
-            print('str(DependenciaSiNo)= ', str(DependenciaSiNo))
-            print('Dependencia_Respuesta =  ', Dependencia_Respuesta)
-            if df[(df['q_'] == Dependencia)]['resp'].values[0] == str(DependenciaSiNo) and Dependencia_Respuesta == '':
-                print('entro a if ')
-                number = st.number_input(q, step=1, min_value=0)
-                st.write('Seleccionaste: ', number)
-                df['resp'][x] = number
 
+
+            #print('df[(df[q_] == Dependencia)][resp].values[0]= ', df[(df['q_'] == Dependencia)]['resp'].values[0])
+            #print('str(DependenciaSiNo)= ', str(DependenciaSiNo))#
+            #print('Dependencia_Respuesta =  ', Dependencia_Respuesta)
+            try:
+                if df[(df['q_'] == Dependencia)]['resp'].values[0] == str(DependenciaSiNo) and Dependencia_Respuesta == '':
+                    print('entro a if ')
+                    number = st.number_input(q, step=1, min_value=0)
+                    st.write('Seleccionaste: ', number)
+                    df['resp'][x] = number
+            except:
+                print('Error en primer If ')
 
             if Dependencia_Respuesta != '':
                 print('entro a else ')
@@ -846,10 +860,10 @@ def expanderrr(x, q, op, tipo, Dependencia, nivel, vista, DependenciaSiNo, Valid
                 df1=df0[['Vars', 'resp']]
 
                 df1 = df1.set_index('Vars')
-                print(df1)
+                print('df1= ', df1)
 
                 df2 = df1.T
-                print(df2)
+                print('df2=', df2)
                 for i in range(len(lcolnumbertype)):
                     print('i= ', i)
                     try:
@@ -864,12 +878,33 @@ def expanderrr(x, q, op, tipo, Dependencia, nivel, vista, DependenciaSiNo, Valid
                         #df2[lcolnumbertype[i]].astype(np.float).astype("Int32")
                     except:
                         print('Error de conversion ')
-                        df2[lcolnumbertype[i]]=df2[lcolnumbertype[i]].fillna(0)
+                        print('lcolnumbertype[i]= ',lcolnumbertype[i] )
+                        print('df.columns= ', df.columns)
+                        print(df[['tipo', 'Vars']])
+                        print('df2[lcolnumbertype[i]].values= ', df2[lcolnumbertype[i]].values[0])
+                        print('_>', df[df.Vars == lcolnumbertype[i]]['tipo'].values[0])
+
+                        print('i df2[lcolnumbertype[i]]=', df2[lcolnumbertype[i]])
+                        print('f df2[lcolnumbertype[i]]=', str(df2[lcolnumbertype[i]].values[0]))
+                        if str(df[df.Vars == lcolnumbertype[i]]['tipo'].values[0]) == 'number_input' :
+                            print('dentro de If ')
+                            df2[lcolnumbertype[i]] = df2[lcolnumbertype[i]].fillna(0)
+                        else:
+                            print('Fuera de If ')
+
+
                         #df2[lcolnumbertype[i]].astype(np.float).astype("Int32")
-                        df2[lcolnumbertype[i]].astype(int)
+                        try:
+                            df2[lcolnumbertype[i]].astype(int)
+                        except:
+                            print('Error de conversion 2')
+                            #df2[lcolnumbertype[i]]=0
                 print(df2)
                 print('---------------')
                 print('Dependencia_Respuesta= ', Dependencia_Respuesta)
+                print('r_car_cama_cun_distanc---->= ', df2['r_car_cama_cun_distanc'] )
+
+                print('r_car_18_mas_total---->= ', df2['r_car_18_mas_total'] )
                 print(df2.dtypes)
                 print(df2.eval(Dependencia_Respuesta).values[0])
                 print('---------------')
@@ -1157,6 +1192,108 @@ def expanderrr(x, q, op, tipo, Dependencia, nivel, vista, DependenciaSiNo, Valid
             df['resp'][x] = \
                 DFMetadata[(DFMetadata[tt['op'].values[0][0]] == tt['resp'].values[0])][tt['op'].values[0][0]].values[0]
 
+    if tipo == 'Car_Metadata':
+        DFMetadata = CargaMetadata('Car_Metadata')
+        if vista != 'No':
+            print('Comisarias_Metadata-================')
+            print('op= ', op)
+
+            # DFMetadata=CargaMetadata('Ipress_Metadata')
+            dflocal = DFMetadata
+            # print(dflocal.head())
+            t = st.session_state
+            print('st.session_state= ', t)
+            result = [x for x in t if x.startswith('Metadata_')]
+            # result= result.remove('Tipo')
+            print('result1= ', result)
+            # result = [x for x in result if x is not ['Metadata_Código Único',
+            #                                         'Metadata_Nombre del establecimiento']]
+            # l2=['Metadata_Código Único','Metadata_Nombre del establecimiento','Metadata_Departamento']
+            # resultr = [x for x in result if x not in l2]
+            # result.remove('Metadata_Código Único') if '' in s else None
+            # result.remove('Metadata_Nombre del establecimiento') if '' in s else None
+            # result.remove('Metadata_Departamento') if '' in s else None
+            # result=resultr
+            # print('result r= ', resultr)
+
+            # nivel=[1,2,3,4]
+
+            print('===========================filtros=======================================')
+
+            print(' df', df)
+            print('dflocal cols', df.columns)
+            print('actual   = ', op[0])
+            print(df['nivel'].unique())
+            dfq = df[(df['tipo'] == tipo)]
+            print(dfq['nivel'].unique())
+            print('--'*50)
+            print('nivel= ', nivel)
+
+            print('dfq= ', dfq)
+            print('dfq columns= ', dfq.columns)
+            print('dfq[nivel]= ', dfq['nivel'])
+            print('dfq[op]= ', dfq['op'])
+
+
+            #print('Afectado = ', dfq[(dfq['nivel'].astype(int) < int(nivel))]['op'].tolist())
+            lk = dfq[(dfq['nivel'].astype(int) < int(nivel))]['op'].tolist()
+
+            for ir in lk:
+                print('---->', ir)
+                if op[0] != 'Departamento':
+                    dflocal = dflocal[(dflocal[ir[0]] == st.session_state['Metadata_' + ir[0]])]
+
+            print('===========================filtros=======================================')
+
+            print('result== ', result)
+            print(dflocal[['Código Único', 'Nombre del establecimiento',
+                           'Departamento', 'Provincia', 'Distrito']])
+            print('===========================uniques=======================================')
+            print('dflocal Departamento ', dflocal['Departamento'].unique())
+            print('dflocal Provincia    ', dflocal['Provincia'].unique())
+            print('dflocal Distrito     ', dflocal['Distrito'].unique())
+
+            print('===========================uniques=======================================')
+
+            if Dependencia == '':
+                optionMetadata = st.selectbox(q, dflocal[op[0]].unique().tolist(), key=('Metadata_' + op[0]))
+                st.write('Seleccionaste:', optionMetadata)
+                df['resp'][x] = str(optionMetadata)
+                print('optionMetadata= ', optionMetadata)
+
+                # print('optionMetadata=', st.session_state[op])
+            else:
+                if df[(df['q_'] == Dependencia)]['resp'].values[0] == 'Si':
+                    optionMetadata = st.selectbox(q, dflocal[op[0]].unique().tolist(), key=('Metadata_' + op[0]))
+                    st.write('Seleccionaste:', optionMetadata)
+                    df['resp'][x] = str(optionMetadata)
+                    print('optionMetadata= ', optionMetadata)
+        else:
+            print('colum', df.columns)
+            dff = df
+            print('-------------------------------------')
+            dff1 = df[(df['tipo'] == tipo) & (df['Vista'] == 'No')]
+            print('Max1= ', dff1['nivel'].max())
+            print(dff1)
+            print(dff1['op'].values[0][0])
+            print('-------------------------------------')
+            dff2 = df[(df['tipo'] == tipo) & (df['Vista'] != 'No')]
+            print('Max2= ', dff2['nivel'].max())
+            print(dff2)
+            print(dff2[(dff2['nivel'] == dff1['nivel'].max())])
+            tt = dff2[(dff2['nivel'] == dff1['nivel'].max())]
+            print(tt)
+            print('--1', tt['op'].values[0][0])
+            print('--2', tt['resp'].values[0])
+            print(DFMetadata[(DFMetadata[tt['op'].values[0][0]] == tt['resp'].values[0])][tt['op'].values[0][0]].values[
+                      0])
+            print('-------------------------------------3')
+
+            df['resp'][x] = \
+                DFMetadata[(DFMetadata[tt['op'].values[0][0]] == tt['resp'].values[0])][tt['op'].values[0][0]].values[0]
+
+            print('df[resp][x] = ',df['resp'][x] )
+
     if tipo == 'foto':
         st.write('1folder ---> ', os.getcwd())
         st.write('1folder 2---> ', os.chdir(os.getcwd()))
@@ -1387,6 +1524,16 @@ def CargaMetadata(n):
     if (n == 'Comisarias_Metadata'):
         gc = pygsheets.authorize(service_file='client_secrets.json')
         sh = gc.open_by_key('14-XbzALB3xZY06htbEOaoZnvC-rLWDs_AuqGoH79Y70')
+        worksheet1 = sh.worksheet('title', 'BD')
+
+        sheetData = worksheet1.get_all_records()
+        print('Desde Metadata!!!')
+        DFMetadata = pd.DataFrame(sheetData)
+        print(DFMetadata.head())
+        return DFMetadata
+    if (n == 'Car_Metadata'):
+        gc = pygsheets.authorize(service_file='client_secrets.json')
+        sh = gc.open_by_key('1C14sOJB4qQNAVX7L2JYK7qSxI-wf2-rKzbQ70ooCRF0')
         worksheet1 = sh.worksheet('title', 'BD')
 
         sheetData = worksheet1.get_all_records()
@@ -2018,9 +2165,10 @@ for i in result:
                     except:
                         print('Error')
 
+                    print(dff1)
+                    print(dff1['Ind'])
 
-
-
+                    print('dff1[Ind][j]= ', dff1['Ind'][j] )
                     a22 = re.findall('\[[^\]]*\]|\([^\)]*\)|\"[^\"]*\"|\S+', dff1['Ind'][j])
                     print('a22= ', a22)
                     a3 = re.split(",|;", a22[1])
