@@ -902,9 +902,9 @@ def expanderrr(x, q, op, tipo, Dependencia, nivel, vista, DependenciaSiNo, Valid
                 print(df2)
                 print('---------------')
                 print('Dependencia_Respuesta= ', Dependencia_Respuesta)
-                print('r_car_cama_cun_distanc---->= ', df2['r_car_cama_cun_distanc'] )
+                #print('r_car_cama_cun_distanc---->= ', df2['r_car_cama_cun_distanc'] )
 
-                print('r_car_18_mas_total---->= ', df2['r_car_18_mas_total'] )
+                #print('r_car_18_mas_total---->= ', df2['r_car_18_mas_total'] )
                 print(df2.dtypes)
                 print(df2.eval(Dependencia_Respuesta).values[0])
                 print('---------------')
