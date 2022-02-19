@@ -661,7 +661,1555 @@ def expanderrrbackup(x, q, op, tipo, qe):
                 df['resp'][x] = number
 
 
-def expanderrr(x, q, op, tipo, Dependencia, nivel, vista, DependenciaSiNo, Validar,Dependencia_Respuesta):
+def expanderrr(x, q, op, tipo, Dependencia, nivel, vista, DependenciaSiNo, Validar, Dependencia_Respuesta):
+    print('=============================================================')
+    #print('1X= ', x)
+    #print('1q= ', q)
+    #print('1nivel= ', nivel)
+    #print('1op= ', op)
+    #print('Dependencia= ', Dependencia)
+
+    # print('Dependencia= |', Dependencia,'|', len(Dependencia))
+    # print('DependenciaSiNo= |', DependenciaSiNo,'|', len(Dependencia))
+
+    global df
+    if tipo == 'selectbox':
+
+        import operator
+        ops = {"+": operator.add,
+               "-": operator.sub,
+               "<": operator.lt,
+               "<=": operator.le,
+               "==": operator.eq,
+               "!=": operator.ne,
+               ">": operator.gt,
+               ">=": operator.ge
+               }  # etc.
+
+        if DependenciaSiNo == '' and Dependencia_Respuesta == '':
+            print('----if')
+            option = st.selectbox(q, op)
+            st.write('Seleccionaste:', option)
+            df['resp'][x] = option
+        else:
+            print('----else')
+            # print('df[(df[q_] == Dependencia)][resp].values[0]= ', df[(df['q_'] == Dependencia)]['resp'].values[0])
+            # print('str(DependenciaSiNo)= ', str(DependenciaSiNo))#
+            # print('Dependencia_Respuesta =  ', Dependencia_Respuesta)
+            try:
+                if df[(df['q_'] == Dependencia)]['resp'].values[0] == str(
+                        DependenciaSiNo) and Dependencia_Respuesta == '':
+                    print('entro a if ')
+                    option = st.selectbox(q, op)
+                    st.write('Seleccionaste:', option)
+                    df['resp'][x] = option
+            except:
+                print('Error en primer If ')
+
+            if Dependencia_Respuesta != '':
+                print('entro a else ')
+                StringOperator = ''.join([i for i in Dependencia_Respuesta if not i.isdigit()])
+                PreguntaObj = ''.join([i for i in Dependencia_Respuesta if i.isdigit()])
+                print('StringOperator           = ', StringOperator)
+                print('PreguntaObj              = ', PreguntaObj)
+                import re
+                a = ['<', '>', '=', '==', '<=', '>=']
+                aal = ['and', 'or']
+                a1 = re.split(' ', StringOperator)
+                list_a = (aal)
+                list_b = set(a1)
+
+                # list_a=[[el] for el in a]
+                # list_b=[[el] for el in a1]
+                print('list_a= ', list_a)
+                print('list_b= ', list_b)
+
+                set2 = set(list_b)
+
+                result = [x for x in list_a if x[0] in list_b]
+                result2 = filter(lambda list_a: list_a[0] in list_b, list_a)
+                result3 = [x for x in list_a if x in set2]
+                print('result= ', result)
+                print('result2= ', result2)
+                print('result2= ', result3)
+
+                print('Dependencia_Respuesta1    = ', Dependencia_Respuesta)
+
+                DR = re.split('and|or', Dependencia_Respuesta)
+                print('Dependencia_Respuesta2    = ', DR)
+                DR_3 = [s.replace(" ", "") for s in DR]
+                print('Dependencia_Respuesta3  DR_3  = ', DR_3)
+                DR1 = re.split('<|>|=|==|>=|<=', Dependencia_Respuesta)
+                print('Dependencia_Respuesta4   = ', DR1)
+
+                indeces = [i for i, x in enumerate(Dependencia_Respuesta) if x in a]
+                print('indeces= ', indeces)
+                from itertools import count
+                zipped = [(i, j) for i, j in zip(count(), a) if j == Dependencia_Respuesta]
+                print('zipped= ', zipped)
+
+                StringOperator = ''.join([i for i in Dependencia_Respuesta if not i.isalpha()])
+                PreguntaObj = ''.join([i for i in Dependencia_Respuesta if i.isalpha()])
+                print('StringOperator   isalpha         = ', StringOperator)
+                print('PreguntaObj      isalpha         = ', PreguntaObj)
+
+                StringOperator1 = ''.join([i for i in StringOperator if not i.isdigit()])
+                PreguntaObj1 = ''.join([i for i in StringOperator if i.isdigit()])
+                print('StringOperator1   isdigit         = ', StringOperator1)
+                print('PreguntaObj1      isdigit         = ', PreguntaObj1)
+                print('StringOperator1   isdigit  list        = ', list(StringOperator1))
+                print('PreguntaObj1      isdigit  list        = ', list(PreguntaObj1))
+                DR = [s.replace(" ", ",") for s in StringOperator1]
+                print('StringOperator1   isdigit   2      = ', DR)
+                DR3 = re.split(' ', StringOperator1)
+                print('PreguntaObj1      DR3      = ', DR3)
+                without_empty_strings = [string for string in DR3 if string != ""]
+                print('without_empty_strings      DR3      = ', without_empty_strings)
+
+                a = ['<', '>', '=', '==', '<=', '>=']
+
+                for i in range(len(a)):
+                    DR_3 = [s.replace(a[i], ' ') for s in DR_3]
+                print('DR_3= ', DR_3)
+
+                DR_3 = re.split(' ', ' '.join(DR_3))
+                DR_3 = [string for string in DR_3 if string != ""]
+
+                print('*' * 50)
+                print('DR_3= ', DR_3)
+                print('result3= ', result3)
+                print('without_empty_strings = ', without_empty_strings)
+                print('*' * 50)
+                print(list(df.columns))
+                df0 = df[['Vars', 'resp', 'tipo']]
+                print(df0)
+
+                print('*' * 100)
+                lcolnumbertype = df0[df0.tipo == 'number_input']['Vars'].tolist()
+                print('lcolnumbertype= ', lcolnumbertype)
+
+                print('*' * 100)
+
+                df1 = df[['Vars', 'resp']]
+                df1 = df0[['Vars', 'resp']]
+
+                df1 = df1.set_index('Vars')
+                print('df1= ', df1)
+
+                df2 = df1.T
+                print('df2=', df2)
+                for i in range(len(lcolnumbertype)):
+                    print('i= ', i)
+                    try:
+                        # df2[lcolnumbertype[i]] = df2[lcolnumbertype[i]].fillna(0)
+                        df2[lcolnumbertype[i]].astype('int')
+                        # df2[lcolnumbertype[i]].astype(str).astype(float).astype(int)
+                        # df2[lcolnumbertype[i]].astype('Int32')
+                        # df2[lcolnumbertype[i]].astype(float).astype('Int64')
+                        df2[lcolnumbertype[i]] = pd.to_numeric(df2[lcolnumbertype[i]], errors='coerce').astype('Int64')
+
+                        # df2[lcolnumbertype[i]].astype(np.float).astype("Int32")
+                    except:
+                        print('Error de conversion ')
+                        print('lcolnumbertype[i]= ', lcolnumbertype[i])
+                        print('df.columns= ', df.columns)
+                        print(df[['tipo', 'Vars']])
+                        print('df2[lcolnumbertype[i]].values= ', df2[lcolnumbertype[i]].values[0])
+                        print('_>', df[df.Vars == lcolnumbertype[i]]['tipo'].values[0])
+
+                        print('i df2[lcolnumbertype[i]]=', df2[lcolnumbertype[i]])
+                        print('f df2[lcolnumbertype[i]]=', str(df2[lcolnumbertype[i]].values[0]))
+                        if str(df[df.Vars == lcolnumbertype[i]]['tipo'].values[0]) == 'number_input':
+                            print('dentro de If ')
+                            df2[lcolnumbertype[i]] = df2[lcolnumbertype[i]].fillna(0)
+                        else:
+                            print('Fuera de If ')
+
+                        # df2[lcolnumbertype[i]].astype(np.float).astype("Int32")
+                        try:
+                            df2[lcolnumbertype[i]].astype(int)
+                        except:
+                            print('Error de conversion 2')
+                            # df2[lcolnumbertype[i]]=0
+                print(df2)
+                print('--------------- desde text_input1----')
+                print('Dependencia_Respuesta= ', Dependencia_Respuesta)
+                print('---------------')
+
+                # print('r_car_cama_cun_distanc---->= ', df2['r_car_cama_cun_distanc'] )
+
+                # print('r_car_18_mas_total---->= ', df2['r_car_18_mas_total'] )
+                print(df2.dtypes)
+                print(df2.eval(Dependencia_Respuesta).values[0])
+                print('---------------')
+
+                print('*' * 50)
+
+                # a=1
+                # b=1
+                # c=2
+                # print('a= ',a, ' b= ', b, ' c=', c)
+                # if a > 2 and b>2 or c==2:
+                #    print('Dentro de If ')
+                # else:
+                #    print('Dentro de else ')
+
+                # if DependenciaSiNo == '' and Dependencia_Respuesta != '' \
+                #        and ops[StringOperator](df[(df['q_'] == int(Dependencia))]['resp'].values[0] ,int(PreguntaObj)):
+
+                if df2.eval(Dependencia_Respuesta).values[0]:
+                    # number = st.number_input(q, step=1, min_value=0)
+                    # st.write('Seleccionaste: ', number)
+                    # df['resp'][x] = number
+                    option = st.selectbox(q, op)
+                    st.write('Seleccionaste:', option)
+                    df['resp'][x] = option
+    if tipo == 'multiselect':
+
+        import operator
+        ops = {"+": operator.add,
+               "-": operator.sub,
+               "<": operator.lt,
+               "<=": operator.le,
+               "==": operator.eq,
+               "!=": operator.ne,
+               ">": operator.gt,
+               ">=": operator.ge
+               }  # etc.
+
+        if DependenciaSiNo == '' and Dependencia_Respuesta == '':
+            print('----if')
+            options = st.multiselect(q, op)
+            st.write('Seleccionaste:', options)
+            df['resp'][x] = str(options)
+        else:
+            print('----else')
+            # print('df[(df[q_] == Dependencia)][resp].values[0]= ', df[(df['q_'] == Dependencia)]['resp'].values[0])
+            # print('str(DependenciaSiNo)= ', str(DependenciaSiNo))#
+            # print('Dependencia_Respuesta =  ', Dependencia_Respuesta)
+            try:
+                if df[(df['q_'] == Dependencia)]['resp'].values[0] == str(
+                        DependenciaSiNo) and Dependencia_Respuesta == '':
+                    print('entro a if ')
+                    options = st.multiselect(q, op)
+                    st.write('Seleccionaste:', options)
+                    df['resp'][x] = str(options)
+            except:
+                print('Error en primer If ')
+
+            if Dependencia_Respuesta != '':
+                print('entro a else ')
+                StringOperator = ''.join([i for i in Dependencia_Respuesta if not i.isdigit()])
+                PreguntaObj = ''.join([i for i in Dependencia_Respuesta if i.isdigit()])
+                print('StringOperator           = ', StringOperator)
+                print('PreguntaObj              = ', PreguntaObj)
+                import re
+                a = ['<', '>', '=', '==', '<=', '>=']
+                aal = ['and', 'or']
+                a1 = re.split(' ', StringOperator)
+                list_a = (aal)
+                list_b = set(a1)
+
+                # list_a=[[el] for el in a]
+                # list_b=[[el] for el in a1]
+                print('list_a= ', list_a)
+                print('list_b= ', list_b)
+
+                set2 = set(list_b)
+
+                result = [x for x in list_a if x[0] in list_b]
+                result2 = filter(lambda list_a: list_a[0] in list_b, list_a)
+                result3 = [x for x in list_a if x in set2]
+                print('result= ', result)
+                print('result2= ', result2)
+                print('result2= ', result3)
+
+                print('Dependencia_Respuesta1    = ', Dependencia_Respuesta)
+
+                DR = re.split('and|or', Dependencia_Respuesta)
+                print('Dependencia_Respuesta2    = ', DR)
+                DR_3 = [s.replace(" ", "") for s in DR]
+                print('Dependencia_Respuesta3  DR_3  = ', DR_3)
+                DR1 = re.split('<|>|=|==|>=|<=', Dependencia_Respuesta)
+                print('Dependencia_Respuesta4   = ', DR1)
+
+                indeces = [i for i, x in enumerate(Dependencia_Respuesta) if x in a]
+                print('indeces= ', indeces)
+                from itertools import count
+                zipped = [(i, j) for i, j in zip(count(), a) if j == Dependencia_Respuesta]
+                print('zipped= ', zipped)
+
+                StringOperator = ''.join([i for i in Dependencia_Respuesta if not i.isalpha()])
+                PreguntaObj = ''.join([i for i in Dependencia_Respuesta if i.isalpha()])
+                print('StringOperator   isalpha         = ', StringOperator)
+                print('PreguntaObj      isalpha         = ', PreguntaObj)
+
+                StringOperator1 = ''.join([i for i in StringOperator if not i.isdigit()])
+                PreguntaObj1 = ''.join([i for i in StringOperator if i.isdigit()])
+                print('StringOperator1   isdigit         = ', StringOperator1)
+                print('PreguntaObj1      isdigit         = ', PreguntaObj1)
+                print('StringOperator1   isdigit  list        = ', list(StringOperator1))
+                print('PreguntaObj1      isdigit  list        = ', list(PreguntaObj1))
+                DR = [s.replace(" ", ",") for s in StringOperator1]
+                print('StringOperator1   isdigit   2      = ', DR)
+                DR3 = re.split(' ', StringOperator1)
+                print('PreguntaObj1      DR3      = ', DR3)
+                without_empty_strings = [string for string in DR3 if string != ""]
+                print('without_empty_strings      DR3      = ', without_empty_strings)
+
+                a = ['<', '>', '=', '==', '<=', '>=']
+
+                for i in range(len(a)):
+                    DR_3 = [s.replace(a[i], ' ') for s in DR_3]
+                print('DR_3= ', DR_3)
+
+                DR_3 = re.split(' ', ' '.join(DR_3))
+                DR_3 = [string for string in DR_3 if string != ""]
+
+                print('*' * 50)
+                print('DR_3= ', DR_3)
+                print('result3= ', result3)
+                print('without_empty_strings = ', without_empty_strings)
+                print('*' * 50)
+                print(list(df.columns))
+                df0 = df[['Vars', 'resp', 'tipo']]
+                print(df0)
+
+                print('*' * 100)
+                lcolnumbertype = df0[df0.tipo == 'number_input']['Vars'].tolist()
+                print('lcolnumbertype= ', lcolnumbertype)
+
+                print('*' * 100)
+
+                df1 = df[['Vars', 'resp']]
+                df1 = df0[['Vars', 'resp']]
+
+                df1 = df1.set_index('Vars')
+                print('df1= ', df1)
+
+                df2 = df1.T
+                print('df2=', df2)
+                for i in range(len(lcolnumbertype)):
+                    print('i= ', i)
+                    try:
+                        # df2[lcolnumbertype[i]] = df2[lcolnumbertype[i]].fillna(0)
+                        df2[lcolnumbertype[i]].astype('int')
+                        # df2[lcolnumbertype[i]].astype(str).astype(float).astype(int)
+                        # df2[lcolnumbertype[i]].astype('Int32')
+                        # df2[lcolnumbertype[i]].astype(float).astype('Int64')
+                        df2[lcolnumbertype[i]] = pd.to_numeric(df2[lcolnumbertype[i]], errors='coerce').astype('Int64')
+
+                        # df2[lcolnumbertype[i]].astype(np.float).astype("Int32")
+                    except:
+                        print('Error de conversion ')
+                        print('lcolnumbertype[i]= ', lcolnumbertype[i])
+                        print('df.columns= ', df.columns)
+                        print(df[['tipo', 'Vars']])
+                        print('df2[lcolnumbertype[i]].values= ', df2[lcolnumbertype[i]].values[0])
+                        print('_>', df[df.Vars == lcolnumbertype[i]]['tipo'].values[0])
+
+                        print('i df2[lcolnumbertype[i]]=', df2[lcolnumbertype[i]])
+                        print('f df2[lcolnumbertype[i]]=', str(df2[lcolnumbertype[i]].values[0]))
+                        if str(df[df.Vars == lcolnumbertype[i]]['tipo'].values[0]) == 'number_input':
+                            print('dentro de If ')
+                            df2[lcolnumbertype[i]] = df2[lcolnumbertype[i]].fillna(0)
+                        else:
+                            print('Fuera de If ')
+
+                        # df2[lcolnumbertype[i]].astype(np.float).astype("Int32")
+                        try:
+                            df2[lcolnumbertype[i]].astype(int)
+                        except:
+                            print('Error de conversion 2')
+                            # df2[lcolnumbertype[i]]=0
+                print(df2)
+                print('--------------- desde text_input1----')
+                print('Dependencia_Respuesta= ', Dependencia_Respuesta)
+                print('---------------')
+
+                # print('r_car_cama_cun_distanc---->= ', df2['r_car_cama_cun_distanc'] )
+
+                # print('r_car_18_mas_total---->= ', df2['r_car_18_mas_total'] )
+                print(df2.dtypes)
+                print(df2.eval(Dependencia_Respuesta).values[0])
+                print('---------------')
+
+                print('*' * 50)
+
+                # a=1
+                # b=1
+                # c=2
+                # print('a= ',a, ' b= ', b, ' c=', c)
+                # if a > 2 and b>2 or c==2:
+                #    print('Dentro de If ')
+                # else:
+                #    print('Dentro de else ')
+
+                # if DependenciaSiNo == '' and Dependencia_Respuesta != '' \
+                #        and ops[StringOperator](df[(df['q_'] == int(Dependencia))]['resp'].values[0] ,int(PreguntaObj)):
+
+                if df2.eval(Dependencia_Respuesta).values[0]:
+                    # number = st.number_input(q, step=1, min_value=0)
+                    # st.write('Seleccionaste: ', number)
+                    # df['resp'][x] = number
+                    options = st.multiselect(q, op)
+                    st.write('Seleccionaste:', options)
+                    df['resp'][x] = str(options)
+    if tipo == 'text_input':
+        import operator
+        ops = {"+": operator.add,
+               "-": operator.sub,
+               "<": operator.lt,
+               "<=": operator.le,
+               "==": operator.eq,
+               "!=": operator.ne,
+               ">": operator.gt,
+               ">=": operator.ge
+               }  # etc.
+
+        #if Dependencia == '':
+        if DependenciaSiNo == '' and Dependencia_Respuesta == '':
+            print('----if')
+            titles = st.text_input(q, key='text_input1' + str(page))
+            st.write('Seleccionaste:', titles)
+            df['resp'][x] = titles
+        else:
+            print('----else')
+            # print('df[(df[q_] == Dependencia)][resp].values[0]= ', df[(df['q_'] == Dependencia)]['resp'].values[0])
+            # print('str(DependenciaSiNo)= ', str(DependenciaSiNo))#
+            # print('Dependencia_Respuesta =  ', Dependencia_Respuesta)
+            try:
+                if df[(df['q_'] == Dependencia)]['resp'].values[0] == str(
+                        DependenciaSiNo) and Dependencia_Respuesta == '':
+                    print('entro a if ')
+                    number = st.number_input(q, step=1, min_value=0)
+                    st.write('Seleccionaste: ', number)
+                    df['resp'][x] = number
+            except:
+                print('Error en primer If ')
+
+            if Dependencia_Respuesta != '':
+                print('entro a else ')
+                StringOperator = ''.join([i for i in Dependencia_Respuesta if not i.isdigit()])
+                PreguntaObj = ''.join([i for i in Dependencia_Respuesta if i.isdigit()])
+                print('StringOperator           = ', StringOperator)
+                print('PreguntaObj              = ', PreguntaObj)
+                import re
+                a = ['<', '>', '=', '==', '<=', '>=']
+                aal = ['and', 'or']
+                a1 = re.split(' ', StringOperator)
+                list_a = (aal)
+                list_b = set(a1)
+
+                # list_a=[[el] for el in a]
+                # list_b=[[el] for el in a1]
+                print('list_a= ', list_a)
+                print('list_b= ', list_b)
+
+                set2 = set(list_b)
+
+                result = [x for x in list_a if x[0] in list_b]
+                result2 = filter(lambda list_a: list_a[0] in list_b, list_a)
+                result3 = [x for x in list_a if x in set2]
+                print('result= ', result)
+                print('result2= ', result2)
+                print('result2= ', result3)
+
+                print('Dependencia_Respuesta1    = ', Dependencia_Respuesta)
+
+                DR = re.split('and|or', Dependencia_Respuesta)
+                print('Dependencia_Respuesta2    = ', DR)
+                DR_3 = [s.replace(" ", "") for s in DR]
+                print('Dependencia_Respuesta3  DR_3  = ', DR_3)
+                DR1 = re.split('<|>|=|==|>=|<=', Dependencia_Respuesta)
+                print('Dependencia_Respuesta4   = ', DR1)
+
+                indeces = [i for i, x in enumerate(Dependencia_Respuesta) if x in a]
+                print('indeces= ', indeces)
+                from itertools import count
+                zipped = [(i, j) for i, j in zip(count(), a) if j == Dependencia_Respuesta]
+                print('zipped= ', zipped)
+
+                StringOperator = ''.join([i for i in Dependencia_Respuesta if not i.isalpha()])
+                PreguntaObj = ''.join([i for i in Dependencia_Respuesta if i.isalpha()])
+                print('StringOperator   isalpha         = ', StringOperator)
+                print('PreguntaObj      isalpha         = ', PreguntaObj)
+
+                StringOperator1 = ''.join([i for i in StringOperator if not i.isdigit()])
+                PreguntaObj1 = ''.join([i for i in StringOperator if i.isdigit()])
+                print('StringOperator1   isdigit         = ', StringOperator1)
+                print('PreguntaObj1      isdigit         = ', PreguntaObj1)
+                print('StringOperator1   isdigit  list        = ', list(StringOperator1))
+                print('PreguntaObj1      isdigit  list        = ', list(PreguntaObj1))
+                DR = [s.replace(" ", ",") for s in StringOperator1]
+                print('StringOperator1   isdigit   2      = ', DR)
+                DR3 = re.split(' ', StringOperator1)
+                print('PreguntaObj1      DR3      = ', DR3)
+                without_empty_strings = [string for string in DR3 if string != ""]
+                print('without_empty_strings      DR3      = ', without_empty_strings)
+
+                a = ['<', '>', '=', '==', '<=', '>=']
+
+                for i in range(len(a)):
+                    DR_3 = [s.replace(a[i], ' ') for s in DR_3]
+                print('DR_3= ', DR_3)
+
+                DR_3 = re.split(' ', ' '.join(DR_3))
+                DR_3 = [string for string in DR_3 if string != ""]
+
+                print('*' * 50)
+                print('DR_3= ', DR_3)
+                print('result3= ', result3)
+                print('without_empty_strings = ', without_empty_strings)
+                print('*' * 50)
+                print(list(df.columns))
+                df0 = df[['Vars', 'resp', 'tipo']]
+                print(df0)
+
+                print('*' * 100)
+                lcolnumbertype = df0[df0.tipo == 'number_input']['Vars'].tolist()
+                print('lcolnumbertype= ', lcolnumbertype)
+
+                print('*' * 100)
+
+                df1 = df[['Vars', 'resp']]
+                df1 = df0[['Vars', 'resp']]
+
+                df1 = df1.set_index('Vars')
+                print('df1= ', df1)
+
+                df2 = df1.T
+                print('df2=', df2)
+                for i in range(len(lcolnumbertype)):
+                    print('i= ', i)
+                    try:
+                        # df2[lcolnumbertype[i]] = df2[lcolnumbertype[i]].fillna(0)
+                        df2[lcolnumbertype[i]].astype('int')
+                        # df2[lcolnumbertype[i]].astype(str).astype(float).astype(int)
+                        # df2[lcolnumbertype[i]].astype('Int32')
+                        # df2[lcolnumbertype[i]].astype(float).astype('Int64')
+                        df2[lcolnumbertype[i]] = pd.to_numeric(df2[lcolnumbertype[i]], errors='coerce').astype('Int64')
+
+                        # df2[lcolnumbertype[i]].astype(np.float).astype("Int32")
+                    except:
+                        print('Error de conversion ')
+                        print('lcolnumbertype[i]= ', lcolnumbertype[i])
+                        print('df.columns= ', df.columns)
+                        print(df[['tipo', 'Vars']])
+                        print('df2[lcolnumbertype[i]].values= ', df2[lcolnumbertype[i]].values[0])
+                        print('_>', df[df.Vars == lcolnumbertype[i]]['tipo'].values[0])
+
+                        print('i df2[lcolnumbertype[i]]=', df2[lcolnumbertype[i]])
+                        print('f df2[lcolnumbertype[i]]=', str(df2[lcolnumbertype[i]].values[0]))
+                        if str(df[df.Vars == lcolnumbertype[i]]['tipo'].values[0]) == 'number_input':
+                            print('dentro de If ')
+                            df2[lcolnumbertype[i]] = df2[lcolnumbertype[i]].fillna(0)
+                        else:
+                            print('Fuera de If ')
+
+                        # df2[lcolnumbertype[i]].astype(np.float).astype("Int32")
+                        try:
+                            df2[lcolnumbertype[i]].astype(int)
+                        except:
+                            print('Error de conversion 2')
+                            # df2[lcolnumbertype[i]]=0
+                print(df2)
+                print('--------------- desde text_input1----')
+                print('Dependencia_Respuesta= ', Dependencia_Respuesta)
+                print('---------------')
+
+                # print('r_car_cama_cun_distanc---->= ', df2['r_car_cama_cun_distanc'] )
+
+                # print('r_car_18_mas_total---->= ', df2['r_car_18_mas_total'] )
+                print(df2.dtypes)
+                print(df2.eval(Dependencia_Respuesta).values[0])
+                print('---------------')
+
+                print('*' * 50)
+
+                # a=1
+                # b=1
+                # c=2
+                # print('a= ',a, ' b= ', b, ' c=', c)
+                # if a > 2 and b>2 or c==2:
+                #    print('Dentro de If ')
+                # else:
+                #    print('Dentro de else ')
+
+                # if DependenciaSiNo == '' and Dependencia_Respuesta != '' \
+                #        and ops[StringOperator](df[(df['q_'] == int(Dependencia))]['resp'].values[0] ,int(PreguntaObj)):
+
+                if df2.eval(Dependencia_Respuesta).values[0]:
+                    #number = st.number_input(q, step=1, min_value=0)
+                    #st.write('Seleccionaste: ', number)
+                    #df['resp'][x] = number
+                    titles = st.text_input(q, key='text_input1' + str(page))
+                    st.write('Seleccionaste:', titles)
+                    df['resp'][x] = titles
+
+    if tipo == 'radio':
+        import operator
+        ops = {"+": operator.add,
+               "-": operator.sub,
+               "<": operator.lt,
+               "<=": operator.le,
+               "==": operator.eq,
+               "!=": operator.ne,
+               ">": operator.gt,
+               ">=": operator.ge
+               }  # etc.
+
+
+        if DependenciaSiNo == '' and Dependencia_Respuesta == '':
+            print('----if')
+            genre = st.radio(q, (op))
+            st.write('Seleccionaste:', genre)
+            df['resp'][x] = genre
+        else:
+            print('----else')
+            # print('df[(df[q_] == Dependencia)][resp].values[0]= ', df[(df['q_'] == Dependencia)]['resp'].values[0])
+            # print('str(DependenciaSiNo)= ', str(DependenciaSiNo))#
+            # print('Dependencia_Respuesta =  ', Dependencia_Respuesta)
+            try:
+                if df[(df['q_'] == Dependencia)]['resp'].values[0] == str(
+                        DependenciaSiNo) and Dependencia_Respuesta == '':
+                    print('entro a if ')
+                    genre = st.radio(q, (op))
+                    st.write('Seleccionaste:', genre)
+                    df['resp'][x] = genre
+            except:
+                print('Error en primer If ')
+
+            if Dependencia_Respuesta != '':
+                print('entro a else ')
+                StringOperator = ''.join([i for i in Dependencia_Respuesta if not i.isdigit()])
+                PreguntaObj = ''.join([i for i in Dependencia_Respuesta if i.isdigit()])
+                print('StringOperator           = ', StringOperator)
+                print('PreguntaObj              = ', PreguntaObj)
+                import re
+                a = ['<', '>', '=', '==', '<=', '>=']
+                aal = ['and', 'or']
+                a1 = re.split(' ', StringOperator)
+                list_a = (aal)
+                list_b = set(a1)
+
+                # list_a=[[el] for el in a]
+                # list_b=[[el] for el in a1]
+                print('list_a= ', list_a)
+                print('list_b= ', list_b)
+
+                set2 = set(list_b)
+
+                result = [x for x in list_a if x[0] in list_b]
+                result2 = filter(lambda list_a: list_a[0] in list_b, list_a)
+                result3 = [x for x in list_a if x in set2]
+                print('result= ', result)
+                print('result2= ', result2)
+                print('result2= ', result3)
+
+                print('Dependencia_Respuesta1    = ', Dependencia_Respuesta)
+
+                DR = re.split('and|or', Dependencia_Respuesta)
+                print('Dependencia_Respuesta2    = ', DR)
+                DR_3 = [s.replace(" ", "") for s in DR]
+                print('Dependencia_Respuesta3  DR_3  = ', DR_3)
+                DR1 = re.split('<|>|=|==|>=|<=', Dependencia_Respuesta)
+                print('Dependencia_Respuesta4   = ', DR1)
+
+                indeces = [i for i, x in enumerate(Dependencia_Respuesta) if x in a]
+                print('indeces= ', indeces)
+                from itertools import count
+                zipped = [(i, j) for i, j in zip(count(), a) if j == Dependencia_Respuesta]
+                print('zipped= ', zipped)
+
+                StringOperator = ''.join([i for i in Dependencia_Respuesta if not i.isalpha()])
+                PreguntaObj = ''.join([i for i in Dependencia_Respuesta if i.isalpha()])
+                print('StringOperator   isalpha         = ', StringOperator)
+                print('PreguntaObj      isalpha         = ', PreguntaObj)
+
+                StringOperator1 = ''.join([i for i in StringOperator if not i.isdigit()])
+                PreguntaObj1 = ''.join([i for i in StringOperator if i.isdigit()])
+                print('StringOperator1   isdigit         = ', StringOperator1)
+                print('PreguntaObj1      isdigit         = ', PreguntaObj1)
+                print('StringOperator1   isdigit  list        = ', list(StringOperator1))
+                print('PreguntaObj1      isdigit  list        = ', list(PreguntaObj1))
+                DR = [s.replace(" ", ",") for s in StringOperator1]
+                print('StringOperator1   isdigit   2      = ', DR)
+                DR3 = re.split(' ', StringOperator1)
+                print('PreguntaObj1      DR3      = ', DR3)
+                without_empty_strings = [string for string in DR3 if string != ""]
+                print('without_empty_strings      DR3      = ', without_empty_strings)
+
+                a = ['<', '>', '=', '==', '<=', '>=']
+
+                for i in range(len(a)):
+                    DR_3 = [s.replace(a[i], ' ') for s in DR_3]
+                print('DR_3= ', DR_3)
+
+                DR_3 = re.split(' ', ' '.join(DR_3))
+                DR_3 = [string for string in DR_3 if string != ""]
+
+                print('*' * 50)
+                print('DR_3= ', DR_3)
+                print('result3= ', result3)
+                print('without_empty_strings = ', without_empty_strings)
+                print('*' * 50)
+                print(list(df.columns))
+                df0 = df[['Vars', 'resp', 'tipo']]
+                print(df0)
+
+                print('*' * 100)
+                lcolnumbertype = df0[df0.tipo == 'number_input']['Vars'].tolist()
+                print('lcolnumbertype= ', lcolnumbertype)
+
+                print('*' * 100)
+
+                df1 = df[['Vars', 'resp']]
+                df1 = df0[['Vars', 'resp']]
+
+                df1 = df1.set_index('Vars')
+                print('df1= ', df1)
+
+                df2 = df1.T
+                print('df2=', df2)
+                for i in range(len(lcolnumbertype)):
+                    print('i= ', i)
+                    try:
+                        # df2[lcolnumbertype[i]] = df2[lcolnumbertype[i]].fillna(0)
+                        df2[lcolnumbertype[i]].astype('int')
+                        # df2[lcolnumbertype[i]].astype(str).astype(float).astype(int)
+                        # df2[lcolnumbertype[i]].astype('Int32')
+                        # df2[lcolnumbertype[i]].astype(float).astype('Int64')
+                        df2[lcolnumbertype[i]] = pd.to_numeric(df2[lcolnumbertype[i]], errors='coerce').astype('Int64')
+
+                        # df2[lcolnumbertype[i]].astype(np.float).astype("Int32")
+                    except:
+                        print('Error de conversion ')
+                        print('lcolnumbertype[i]= ', lcolnumbertype[i])
+                        print('df.columns= ', df.columns)
+                        print(df[['tipo', 'Vars']])
+                        print('df2[lcolnumbertype[i]].values= ', df2[lcolnumbertype[i]].values[0])
+                        print('_>', df[df.Vars == lcolnumbertype[i]]['tipo'].values[0])
+
+                        print('i df2[lcolnumbertype[i]]=', df2[lcolnumbertype[i]])
+                        print('f df2[lcolnumbertype[i]]=', str(df2[lcolnumbertype[i]].values[0]))
+                        if str(df[df.Vars == lcolnumbertype[i]]['tipo'].values[0]) == 'number_input':
+                            print('dentro de If ')
+                            df2[lcolnumbertype[i]] = df2[lcolnumbertype[i]].fillna(0)
+                        else:
+                            print('Fuera de If ')
+
+                        # df2[lcolnumbertype[i]].astype(np.float).astype("Int32")
+                        try:
+                            df2[lcolnumbertype[i]].astype(int)
+                        except:
+                            print('Error de conversion 2')
+                            # df2[lcolnumbertype[i]]=0
+                print(df2)
+                print('--------------- desde text_input1----')
+                print('Dependencia_Respuesta= ', Dependencia_Respuesta)
+                print('---------------')
+
+                # print('r_car_cama_cun_distanc---->= ', df2['r_car_cama_cun_distanc'] )
+
+                # print('r_car_18_mas_total---->= ', df2['r_car_18_mas_total'] )
+                print(df2.dtypes)
+                print(df2.eval(Dependencia_Respuesta).values[0])
+                print('---------------')
+
+                print('*' * 50)
+
+                # a=1
+                # b=1
+                # c=2
+                # print('a= ',a, ' b= ', b, ' c=', c)
+                # if a > 2 and b>2 or c==2:
+                #    print('Dentro de If ')
+                # else:
+                #    print('Dentro de else ')
+
+                # if DependenciaSiNo == '' and Dependencia_Respuesta != '' \
+                #        and ops[StringOperator](df[(df['q_'] == int(Dependencia))]['resp'].values[0] ,int(PreguntaObj)):
+
+                if df2.eval(Dependencia_Respuesta).values[0]:
+                    #number = st.number_input(q, step=1, min_value=0)
+                    #st.write('Seleccionaste: ', number)
+                    #df['resp'][x] = number
+                    genre = st.radio(q, (op))
+                    st.write('Seleccionaste:', genre)
+                    df['resp'][x] = genre
+
+    if tipo == 'date_input':
+        if Dependencia == '':
+            Fecha = st.date_input(q,
+                                  min_value=dt.datetime.today() + dt.timedelta(days=-30),
+                                  max_value=dt.datetime.today() + dt.timedelta(days=14))
+            st.write('Fecha:', Fecha)
+            # tr = datetime.strptime(dt.datetime.today().strftime('%Y-%m-%d'), '%Y-%m-%d').date()
+            # tr = datetime.strptime(Fecha.strftime('%Y-%m-%d'), '%Y-%m-%d')
+
+            df['resp'][x] = str(Fecha.strftime('%Y-%m-%d'))
+
+
+        else:
+            # print('--->', df[(df['q'] == qe)]['resp'].values[0])
+            if df[(df['q_'] == Dependencia)]['resp'].values[0] == str(DependenciaSiNo):
+                Fecha = st.date_input(q,
+                                      min_value=dt.datetime.today() + dt.timedelta(days=-30),
+                                      max_value=dt.datetime.today() + dt.timedelta(days=14))
+                st.write('Fecha:', Fecha)
+                df['resp'][x] = str(Fecha.strftime('%Y-%m-%d'))
+    if tipo == 'number_input':
+        print('df= ', df)
+        print('df q= ', df['q_'])
+        print('Dependencia= ', Dependencia)
+        print('DependenciaSiNo= ', DependenciaSiNo)
+        print('Dependencia_Respuesta= ', Dependencia_Respuesta)
+
+        import operator
+        ops = {"+": operator.add,
+               "-": operator.sub,
+               "<": operator.lt,
+               "<=": operator.le,
+               "==": operator.eq,
+               "!=": operator.ne,
+               ">": operator.gt,
+               ">=": operator.ge
+               }  # etc.
+
+        # if Dependencia == '' :
+        if DependenciaSiNo == '' and Dependencia_Respuesta == '':
+            print('qe vacio ')
+            number = st.number_input(q, step=1, min_value=0)
+            st.write('Seleccionaste: ', number)
+            df['resp'][x] = str(int(number))
+        else:
+
+            # print('df[(df[q_] == Dependencia)][resp].values[0]= ', df[(df['q_'] == Dependencia)]['resp'].values[0])
+            # print('str(DependenciaSiNo)= ', str(DependenciaSiNo))#
+            # print('Dependencia_Respuesta =  ', Dependencia_Respuesta)
+            try:
+                if df[(df['q_'] == Dependencia)]['resp'].values[0] == str(
+                        DependenciaSiNo) and Dependencia_Respuesta == '':
+                    print('entro a if ')
+                    number = st.number_input(q, step=1, min_value=0)
+                    st.write('Seleccionaste: ', number)
+                    df['resp'][x] = str(int(number))
+            except:
+                print('Error en primer If ')
+
+            if Dependencia_Respuesta != '':
+                print('entro a else ')
+                StringOperator = ''.join([i for i in Dependencia_Respuesta if not i.isdigit()])
+                PreguntaObj = ''.join([i for i in Dependencia_Respuesta if i.isdigit()])
+                print('StringOperator           = ', StringOperator)
+                print('PreguntaObj              = ', PreguntaObj)
+                import re
+                a = ['<', '>', '=', '==', '<=', '>=']
+                aal = ['and', 'or']
+                a1 = re.split(' ', StringOperator)
+                list_a = (aal)
+                list_b = set(a1)
+
+                # list_a=[[el] for el in a]
+                # list_b=[[el] for el in a1]
+                print('list_a= ', list_a)
+                print('list_b= ', list_b)
+
+                set2 = set(list_b)
+
+                result = [x for x in list_a if x[0] in list_b]
+                result2 = filter(lambda list_a: list_a[0] in list_b, list_a)
+                result3 = [x for x in list_a if x in set2]
+                print('result= ', result)
+                print('result2= ', result2)
+                print('result2= ', result3)
+
+                print('Dependencia_Respuesta1    = ', Dependencia_Respuesta)
+
+                DR = re.split('and|or', Dependencia_Respuesta)
+                print('Dependencia_Respuesta2    = ', DR)
+                DR_3 = [s.replace(" ", "") for s in DR]
+                print('Dependencia_Respuesta3  DR_3  = ', DR_3)
+                DR1 = re.split('<|>|=|==|>=|<=', Dependencia_Respuesta)
+                print('Dependencia_Respuesta4   = ', DR1)
+
+                indeces = [i for i, x in enumerate(Dependencia_Respuesta) if x in a]
+                print('indeces= ', indeces)
+                from itertools import count
+                zipped = [(i, j) for i, j in zip(count(), a) if j == Dependencia_Respuesta]
+                print('zipped= ', zipped)
+
+                StringOperator = ''.join([i for i in Dependencia_Respuesta if not i.isalpha()])
+                PreguntaObj = ''.join([i for i in Dependencia_Respuesta if i.isalpha()])
+                print('StringOperator   isalpha         = ', StringOperator)
+                print('PreguntaObj      isalpha         = ', PreguntaObj)
+
+                StringOperator1 = ''.join([i for i in StringOperator if not i.isdigit()])
+                PreguntaObj1 = ''.join([i for i in StringOperator if i.isdigit()])
+                print('StringOperator1   isdigit         = ', StringOperator1)
+                print('PreguntaObj1      isdigit         = ', PreguntaObj1)
+                print('StringOperator1   isdigit  list        = ', list(StringOperator1))
+                print('PreguntaObj1      isdigit  list        = ', list(PreguntaObj1))
+                DR = [s.replace(" ", ",") for s in StringOperator1]
+                print('StringOperator1   isdigit   2      = ', DR)
+                DR3 = re.split(' ', StringOperator1)
+                print('PreguntaObj1      DR3      = ', DR3)
+                without_empty_strings = [string for string in DR3 if string != ""]
+                print('without_empty_strings      DR3      = ', without_empty_strings)
+
+                a = ['<', '>', '=', '==', '<=', '>=']
+
+                for i in range(len(a)):
+                    DR_3 = [s.replace(a[i], ' ') for s in DR_3]
+                print('DR_3= ', DR_3)
+
+                DR_3 = re.split(' ', ' '.join(DR_3))
+                DR_3 = [string for string in DR_3 if string != ""]
+
+                print('*' * 50)
+                print('DR_3= ', DR_3)
+                print('result3= ', result3)
+                print('without_empty_strings = ', without_empty_strings)
+                print('*' * 50)
+                print(list(df.columns))
+                df0 = df[['Vars', 'resp', 'tipo']]
+                print(df0)
+
+                print('*' * 100)
+                lcolnumbertype = df0[df0.tipo == 'number_input']['Vars'].tolist()
+                print('lcolnumbertype= ', lcolnumbertype)
+
+                print('*' * 100)
+
+                df1 = df[['Vars', 'resp']]
+                df1 = df0[['Vars', 'resp']]
+
+                df1 = df1.set_index('Vars')
+                print('df1= ', df1)
+
+                df2 = df1.T
+                print('df2=', df2)
+                for i in range(len(lcolnumbertype)):
+                    print('i= ', i)
+                    try:
+                        # df2[lcolnumbertype[i]] = df2[lcolnumbertype[i]].fillna(0)
+                        df2[lcolnumbertype[i]].astype('int')
+                        # df2[lcolnumbertype[i]].astype(str).astype(float).astype(int)
+                        # df2[lcolnumbertype[i]].astype('Int32')
+                        # df2[lcolnumbertype[i]].astype(float).astype('Int64')
+                        df2[lcolnumbertype[i]] = pd.to_numeric(df2[lcolnumbertype[i]], errors='coerce').astype('Int64')
+
+                        # df2[lcolnumbertype[i]].astype(np.float).astype("Int32")
+                    except:
+                        print('Error de conversion ')
+                        print('lcolnumbertype[i]= ', lcolnumbertype[i])
+                        print('df.columns= ', df.columns)
+                        print(df[['tipo', 'Vars']])
+                        print('df2[lcolnumbertype[i]].values= ', df2[lcolnumbertype[i]].values[0])
+                        print('_>', df[df.Vars == lcolnumbertype[i]]['tipo'].values[0])
+
+                        print('i df2[lcolnumbertype[i]]=', df2[lcolnumbertype[i]])
+                        print('f df2[lcolnumbertype[i]]=', str(df2[lcolnumbertype[i]].values[0]))
+                        if str(df[df.Vars == lcolnumbertype[i]]['tipo'].values[0]) == 'number_input':
+                            print('dentro de If ')
+                            df2[lcolnumbertype[i]] = df2[lcolnumbertype[i]].fillna(0)
+                        else:
+                            print('Fuera de If ')
+
+                        # df2[lcolnumbertype[i]].astype(np.float).astype("Int32")
+                        try:
+                            df2[lcolnumbertype[i]].astype(int)
+                        except:
+                            print('Error de conversion 2')
+                            # df2[lcolnumbertype[i]]=0
+                print(df2)
+                print('--------------- desde number_input----')
+                print('Dependencia_Respuesta= ', Dependencia_Respuesta)
+                print('---------------')
+
+                # print('r_car_cama_cun_distanc---->= ', df2['r_car_cama_cun_distanc'] )
+
+                # print('r_car_18_mas_total---->= ', df2['r_car_18_mas_total'] )
+                print(df2.dtypes)
+                print(df2.eval(Dependencia_Respuesta).values[0])
+                print('---------------')
+
+                print('*' * 50)
+
+                # a=1
+                # b=1
+                # c=2
+                # print('a= ',a, ' b= ', b, ' c=', c)
+                # if a > 2 and b>2 or c==2:
+                #    print('Dentro de If ')
+                # else:
+                #    print('Dentro de else ')
+
+                # if DependenciaSiNo == '' and Dependencia_Respuesta != '' \
+                #        and ops[StringOperator](df[(df['q_'] == int(Dependencia))]['resp'].values[0] ,int(PreguntaObj)):
+                if df2.eval(Dependencia_Respuesta).values[0]:
+                    number = st.number_input(q, step=1, min_value=0)
+                    st.write('Seleccionaste: ', number)
+                    df['resp'][x] = number
+
+        if Validar != '':
+            temp_string = Validar
+            s = Validar
+
+            StringOperator = ''.join([i for i in s if not i.isdigit()])
+            PreguntaObj = ''.join([i for i in s if i.isdigit()])
+
+            # st.write('temp_string: ', temp_string)
+            # st.write('StringOperator: ', StringOperator)
+            # st.write('PreguntaObj: ', PreguntaObj)
+
+            # st.write('PreguntaObj PreguntaObj   : ', df[(df['q_'] == int(PreguntaObj))]['resp'].values[0])
+            # st.write(' x=',x,' q=', q,' op=', op,' qe=', qe)
+
+            # st.write('PreguntaObj x            : ', df[(df['q_'] == int(x))]['resp'].values[0])
+            # st.write('Operador r3: ',StringOperator ,' ---- ',  ops[StringOperator](df[(df['q_'] == int(PreguntaObj))]['resp'].values[0], df[(df['q_'] == int(x))]['resp'].values[0]))
+
+            if ops[StringOperator](df[(df['q_'] == int(x))]['resp'].values[0],
+                                   df[(df['q_'] == int(PreguntaObj))]['resp'].values[0]):
+                print('ok')
+            else:
+                st.error('Error de Validacion. La pregunta ' + str(x) + ' debe ser ' + str(
+                    StringOperator) + ' que la pregunta ' + str(PreguntaObj))
+
+        # print(ops["+"](1, 1))  # prints 2
+        # st.write('result3: ', ops["+"](1, 1))
+
+        # print('tipo  number_input')
+        # print(df)
+    if tipo == 'number_input%':
+        if Dependencia == '':
+            number = st.number_input(q, max_value=100)
+            st.write('Seleccionaste: ', number, ' %')
+            df['resp'][x] = number
+        else:
+            # print('--->', df[ (df['q'] == qe)]['resp'].values[0])
+            if df[(df['q_'] == Dependencia)]['resp'].values[0] == str(DependenciaSiNo):
+                number = st.number_input(q, max_value=100)
+                st.write('Seleccionaste: ', number, ' %')
+                df['resp'][x] = number
+    if tipo == 'text_input_Multiple':
+        if Dependencia == '':
+            st.write(q)
+            a = []
+            for i in range(len(op)):
+                title1 = st.text_input(op[i], key=str(i))
+                a.append(title1)
+            st.write('Seleccionaste:', a)
+            df['resp'][x] = a
+        else:
+            if df[(df['q_'] == Dependencia)]['resp'].values[0] == str(DependenciaSiNo):
+                # title1 = st.text_input(q , key='1')
+                st.write(q)
+                a = []
+                for i in range(len(op)):
+                    title1 = st.text_input(op[i], key=str(i))
+                    a.append(title1)
+                st.write('Seleccionaste:', a)
+                df['resp'][x] = a
+    if tipo == 'number_input_Multiple':
+        if Dependencia == '':
+            st.write(q)
+            a = []
+            for i in range(len(op)):
+                # number = st.number_input(q, <<<step=1<<<)
+                title1 = st.number_input(op[i], step=1, key=(str(i) + str(x)))
+                a.append(title1)
+            st.write('Seleccionaste:', a)
+            df['resp'][x] = str(a)
+        else:
+            if df[(df['q_'] == Dependencia)]['resp'].values[0] == str(DependenciaSiNo):
+                # title1 = st.text_input(q , key='1')
+                st.write(q)
+                a = []
+                for i in range(len(op)):
+                    title1 = st.number_input(op[i], step=1, key=(str(i) + str(x)))
+                    a.append(title1)
+                st.write('Seleccionaste:', a)
+                df['resp'][x] = str(a)
+
+    if tipo == 'Ipress_Metadata':
+        DFMetadata = CargaMetadata('Ipress_Metadata')
+        if vista != 'No':
+            print('Ipress_Metadata-================')
+            print('op= ', op)
+
+            # DFMetadata=CargaMetadata('Ipress_Metadata')
+            dflocal = DFMetadata
+            # print(dflocal.head())
+            t = st.session_state
+            print('st.session_state= ', t)
+            result = [x for x in t if x.startswith('Metadata_')]
+            # result= result.remove('Tipo')
+            print('result1= ', result)
+            # result = [x for x in result if x is not ['Metadata_Código Único',
+            #                                         'Metadata_Nombre del establecimiento']]
+            # l2=['Metadata_Código Único','Metadata_Nombre del establecimiento','Metadata_Departamento']
+            # resultr = [x for x in result if x not in l2]
+            # result.remove('Metadata_Código Único') if '' in s else None
+            # result.remove('Metadata_Nombre del establecimiento') if '' in s else None
+            # result.remove('Metadata_Departamento') if '' in s else None
+            # result=resultr
+            # print('result r= ', resultr)
+
+            # nivel=[1,2,3,4]
+
+            print('===========================filtros=======================================')
+
+            print('dflocal cols', df.columns)
+            print('actual   = ', op[0])
+            print(df['nivel'].unique())
+            dfq = df[(df['tipo'] == tipo)]
+            print(dfq['nivel'].unique())
+
+            print('Afectado = ', dfq[(dfq['nivel'].astype(int) < int(nivel))]['op'].tolist())
+            lk = dfq[(dfq['nivel'].astype(int) < int(nivel))]['op'].tolist()
+
+            for ir in lk:
+                print('---->', ir)
+                if op[0] != 'Departamento':
+                    dflocal = dflocal[(dflocal[ir[0]] == st.session_state['Metadata_' + ir[0]])]
+
+            print('===========================filtros=======================================')
+
+            print('result== ', result)
+            print(dflocal[['Código Único', 'Nombre del establecimiento',
+                           'Departamento', 'Provincia', 'Distrito']])
+            print('===========================uniques=======================================')
+            print('dflocal Departamento ', dflocal['Departamento'].unique())
+            print('dflocal Provincia    ', dflocal['Provincia'].unique())
+            print('dflocal Distrito     ', dflocal['Distrito'].unique())
+
+            print('===========================uniques=======================================')
+
+            if Dependencia == '':
+                optionMetadata = st.selectbox(q, dflocal[op[0]].unique().tolist(), key=('Metadata_' + op[0]))
+                st.write('Seleccionaste:', optionMetadata)
+                df['resp'][x] = str(optionMetadata)
+                print('optionMetadata= ', optionMetadata)
+
+                # print('optionMetadata=', st.session_state[op])
+            else:
+                if df[(df['q_'] == Dependencia)]['resp'].values[0] == 'Si':
+                    optionMetadata = st.selectbox(q, dflocal[op[0]].unique().tolist(), key=('Metadata_' + op[0]))
+                    st.write('Seleccionaste:', optionMetadata)
+                    df['resp'][x] = str(optionMetadata)
+                    print('optionMetadata= ', optionMetadata)
+        else:
+            print('colum', df.columns)
+            dff = df
+            print('-------------------------------------')
+            dff1 = df[(df['tipo'] == tipo) & (df['Vista'] == 'No')]
+            print('Max1= ', dff1['nivel'].max())
+            print(dff1)
+            print(dff1['op'].values[0][0])
+            print('-------------------------------------')
+            dff2 = df[(df['tipo'] == tipo) & (df['Vista'] != 'No')]
+            print('Max2= ', dff2['nivel'].max())
+            print(dff2)
+            print(dff2[(dff2['nivel'] == dff1['nivel'].max())])
+            tt = dff2[(dff2['nivel'] == dff1['nivel'].max())]
+            print(tt)
+            print('--1', tt['op'].values[0][0])
+            print('--2', tt['resp'].values[0])
+            print(DFMetadata[(DFMetadata[tt['op'].values[0][0]] == tt['resp'].values[0])][tt['op'].values[0][0]].values[
+                      0])
+            print('-------------------------------------3')
+
+            df['resp'][x] = \
+                DFMetadata[(DFMetadata[tt['op'].values[0][0]] == tt['resp'].values[0])][tt['op'].values[0][0]].values[0]
+    if tipo == 'Comisarias_Metadata':
+        DFMetadata = CargaMetadata('Comisarias_Metadata')
+        if vista != 'No':
+            print('Comisarias_Metadata-================')
+            print('op= ', op)
+
+            # DFMetadata=CargaMetadata('Ipress_Metadata')
+            dflocal = DFMetadata
+            # print(dflocal.head())
+            t = st.session_state
+            print('st.session_state= ', t)
+            result = [x for x in t if x.startswith('Metadata_')]
+            # result= result.remove('Tipo')
+            print('result1= ', result)
+            # result = [x for x in result if x is not ['Metadata_Código Único',
+            #                                         'Metadata_Nombre del establecimiento']]
+            # l2=['Metadata_Código Único','Metadata_Nombre del establecimiento','Metadata_Departamento']
+            # resultr = [x for x in result if x not in l2]
+            # result.remove('Metadata_Código Único') if '' in s else None
+            # result.remove('Metadata_Nombre del establecimiento') if '' in s else None
+            # result.remove('Metadata_Departamento') if '' in s else None
+            # result=resultr
+            # print('result r= ', resultr)
+
+            # nivel=[1,2,3,4]
+
+            print('===========================filtros=======================================')
+
+            print('dflocal cols', df.columns)
+            print('actual   = ', op[0])
+            print(df['nivel'].unique())
+            dfq = df[(df['tipo'] == tipo)]
+            print(dfq['nivel'].unique())
+
+            print('Afectado = ', dfq[(dfq['nivel'].astype(int) < int(nivel))]['op'].tolist())
+            lk = dfq[(dfq['nivel'].astype(int) < int(nivel))]['op'].tolist()
+
+            for ir in lk:
+                print('---->', ir)
+                if op[0] != 'Departamento':
+                    dflocal = dflocal[(dflocal[ir[0]] == st.session_state['Metadata_' + ir[0]])]
+
+            print('===========================filtros=======================================')
+
+            print('result== ', result)
+            print(dflocal[['Código Único', 'Nombre del establecimiento',
+                           'Departamento', 'Provincia', 'Distrito']])
+            print('===========================uniques=======================================')
+            print('dflocal Departamento ', dflocal['Departamento'].unique())
+            print('dflocal Provincia    ', dflocal['Provincia'].unique())
+            print('dflocal Distrito     ', dflocal['Distrito'].unique())
+
+            print('===========================uniques=======================================')
+
+            if Dependencia == '':
+                optionMetadata = st.selectbox(q, dflocal[op[0]].unique().tolist(), key=('Metadata_' + op[0]))
+                st.write('Seleccionaste:', optionMetadata)
+                df['resp'][x] = str(optionMetadata)
+                print('optionMetadata= ', optionMetadata)
+
+                # print('optionMetadata=', st.session_state[op])
+            else:
+                if df[(df['q_'] == Dependencia)]['resp'].values[0] == 'Si':
+                    optionMetadata = st.selectbox(q, dflocal[op[0]].unique().tolist(), key=('Metadata_' + op[0]))
+                    st.write('Seleccionaste:', optionMetadata)
+                    df['resp'][x] = str(optionMetadata)
+                    print('optionMetadata= ', optionMetadata)
+        else:
+            print('colum', df.columns)
+            dff = df
+            print('-------------------------------------')
+            dff1 = df[(df['tipo'] == tipo) & (df['Vista'] == 'No')]
+            print('Max1= ', dff1['nivel'].max())
+            print(dff1)
+            print(dff1['op'].values[0][0])
+            print('-------------------------------------')
+            dff2 = df[(df['tipo'] == tipo) & (df['Vista'] != 'No')]
+            print('Max2= ', dff2['nivel'].max())
+            print(dff2)
+            print(dff2[(dff2['nivel'] == dff1['nivel'].max())])
+            tt = dff2[(dff2['nivel'] == dff1['nivel'].max())]
+            print(tt)
+            print('--1', tt['op'].values[0][0])
+            print('--2', tt['resp'].values[0])
+            print(DFMetadata[(DFMetadata[tt['op'].values[0][0]] == tt['resp'].values[0])][tt['op'].values[0][0]].values[
+                      0])
+            print('-------------------------------------3')
+
+            df['resp'][x] = \
+                DFMetadata[(DFMetadata[tt['op'].values[0][0]] == tt['resp'].values[0])][tt['op'].values[0][0]].values[0]
+
+    if tipo == 'Car_Metadata':
+        DFMetadata = CargaMetadata('Car_Metadata')
+        if vista != 'No':
+            print('Comisarias_Metadata-================')
+            print('op= ', op)
+
+            # DFMetadata=CargaMetadata('Ipress_Metadata')
+            dflocal = DFMetadata
+            # print(dflocal.head())
+            t = st.session_state
+            print('st.session_state= ', t)
+            result = [x for x in t if x.startswith('Metadata_')]
+            # result= result.remove('Tipo')
+            print('result1= ', result)
+            # result = [x for x in result if x is not ['Metadata_Código Único',
+            #                                         'Metadata_Nombre del establecimiento']]
+            # l2=['Metadata_Código Único','Metadata_Nombre del establecimiento','Metadata_Departamento']
+            # resultr = [x for x in result if x not in l2]
+            # result.remove('Metadata_Código Único') if '' in s else None
+            # result.remove('Metadata_Nombre del establecimiento') if '' in s else None
+            # result.remove('Metadata_Departamento') if '' in s else None
+            # result=resultr
+            # print('result r= ', resultr)
+
+            # nivel=[1,2,3,4]
+
+            print('===========================filtros=======================================')
+
+            print(' df', df)
+            print('dflocal cols', df.columns)
+            print('actual   = ', op[0])
+            print(df['nivel'].unique())
+            dfq = df[(df['tipo'] == tipo)]
+            print(dfq['nivel'].unique())
+            print('--' * 50)
+            print('nivel= ', nivel)
+
+            print('dfq= ', dfq)
+            print('dfq columns= ', dfq.columns)
+            print('dfq[nivel]= ', dfq['nivel'])
+            print('dfq[op]= ', dfq['op'])
+
+            # print('Afectado = ', dfq[(dfq['nivel'].astype(int) < int(nivel))]['op'].tolist())
+            lk = dfq[(dfq['nivel'].astype(int) < int(nivel))]['op'].tolist()
+
+            for ir in lk:
+                print('---->', ir)
+                if op[0] != 'Departamento':
+                    dflocal = dflocal[(dflocal[ir[0]] == st.session_state['Metadata_' + ir[0]])]
+
+            print('===========================filtros=======================================')
+
+            print('result== ', result)
+            print(dflocal[['Código Único', 'Nombre del establecimiento',
+                           'Departamento', 'Provincia', 'Distrito']])
+            print('===========================uniques=======================================')
+            print('dflocal Departamento ', dflocal['Departamento'].unique())
+            print('dflocal Provincia    ', dflocal['Provincia'].unique())
+            print('dflocal Distrito     ', dflocal['Distrito'].unique())
+
+            print('===========================uniques=======================================')
+
+            if Dependencia == '':
+                optionMetadata = st.selectbox(q, dflocal[op[0]].unique().tolist(), key=('Metadata_' + op[0]))
+                st.write('Seleccionaste:', optionMetadata)
+                df['resp'][x] = str(optionMetadata)
+                print('optionMetadata= ', optionMetadata)
+
+                # print('optionMetadata=', st.session_state[op])
+            else:
+                if df[(df['q_'] == Dependencia)]['resp'].values[0] == 'Si':
+                    optionMetadata = st.selectbox(q, dflocal[op[0]].unique().tolist(), key=('Metadata_' + op[0]))
+                    st.write('Seleccionaste:', optionMetadata)
+                    df['resp'][x] = str(optionMetadata)
+                    print('optionMetadata= ', optionMetadata)
+        else:
+            print('colum', df.columns)
+            dff = df
+            print('-------------------------------------')
+            dff1 = df[(df['tipo'] == tipo) & (df['Vista'] == 'No')]
+            print('Max1= ', dff1['nivel'].max())
+            print(dff1)
+            print(dff1['op'].values[0][0])
+            print('-------------------------------------')
+            dff2 = df[(df['tipo'] == tipo) & (df['Vista'] != 'No')]
+            print('Max2= ', dff2['nivel'].max())
+            print(dff2)
+            print(dff2[(dff2['nivel'] == dff1['nivel'].max())])
+            tt = dff2[(dff2['nivel'] == dff1['nivel'].max())]
+            print(tt)
+            print('--1', tt['op'].values[0][0])
+            print('--2', tt['resp'].values[0])
+            print(DFMetadata[(DFMetadata[tt['op'].values[0][0]] == tt['resp'].values[0])][tt['op'].values[0][0]].values[
+                      0])
+            print('-------------------------------------3')
+
+            df['resp'][x] = \
+                DFMetadata[(DFMetadata[tt['op'].values[0][0]] == tt['resp'].values[0])][tt['op'].values[0][0]].values[0]
+
+            print('df[resp][x] = ', df['resp'][x])
+
+    if tipo == 'foto':
+        st.write('1folder ---> ', os.getcwd())
+        st.write('1folder 2---> ', os.chdir(os.getcwd()))
+
+        # ['/app/icon-32x32.png', '/app/images/32x32.png']
+        uploaded_file = '/app/icon-32x32.png'
+        image = Image.open(uploaded_file)
+        st.image(image, caption='Uploaded Image.', use_column_width=True)
+        uploaded_file = '/app/images/32x32.png'
+        image = Image.open(uploaded_file)
+        st.image(image, caption='Uploaded Image.', use_column_width=True)
+        print('-----------------------------------------------------1')
+        print("Path at terminal when executing this file")
+        print(os.getcwd() + "\n")
+        print("This file path, relative to os.getcwd()")
+        print(__file__ + "\n")
+        print("This file full path (following symlinks)")
+        full_path = os.path.realpath(__file__)
+        print(full_path + "\n")
+        print("This file directory and name")
+        path, filename = os.path.split(full_path)
+        print(path + ' --> ' + filename + "\n")
+        print("This file directory only")
+        print(os.path.dirname(full_path))
+        print('busqueda i')
+        for path, subdirs, files in os.walk(os.getcwd()):
+            for name in files:
+                we = os.path.join(path, name)
+                # print('2=-->', we)
+                name = we.split('/')[-1]
+                # print('2name=-->', name)
+                if (name == 'CAP.png'):
+                    print('Bingo')
+                # else:
+                #    print('No esta causa')
+        print('busqueda f')
+        path = os.getcwd()
+
+        text_files = glob.glob(path + "/**/*.png", recursive=True)
+
+        print(text_files)
+        print('busqueda f2')
+
+        uploaded_file = st.file_uploader("Escoge las fotos a cargar: ", accept_multiple_files=True, type=['png', 'jpg'])
+        print('-----------------------------------------------------2')
+        print("Path at terminal when executing this file")
+        print(os.getcwd() + "\n")
+        print("This file path, relative to os.getcwd()")
+        print(__file__ + "\n")
+        print("This file full path (following symlinks)")
+        full_path = os.path.realpath(__file__)
+        print(full_path + "\n")
+        print("This file directory and name")
+        path, filename = os.path.split(full_path)
+        print(path + ' --> ' + filename + "\n")
+        print("This file directory only")
+        print(os.path.dirname(full_path))
+        print('busqueda i')
+        for path, subdirs, files in os.walk(os.getcwd()):
+            for name in files:
+                we = os.path.join(path, name)
+                # print('2=-->', we)
+                name = we.split('/')[-1]
+                # print('2name=-->', name)
+                if (name == 'CAP.png'):
+                    print('Bingo')
+                # else:
+                #    print('No esta causa')
+        print('busqueda f')
+        path = os.getcwd()
+
+        text_files = glob.glob(path + "/**/*.png", recursive=True)
+
+        print(text_files)
+        print('busqueda f2')
+
+        st.write('2folder ---> ', os.getcwd())
+        st.write('2folder 2---> ', os.chdir(os.getcwd()))
+
+        if uploaded_file is not None:
+            st.write('---> ', uploaded_file)
+            uploaded_file = '/app/CAP.png'
+            image = Image.open(uploaded_file)
+            st.image(image, caption='Uploaded Image.', use_column_width=True)
+            st.write(".........")
+
+        # To read file as string:
+        # string_data = stringio.read()
+        # st.write(string_data)
+        # Can be used wherever a "file-like" object is accepted:
+        # if uploaded_file is not None:
+        # dataframe = pd.read_csv(uploaded_file)
+        st.write('Existe folder con el nombre del formulario?')
+        obj = DriveAPI()
+        st.write(uploaded_file)
+        folder_id = '1yhcPImMAu8AS93vj1PEByd5xYUEk94QE'
+        t = obj.FolderSearch2(folder_id)
+        st.write(t)
+        df_t = pd.DataFrame(t)
+        # global i
+        st.write(df_t[(df_t['mimeType'] == 'application/vnd.google-apps.folder') & (df_t['name'] == str(page))])
+        st.write(page)
+        d = df_t[(df_t['mimeType'] == 'application/vnd.google-apps.folder') & (df_t['name'] == str(page))]
+        if (len(d) == 0):
+            st.write('len   0  Crear carpeta y guardar alli ')
+
+            f = obj.FolderCreator(str(page), folder_id)
+            st.write(str(f))
+            st.write('id= ', f[1])
+            name2 = 'Foto1'
+            filepath = uploaded_file
+            st.write('filepath= ', filepath)
+            spl = str(filepath).split("'")
+
+            st.write('filepath-spl= ', spl[1])
+            st.write('uploaded_file= ', uploaded_file)
+
+            # image = Image.open(uploaded_file)
+            # st.image(image, caption='Sunrise by the mountains')
+
+            r = obj.FileUpload_(uploaded_file, spl[1], f[1])
+            st.write('r= ', r)
+
+        else:
+            st.write('len != 0 No crear y guardar en carpeta')
+            st.write('id= ', d['id'].values[0])
+            name2 = 'Foto1'
+            filepath = uploaded_file
+            st.write('filepath= ', filepath)
+            spl = str(filepath).split("'")
+            st.write('filepath-split= ', spl[1])
+            st.write('uploaded_file= ', uploaded_file)
+
+            # image = Image.open(uploaded_file)
+            # st.image(image, caption='Sunrise by the mountains')
+
+            r = obj.FileUpload_(uploaded_file, spl[1], d['id'].values[0])
+            st.write('r= ', r)
+        # st.write(uploaded_file)
+    if tipo == 'number_input_Multiple_Comisarias':
+        print('number_input_Multiple_Comisarias  ===========================================================')
+
+        if Dependencia == '':
+            st.write(q)
+            a = []
+            for i in range(len(op)):
+                # number = st.number_input(q, <<<step=1<<<)
+                title1 = st.number_input(op[i], step=1, key=(str(i) + str(x)))
+                a.append(title1)
+
+            st.write('Seleccionaste:', a)
+            # df['resp'][x] = str(a)
+            df['resp'][x] = str([",".join("{0}:{1}".format(x, y) for x, y in zip(op, a))])
+
+            print(str(df[(df.index == int(x))]))
+            df = df.append([df[(df.index == int(x))]], ignore_index=True)
+            df = df.append([df[(df.index == int(x))]], ignore_index=True)
+
+            print('len(df)= ', len(df))
+            print('df.columns= ', df.columns)
+            df['Vars'][(len(df) - 2)] = str(df['Vars'][x]) + ('_salida_2_s')
+            df['resp'][(len(df) - 2)] = str(sum(a))
+
+            df['Vars'][(len(df) - 1)] = str(df['Vars'][x]) + ('_salida_3_recuento')
+            df['resp'][(len(df) - 1)] = str(len(a) - a.count(0))
+
+            # test = df[['Vars','resp']].astype(str)
+            # print(test)
+
+
+        else:
+            if df[(df['q_'] == Dependencia)]['resp'].values[0] == str(DependenciaSiNo):
+                # title1 = st.text_input(q , key='1')
+                st.write(q)
+                a = []
+                for i in range(len(op)):
+                    title1 = st.number_input(op[i], step=1, key=(str(i) + str(x)))
+                    a.append(title1)
+                st.write('Seleccionaste:', a)
+                # df['resp'][x] = str(a)
+                df['resp'][x] = str([",".join("{0}:{1}".format(x, y) for x, y in zip(op, a))])
+
+                print(str(df[(df.index == int(x))]))
+                df = df.append([df[(df.index == int(x))]], ignore_index=True)
+                print('len(df)= ', len(df))
+                print('df.columns= ', df.columns)
+                df['Vars'][(len(df) - 1)] = str(df['Vars'][x]) + ('_salida_2')
+                df['resp'][(len(df) - 1)] = str(sum(a))
+                test = df[['Vars', 'resp']].astype(str)
+                print(test)
+
+        print('number_input_Multiple_Comisarias  ===========================================================')
+
+
+def expanderrr2(x, q, op, tipo, Dependencia, nivel, vista, DependenciaSiNo, Validar,Dependencia_Respuesta):
     print('=============================================================')
     print('X= ', x)
     print('q= ', q)
@@ -693,6 +2241,17 @@ def expanderrr(x, q, op, tipo, Dependencia, nivel, vista, DependenciaSiNo, Valid
                 st.write('Seleccionaste:', options)
                 df['resp'][x] = str(options)
     if tipo == 'text_input':
+        import operator
+        ops = {"+": operator.add,
+               "-": operator.sub,
+               "<": operator.lt,
+               "<=": operator.le,
+               "==": operator.eq,
+               "!=": operator.ne,
+               ">": operator.gt,
+               ">=": operator.ge
+               }  # etc.
+
         if Dependencia == '':
             titles = st.text_input(q, key='text_input1' + str(page))
             st.write('Seleccionaste:', titles)
@@ -702,6 +2261,70 @@ def expanderrr(x, q, op, tipo, Dependencia, nivel, vista, DependenciaSiNo, Valid
                 titles = st.text_input(q, key='text_input2' + str(page))
                 st.write('Seleccionaste:', titles)
                 df['resp'][x] = titles
+
+        df0 = df[['Vars', 'resp', 'tipo']]
+        print(df0)
+
+        print('*' * 100)
+        lcolnumbertype = df0[df0.tipo == 'number_input']['Vars'].tolist()
+        print('lcolnumbertype= ', lcolnumbertype)
+
+        print('*' * 100)
+
+        df1 = df[['Vars', 'resp']]
+        df1 = df0[['Vars', 'resp']]
+
+        df1 = df1.set_index('Vars')
+        print('df1= ', df1)
+
+        df2 = df1.T
+        print('df2=', df2)
+        for i in range(len(lcolnumbertype)):
+            print('i= ', i)
+            try:
+                # df2[lcolnumbertype[i]] = df2[lcolnumbertype[i]].fillna(0)
+                df2[lcolnumbertype[i]].astype('int')
+                # df2[lcolnumbertype[i]].astype(str).astype(float).astype(int)
+                # df2[lcolnumbertype[i]].astype('Int32')
+                # df2[lcolnumbertype[i]].astype(float).astype('Int64')
+                df2[lcolnumbertype[i]] = pd.to_numeric(df2[lcolnumbertype[i]], errors='coerce').astype('Int64')
+
+                # df2[lcolnumbertype[i]].astype(np.float).astype("Int32")
+            except:
+                print('Error de conversion ')
+                print('lcolnumbertype[i]= ', lcolnumbertype[i])
+                print('df.columns= ', df.columns)
+                print(df[['tipo', 'Vars']])
+                print('df2[lcolnumbertype[i]].values= ', df2[lcolnumbertype[i]].values[0])
+                print('_>', df[df.Vars == lcolnumbertype[i]]['tipo'].values[0])
+
+                print('i df2[lcolnumbertype[i]]=', df2[lcolnumbertype[i]])
+                print('f df2[lcolnumbertype[i]]=', str(df2[lcolnumbertype[i]].values[0]))
+                if str(df[df.Vars == lcolnumbertype[i]]['tipo'].values[0]) == 'number_input':
+                    print('dentro de If ')
+                    df2[lcolnumbertype[i]] = df2[lcolnumbertype[i]].fillna(0)
+                else:
+                    print('Fuera de If ')
+
+                try:
+                    df2[lcolnumbertype[i]].astype(int)
+                except:
+                    print('Error de conversion 2')
+                    # df2[lcolnumbertype[i]]=0
+        print(df2)
+        print('---------------')
+        print('Dependencia_Respuesta= ', Dependencia_Respuesta)
+        # print('r_car_cama_cun_distanc---->= ', df2['r_car_cama_cun_distanc'] )
+
+        # print('r_car_18_mas_total---->= ', df2['r_car_18_mas_total'] )
+        print(df2.dtypes)
+        print(df2.eval(Dependencia_Respuesta).values[0])
+        if df2.eval(Dependencia_Respuesta).values[0]:
+            number = st.number_input(q, step=1, min_value=0)
+            st.write('Seleccionaste: ', number)
+            df['resp'][x] = number
+
+
     if tipo == 'radio':
         if Dependencia == '':
             genre = st.radio(q, (op))
