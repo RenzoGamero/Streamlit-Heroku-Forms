@@ -1262,9 +1262,9 @@ def expanderrr(x, q, op, tipo, Dependencia, nivel, vista, DependenciaSiNo, Valid
         if DependenciaSiNo == '' and Dependencia_Respuesta == '':
             print('----if')
             #genre = st.radio(q, (op))
-            genre =st.time_input('Ingreso de Hora')
-            st.write('Seleccionaste:', genre)
-            df['resp'][x] = genre
+            hora =st.time_input('Ingreso de Hora')
+            st.write('Seleccionaste:', hora)
+            df['resp'][x] = hora
         else:
             print('----else')
             # print('df[(df[q_] == Dependencia)][resp].values[0]= ', df[(df['q_'] == Dependencia)]['resp'].values[0])
@@ -1275,9 +1275,9 @@ def expanderrr(x, q, op, tipo, Dependencia, nivel, vista, DependenciaSiNo, Valid
                         DependenciaSiNo) and Dependencia_Respuesta == '':
                     print('entro a if ')
                     # genre = st.radio(q, (op))
-                    genre = st.time_input('Ingreso de Hora')
-                    st.write('Seleccionaste:', genre)
-                    df['resp'][x] = genre
+                    hora = st.time_input('Ingreso de Hora')
+                    st.write('Seleccionaste:', hora)
+                    df['resp'][x] = hora
             except:
                 print('Error en primer If ')
 
@@ -1437,9 +1437,9 @@ def expanderrr(x, q, op, tipo, Dependencia, nivel, vista, DependenciaSiNo, Valid
                     #st.write('Seleccionaste: ', number)
                     #df['resp'][x] = number
                     # genre = st.radio(q, (op))
-                    genre = st.time_input('Ingreso de Hora')
-                    st.write('Seleccionaste:', genre)
-                    df['resp'][x] = genre
+                    hora = st.time_input('Ingreso de Hora')
+                    st.write('Seleccionaste:', hora)
+                    df['resp'][x] = hora
 
     if tipo == 'radio':
         import operator
