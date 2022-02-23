@@ -2434,18 +2434,20 @@ def expanderrr(x, q, op, tipo, Dependencia, nivel, vista, DependenciaSiNo, Valid
             print('dfq columns= ', dfq.columns)
             print('dfq[nivel]= ', dfq['nivel'])
             print('dfq[op]= ', dfq['op'])
-            print('Nivel 1 ', dfq[(dfq['nivel'].astype(int) == 1)])
-            print('Nivel 1 op= ', dfq[(dfq['nivel'].astype(int) == 1)]['op'].values[0][0] )
-            print('Nivel 1 q', dfq[(dfq['nivel'].astype(int) == 1)]['q'] )
-            print('Nivel 1 q_', dfq[(dfq['nivel'].astype(int) == 1)]['q_'] )
+            print('Nivel 1__ ', dfq[(dfq['nivel'].astype(str) == '1')])
+
+            #print('Nivel 1 ', dfq[(dfq['nivel'].astype(str).astype(int) == 1)])
+            #print('Nivel 1 op= ', dfq[(dfq['nivel'].astype(int) == 1)]['op'].values[0][0] )
+            #print('Nivel 1 q', dfq[(dfq['nivel'].astype(int) == 1)]['q'] )
+            #print('Nivel 1 q_', dfq[(dfq['nivel'].astype(int) == 1)]['q_'] )
 
             # print('Afectado = ', dfq[(dfq['nivel'].astype(int) < int(nivel))]['op'].tolist())
-            lk = dfq[(dfq['nivel'].astype(int) < int(nivel))]['op'].tolist()
+            lk = dfq[(dfq['nivel'].astype(str) < str(nivel))]['op'].tolist()
 
             for ir in lk:
                 print('---->', ir)
                 #if op[0] != 'Código Único':
-                if op[0] !=    dfq[(dfq['nivel'].astype(int) == 1)]['op'].values[0][0]:
+                if op[0] != dfq[(dfq['nivel'].astype(str) == '1')]['op'].values[0][0]:
                     dflocal = dflocal[(dflocal[ir[0]] == st.session_state['Metadata_' + ir[0]])]
             print('dflocal=  ', dflocal)
             print('===========================filtros=======================================')
@@ -2479,13 +2481,13 @@ def expanderrr(x, q, op, tipo, Dependencia, nivel, vista, DependenciaSiNo, Valid
             dff = df
             print('-------------------------------------1')
             dff1 = df[(df['tipo'] == tipo) & (df['Vista'] == 'No') ]
-            print('Max1= ', dff1['nivel'].max())
-            print('dff1= ', dff1)
-            print(dff1['op'].values[0][0])
-            print('-------------------------------------2')
+            #print('Max1= ', dff1['nivel'].max())
+            #print('dff1= ', dff1)
+            #print(dff1['op'].values[0][0])
+            #print('-------------------------------------2')
             dff2 = df[(df['tipo'] == tipo) & (df['Vista'] != 'No')]
-            print('Max2= ', dff2['nivel'].max())
-            print('dff2= ', dff2)
+            #print('Max2= ', dff2['nivel'].max())
+            #print('dff2= ', dff2)
             #tt = dff2[(dff2['nivel'] == dff1['nivel'].max())]
             #print('tt= ', tt)
             #print('--1', tt['op'].values[0][0])
@@ -2501,12 +2503,10 @@ def expanderrr(x, q, op, tipo, Dependencia, nivel, vista, DependenciaSiNo, Valid
             dfDFMetadataCopy = dfDFMetadataCopy.reset_index()
             print('Desde metadata_27____  ')
             for i in range(len(dff3)):
-                print('1_>>>> ', dff3['op'][i])
-                print('2_>>>> ', dff3['op'][i][0])
-                print('3_>>>> ', dff3['resp'][i])
-
-                print('4 --- ', DFMetadata[dff3['op'][i][0]])
-
+                #print('1_>>>> ', dff3['op'][i])
+                #print('2_>>>> ', dff3['op'][i][0])
+                #print('3_>>>> ', dff3['resp'][i])
+                #print('4 --- ', DFMetadata[dff3['op'][i][0]])
                 dfDFMetadataCopy= dfDFMetadataCopy[ ((dfDFMetadataCopy[dff3['op'][i][0]].astype(str)) == str(dff3['resp'][i]))]
                 print('dfDFMetadataCopy= ', dfDFMetadataCopy)
                 print('--'*50)
@@ -2634,18 +2634,36 @@ def expanderrr(x, q, op, tipo, Dependencia, nivel, vista, DependenciaSiNo, Valid
             dfDFMetadataCopy = dfDFMetadataCopy.reset_index()
             print('Desde metadata_27____  ')
             for i in range(len(dff3)):
-                print('1_>>>> ', dff3['op'][i])
-                print('2_>>>> ', dff3['op'][i][0])
-                print('3_>>>> ', dff3['resp'][i])
-
-                print('4 --- ', DFMetadata[dff3['op'][i][0]])
-
+                #print('1_>>>> ', dff3['op'][i])
+                #print('2_>>>> ', dff3['op'][i][0])
+                #print('3_>>>> ', dff3['resp'][i])
+                #print('4 --- ', DFMetadata[dff3['op'][i][0]])
+                #print('5 ..... str(dff3[resp][i])= ', str(dff3['resp'][i]))
+                #print('5 ..... str(dff3[resp][i])= ', str(dff3['resp'][i]))
+                #print('6 ..... sdfDFMetadataCop   column',(dfDFMetadataCopy[dff3['op'][i][0]].astype(str)))
                 dfDFMetadataCopy= dfDFMetadataCopy[ ((dfDFMetadataCopy[dff3['op'][i][0]].astype(str)) == str(dff3['resp'][i]))]
+            if len(dfDFMetadataCopy)==0:
+                dff3 = dff2
+                dff3 = dff3.reset_index()
+                dfDFMetadataCopy = DFMetadata
+                dfDFMetadataCopy = dfDFMetadataCopy.reset_index()
+                print('Desde metadata_27____  ')
+                for i in range(len(dff3)):
+                    #print('1_>>>> ', dff3['op'][i])
+                    #print('2_>>>> ', dff3['op'][i][0])
+                    #print('3_>>>> ', dff3['resp'][i])
+                    #print('4 --- ', DFMetadata[dff3['op'][i][0]])
+                    #print('5 ..... str(dff3[resp][i])= ', str(dff3['resp'][i]))
+                    #print('5 ..... str(dff3[resp][i])= ', str(dff3['resp'][i]))
+                    #print('6 ..... sdfDFMetadataCop   column', (dfDFMetadataCopy[dff3['op'][i][0]].astype(str)))
+                    #dfDFMetadataCopy = dfDFMetadataCopy[((dfDFMetadataCopy[dff3['op'][i][0]].astype(str)) == str(dff3['resp'][i]))]
+                    dfDFMetadataCopy = dfDFMetadataCopy[((dfDFMetadataCopy[dff3['op'][i][0]].astype(int)) == int(dff3['resp'][i]))]
+
                 print('dfDFMetadataCopy= ', dfDFMetadataCopy)
                 print('--'*50)
             #print(DFMetadata[()])
-            tt2=dff2[(dff2['nivel'] == dff1['nivel'].max())]
-            print('tt2= ', tt2)
+            #tt2=dff2[(dff2['nivel'] == dff1['nivel'].max())]
+            #print('tt2= ', tt2)
             #print(DFMetadata[(DFMetadata[tt['op'].values[0][0]] == tt['resp'].values[0])][tt['op'].values[0][0]].values[
             #          0])
             print('-------------------------------------3')
@@ -5753,7 +5771,7 @@ for i in result:
                     print('result= ', result)
                     result = [x for x in result if x.startswith('Formato')]
                     print('result Filtrado= ', result)
-
+                    print('TabFormularioActual= ', TabFormularioActual)
                     if any(TabFormularioActual in word for word in result):
                         print('Si existe la pestaña i')
                         #####################################################################################
@@ -5782,9 +5800,11 @@ for i in result:
                         tr = dt.datetime.today().strftime('%Y-%m-%d %H:%M:%S')
                         d = df['resp'].tolist()
                         d.append(tr)
+
                         print('Rsultados actuales', d)
 
                         x = len(d)
+                        print('X= ', x)
                         HeaderExcelNuevo = [
                             string.ascii_uppercase[i] if i < 26 else string.ascii_uppercase[i // 26 - 1] +
                                                                      string.ascii_uppercase[
@@ -5815,9 +5835,9 @@ for i in result:
 
                             #Dfb.loc[Dfa[0] == (int(UltimoTimestamp) + 0.0), 'BS'] =
                             Dfb['b'][i] = Dfa[Dfa.a == HeaderDiferencia[i]]['i']
-                        print(Dfb.head())
+                        print(Dfb.head(15))
                         Dfb=Dfb.sort_values(by=['b'])
-                        print(Dfb.head())
+                        print(Dfb.head(15))
                         print('-------------b')
                         HeaderDiferencia=sorted(HeaderDiferencia)
                         HeaderDiferencia = Dfb['a'].tolist()
