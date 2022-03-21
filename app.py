@@ -4691,6 +4691,7 @@ def expanderrr2(x, q, op, tipo, Dependencia, nivel, vista, DependenciaSiNo, Vali
     #print('Dependencia= |', Dependencia,'|', len(Dependencia))
     #print('DependenciaSiNo= |', DependenciaSiNo,'|', len(Dependencia))
 
+
     global df
     if tipo == 'selectbox':
         if Dependencia == '':
