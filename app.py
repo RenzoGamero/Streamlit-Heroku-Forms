@@ -1927,7 +1927,6 @@ def expanderrr(x, q, op, tipo, Dependencia, nivel, vista, DependenciaSiNo, Valid
                     a.append(title1)
                 st.write('Seleccionaste:', a)
                 df['resp'][x] = str(a)
-
     if tipo == 'Ipress_Metadata':
         DFMetadata = CargaMetadata('Ipress_Metadata')
         if vista != 'No':
@@ -2061,8 +2060,6 @@ def expanderrr(x, q, op, tipo, Dependencia, nivel, vista, DependenciaSiNo, Valid
             print('df[resp][x] = ', df['resp'][x])
             print( 'respuesta__ ',    dfDFMetadataCopy[dff1['op'].values[0][0]].values[0])
             print( 'respuesta__2 ',    dfDFMetadataCopy[op].values[0])
-
-
     if tipo == 'Comisarias_Metadata':
         DFMetadata = CargaMetadata('Comisarias_Metadata')
         if vista != 'No':
@@ -2196,10 +2193,6 @@ def expanderrr(x, q, op, tipo, Dependencia, nivel, vista, DependenciaSiNo, Valid
             print('df[resp][x] = ', df['resp'][x])
             print( 'respuesta__ ',    dfDFMetadataCopy[dff1['op'].values[0][0]].values[0])
             print( 'respuesta__2 ',    dfDFMetadataCopy[op].values[0])
-
-
-
-
 
     if tipo == 'foto':
         st.write('1folder ---> ', os.getcwd())
@@ -2361,7 +2354,7 @@ def expanderrr(x, q, op, tipo, Dependencia, nivel, vista, DependenciaSiNo, Valid
 
             print('len(df)= ', len(df))
             print('df.columns= ', df.columns)
-            df['Vars'][(len(df) - 2)] = str(df['Vars'][x]) + ('_salida_2_s')
+            df['Vars'][(len(df) - 2)] = str(df['Vars'][x]) + ('_salida_2_suma')
             df['resp'][(len(df) - 2)] = str(sum(a))
 
             df['Vars'][(len(df) - 1)] = str(df['Vars'][x]) + ('_salida_3_recuento')
