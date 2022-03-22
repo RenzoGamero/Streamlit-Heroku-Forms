@@ -2354,7 +2354,7 @@ def expanderrr(x, q, op, tipo, Dependencia, nivel, vista, DependenciaSiNo, Valid
 
             print('len(df)= ', len(df))
             print('df.columns= ', df.columns)
-            df['Vars'][(len(df) - 2)] = str(df['Vars'][x]) + ('_salida_2_suma')
+            df['Vars'][(len(df) - 2)] = str(df['Vars'][x]) + ('_salida_2_s')
             df['resp'][(len(df) - 2)] = str(sum(a))
 
             df['Vars'][(len(df) - 1)] = str(df['Vars'][x]) + ('_salida_3_recuento')
@@ -6400,7 +6400,7 @@ for i in result:
 
             b = []
             for i in range(len(ColAgregacionSelect)):
-                b.append(['sum', 'min', 'max', 'mean'])
+                b.append(['sum', 'min', 'max', 'mean', 'last'])
             # b= [['sum', 'max', 'mean']*len(ColTotalSelect)]
             print('b= ', b)
             res = dict(zip(ColAgregacionSelect, b))
@@ -6438,7 +6438,7 @@ for i in result:
                      'Agregar solo Indicadores con tipo de Agregacion',
                      'Agregar solo Indicadores y Subindicadores con tipo de Agregacion'))
             with col02c1:
-                TipoAgregacion = st.selectbox('Tipo de Agregacion', ['sum', 'min', 'max', 'mean'])
+                TipoAgregacion = st.selectbox('Tipo de Agregacion', ['sum', 'min', 'max', 'mean','last' ])
             SeleccionManual = st.checkbox('Seleccion Manual ')
 
             def generarDf():
@@ -6496,11 +6496,11 @@ for i in result:
 
                 b = []
                 for i in range(len(ColAgregacion)):
-                    b.append(['sum', 'min', 'max', 'mean'])
+                    b.append(['sum', 'min', 'max', 'mean','last'])
                 # b= [['sum', 'max', 'mean']*len(ColTotalSelect)]
                 #print('b= ', b)
                 res = dict(zip(ColAgregacion, b))
-                #print('res= ', res)
+                print('res= ', res)
 
                 #print(DfIndP)
                 if len(ColAgregacion) > 0 and len(ColTiempo) > 0 and len(ColAgrupacion) > 0:
@@ -6539,7 +6539,7 @@ for i in result:
             ListNameIndi = list(dff1['Nombre_Indicador'])
             ColTiempo = ['colsem', 'colsem2', 'semana_f', 'I_Mes', 'F_Mes', 'I_Semana_Cr', 'F_Semana_Cr', 'I_year',
                          'F_year']
-            Agregacion= ['sum', 'min', 'max', 'mean']
+            Agregacion= ['sum', 'min', 'max', 'mean', 'last']
             print('TodaslasColumnas= ', TodaslasColumnas)
             pref_list = ["Sub"]
             ColumnasSub = [ele for ele in TodaslasColumnas if any(ele.startswith(el) for el in pref_list)]
@@ -6619,7 +6619,7 @@ for i in result:
             for i in range(len(ColAgrupacionSelect)):
                 ColAgrupacionSelectRecalculo.append(ColAgrupacionSelect[i][:-1])
             for i in range(len(ColAgregacionSelect)):
-                str_list = re.split("_sum|_min|_mean|_max", ColAgregacionSelect[i])
+                str_list = re.split("_sum|_min|_mean|_max|_last", ColAgregacionSelect[i])
                 str_list = [string for string in str_list if string != ""]
                 ColAgregacionSelectRecalculo_a.append(str_list[0])
                 ft = (ColAgregacionSelect[i])
