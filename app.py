@@ -1,4 +1,5 @@
 # Domigngo 12 de setiembre
+from xml.etree.ElementPath import xpath_tokenizer
 import pandas as pd
 import numpy as np
 import os
@@ -1864,13 +1865,28 @@ def expanderrr(x, q, op, tipo, Dependencia, nivel, vista, DependenciaSiNo, Valid
 
             # st.write('PreguntaObj x            : ', df[(df['q_'] == int(x))]['resp'].values[0])
             # st.write('Operador r3: ',StringOperator ,' ---- ',  ops[StringOperator](df[(df['q_'] == int(PreguntaObj))]['resp'].values[0], df[(df['q_'] == int(x))]['resp'].values[0]))
+            
+            print(df.head(7))
+            print('x= ', x)
+            print('PreguntaObj= ', PreguntaObj)
 
-            if ops[StringOperator](df[(df['q_'] == int(x))]['resp'].values[0],
-                                   df[(df['q_'] == int(PreguntaObj))]['resp'].values[0]):
+            print('1- ', df[(df.index == int(x))]['resp'].values[0])
+            print('2- ', df[(df['q_'] == int(PreguntaObj))]['resp'].values[0])
+            #PreguntaObj= x
+            print('StringOperator= ', StringOperator)
+            print('Validar= ', Validar)
+            #if ops[StringOperator](df[(df['q_'] == int(x))]['resp'].values[0],
+            #                       df[(df['q_'] == int(PreguntaObj))]['resp'].values[0]):
+            a=int(df[(df.index == int(x))]['resp'].values[0])
+            b=int(PreguntaObj)
+            print('a= ',a, ' b=', b,'  StringOperator= ', StringOperator, ' op= ', ops[StringOperator](a,b)  )
+            if ops[StringOperator](a,b):
                 print('ok')
             else:
-                st.error('Error de Validacion. La pregunta ' + str(x) + ' debe ser ' + str(
-                    StringOperator) + ' que la pregunta ' + str(PreguntaObj))
+                #st.error('Error de Validacion. La pregunta ' + str(x) + ' debe ser ' + str(
+                #    StringOperator) + ' que la pregunta ' + str(PreguntaObj))
+                print('no ok ' )
+                st.error('No cumple con la validacion.  Esta pregunta debe ser ' +temp_string)
 
         # print(ops["+"](1, 1))  # prints 2
         # st.write('result3: ', ops["+"](1, 1))
