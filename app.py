@@ -23,6 +23,7 @@ from PIL import Image
 from io import BytesIO
 import glob
 
+
 class DriveAPI:
     global SCOPES
     SCOPES = ['https://www.googleapis.com/auth/drive']
