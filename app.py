@@ -1858,6 +1858,62 @@ def expanderrr(x, q, op, tipo, Dependencia, nivel, vista, DependenciaSiNo, Valid
             StringOperator = ''.join([i for i in s if not i.isdigit()])
             PreguntaObj = ''.join([i for i in s if i.isdigit()])
 
+            print('temp_string= ', temp_string)
+            print('cols= ', list(df.columns))
+            print('head= ', (df.head()))
+
+            df1 = df[['Vars', 'resp']]
+            
+            df1 = df1.set_index('Vars')
+            print('df1= ', df1)
+
+            df2 = df1.T
+            print('df2= ', df2)
+            df2=df2.reset_index()
+            print('df2= ', df2)
+            lcolnumbertype= list(df2.columns)
+            df0 = df[['Vars', 'resp', 'tipo']]
+            print(df0)
+
+            print('*' * 100)
+            lcolnumbertype = df0[df0.tipo == 'number_input']['Vars'].tolist()
+            for i in range(len(lcolnumbertype)):
+                    print('i= ', i)
+                    try:
+                        # df2[lcolnumbertype[i]] = df2[lcolnumbertype[i]].fillna(0)
+                        df2[lcolnumbertype[i]].astype('int')
+                        # df2[lcolnumbertype[i]].astype(str).astype(float).astype(int)
+                        # df2[lcolnumbertype[i]].astype('Int32')
+                        # df2[lcolnumbertype[i]].astype(float).astype('Int64')
+                        df2[lcolnumbertype[i]] = pd.to_numeric(df2[lcolnumbertype[i]], errors='coerce').astype('Int64')
+
+                        # df2[lcolnumbertype[i]].astype(np.float).astype("Int32")
+                    except:
+                        #print('Error de conversion ')
+                        #print('lcolnumbertype[i]= ', lcolnumbertype[i])
+                        #print('df.columns= ', df.columns)
+                        #print(df[['tipo', 'Vars']])
+                        #print('df2[lcolnumbertype[i]].values= ', df2[lcolnumbertype[i]].values[0])
+                        #print('_>', df[df.Vars == lcolnumbertype[i]]['tipo'].values[0])
+
+                        #print('i df2[lcolnumbertype[i]]=', df2[lcolnumbertype[i]])
+                        #print('f df2[lcolnumbertype[i]]=', str(df2[lcolnumbertype[i]].values[0]))
+                        if str(df[df.Vars == lcolnumbertype[i]]['tipo'].values[0]) == 'number_input':
+                            print('dentro de If ')
+                            df2[lcolnumbertype[i]] = df2[lcolnumbertype[i]].fillna(0)
+                        else:
+                            print('Fuera de If ')
+
+                        # df2[lcolnumbertype[i]].astype(np.float).astype("Int32")
+                        try:
+                            df2[lcolnumbertype[i]].astype(int)
+                        except:
+                            print('Error de conversion 2')
+                            # df2[lcolnumbertype[i]]=0    
+
+
+            print('eval= ', df2.eval(temp_string).values[0])
+
             # st.write('temp_string: ', temp_string)
             # st.write('StringOperator: ', StringOperator)
             # st.write('PreguntaObj: ', PreguntaObj)
@@ -1867,28 +1923,44 @@ def expanderrr(x, q, op, tipo, Dependencia, nivel, vista, DependenciaSiNo, Valid
 
             # st.write('PreguntaObj x            : ', df[(df['q_'] == int(x))]['resp'].values[0])
             # st.write('Operador r3: ',StringOperator ,' ---- ',  ops[StringOperator](df[(df['q_'] == int(PreguntaObj))]['resp'].values[0], df[(df['q_'] == int(x))]['resp'].values[0]))
-            
-            print(df.head(7))
-            print('x= ', x)
-            print('PreguntaObj= ', PreguntaObj)
+            #"""
+            #print(df.head(7))
+            #print('x= ', x)
+            #print('PreguntaObj= ', PreguntaObj)
 
-            print('1- ', df[(df.index == int(x))]['resp'].values[0])
-            print('2- ', df[(df['q_'] == int(PreguntaObj))]['resp'].values[0])
+            #print('1- ', df[(df.index == int(x))]['resp'].values[0])
+            #print('2- ', df[(df['q_'] == int(PreguntaObj))]['resp'].values[0])
             #PreguntaObj= x
-            print('StringOperator= ', StringOperator)
-            print('Validar= ', Validar)
+            #print('StringOperator= ', StringOperator)
+            #print('Validar= ', Validar)
             #if ops[StringOperator](df[(df['q_'] == int(x))]['resp'].values[0],
             #                       df[(df['q_'] == int(PreguntaObj))]['resp'].values[0]):
-            a=int(df[(df.index == int(x))]['resp'].values[0])
-            b=int(PreguntaObj)
-            print('a= ',a, ' b=', b,'  StringOperator= ', StringOperator, ' op= ', ops[StringOperator](a,b)  )
-            if ops[StringOperator](a,b):
+            #a=int(df[(df.index == int(x))]['resp'].values[0])
+            #b=int(PreguntaObj)
+            #print('a= ',a, ' b=', b,'  StringOperator= ', StringOperator, ' op= ', ops[StringOperator](a,b)  )
+            
+            #if ops[StringOperator](a,b):
+            #    print('ok')
+            #else:
+            #    #st.error('Error de Validacion. La pregunta ' + str(x) + ' debe ser ' + str(
+            #    #    StringOperator) + ' que la pregunta ' + str(PreguntaObj))
+            #    print('no ok ' )
+            #    st.error('No cumple con la validacion.  Esta pregunta debe ser ' +temp_string)
+            #"""
+            if df2.eval(temp_string).values[0]:
                 print('ok')
             else:
                 #st.error('Error de Validacion. La pregunta ' + str(x) + ' debe ser ' + str(
                 #    StringOperator) + ' que la pregunta ' + str(PreguntaObj))
                 print('no ok ' )
+                #print(df['Vars'][x])
+                print('1----- ', df[(df.index == int(x))]['Vars'].values[0])
+
+                #temp_string
+                temp_string = temp_string.replace(str(df[(df.index == int(x))]['Vars'].values[0]), "")
+
                 st.error('No cumple con la validacion.  Esta pregunta debe ser ' +temp_string)
+
 
         # print(ops["+"](1, 1))  # prints 2
         # st.write('result3: ', ops["+"](1, 1))
